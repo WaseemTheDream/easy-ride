@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<?php include "head.php"?>
-	<script src="js/create.js"></script>
+	<script src="js/register.js"></script>
 	<body>
 	<?php  include "navbar.php"?>
 	<div class="container-narrow">
@@ -62,8 +62,8 @@
 				<div class="control-group">
 					<label class="control-label" for="gender">Gender</label>
 					<div class="controls">
-						<label class="radio"><input type="radio" value="male" name="group">Male</label>
-            			<label class="radio"><input type="radio" value="female" name="group">Female</label>
+						<label class="radio"><input type="radio" value="male" name="group" id="male">Male</label>
+            			<label class="radio"><input type="radio" value="female" name="group" id="female">Female</label>
 					</div>
 				</div>
 				
