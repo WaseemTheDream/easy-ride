@@ -9,7 +9,14 @@
           <a class="brand" href="#">Easy Ride</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
+            	<?php
+            		session_start();
+            		if ($_SESSION['logged_in']) {
+            			echo "Logged in as " . $_SESSION['logged_in'];
+            		} else {
+						echo "<a href='login.php' class='navbar-link'>Click here to log in.</a>";
+					}
+            	?>
             </p>
             <ul class="nav">
               <li class="active"><a href="/index.php">Home</a></li>
