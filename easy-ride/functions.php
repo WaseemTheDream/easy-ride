@@ -1,13 +1,6 @@
 <?php
 
-$dbhost = 'localhost';
-$dbname = 'easy_ride';
-$dbuser = 'root';
-$dbpass = '';
 $appname = 'Easy Ride';
-
-mysql_connect(localhost, root,'') or die(mysql_error());
-mysql_select_db($dbname) or die(mysql_error());
 
 function sanitizeString($var)
 {
@@ -21,4 +14,14 @@ function queryMysql($query)
 {
 	$result = mysql_query($query) or die(mysql_error());
 	return $result;
-}
+	}
+
+function destroySession()
+{
+	$_SESSION=array();
+	if (session_id() != "" || isset($_COOKIE[session_name()]))
+		setcookie(session_name(), '', time()-2592000, '/');
+		session_destroy();
+	}
+
+?>

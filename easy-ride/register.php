@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-	<?php include "head.php"?>
+<html lang='en'>
+	<?php 
+	include 'head.php'; 
+	include 'navbar.php'; 
+	?>
+ 	
 	<script src="js/register.js"></script>
 	<body>
-	<?php  include "navbar.php"?>
+
+ 
 	<div class="container-narrow">
       <!-- Main hero unit for a primary marketing message or call to action -->
-        <form class="form-horizontal well" id="register" action="register.php" method="post">
+        <form class="form-horizontal well" id="register"  method="post" action="registerResponse.php">
 			<fieldset>
 				<legend>Registration Form</legend>
 				
@@ -62,19 +67,21 @@
 				<div class="control-group">
 					<label class="control-label" for="gender">Gender</label>
 					<div class="controls">
-						<label class="radio"><input type="radio" value="male" name="group" id="male">Male</label>
-            			<label class="radio"><input type="radio" value="female" name="group" id="female">Female</label>
+						<label class="radio"><input type="radio" value="male" name="gender" id="male">Male</label>
+            			<label class="radio"><input type="radio" value="female" name="gender" id="female">Female</label>
 					</div>
 				</div>
-				
+			
+				<!-- Submit button  -->
+				 
 				<!--  Form Actions -->
 				<div class="form-actions">
-            		<button type="submit" class="btn btn-primary">Submit</button>
+            		<button type="submit" class="btn btn-primary" name="submit"> Submit</button>
             		<button type="reset" class="btn">Cancel</button>
           		</div>
 			</fieldset>
 		</form>
-      <?php include "footer.php"?>
+      <?php include "footer.php" ?>
     </div>
   </body>
 </html>
