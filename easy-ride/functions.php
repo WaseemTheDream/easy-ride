@@ -2,6 +2,16 @@
 
 $appname = 'Easy Ride';
 
+$dbhost = 'localhost';
+$dbname = 'easy_ride';
+$dbuser = 'easy_ride';
+$dbpass = 'rideLikeABaller';
+$users_table = 'Users';
+
+$connection = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
+mysql_select_db($dbname, $connection) or die(mysql_error());
+echo "<h1>Database selected.</h1>";
+
 function sanitizeString($var)
 {
 	$var = strip_tags($var);

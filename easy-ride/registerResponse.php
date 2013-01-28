@@ -1,22 +1,8 @@
 <?php 
 	include_once 'functions.php';
 
-
-$dbhost = 'localhost';
-$dbname = 'easy_ride';
-$dbuser = 'root';
-$dbpass = '';
-$users_Table = 'users_table';
-
-$connection = mysql_connect($dbhost, $dbuser,$dbpass);
-mysql_select_db($dbname, $connection); 
-
 	//Show some error if smth went wrong:
 		$errors = array(); 
-
-	/* This code will run if user did submit the form: */
-	/* if (!empty($_POST)){ */
- 	
 
 	$error = $email = $password = "";
     if (isset($_SESSION['email'])) destroySession(); 
@@ -30,8 +16,19 @@ mysql_select_db($dbname, $connection);
 			$pass = md5($pass);
 
 			 
-			$query="INSERT INTO $users_Table VALUES('$first_name',
-					'$last_name','$pass','$email','$gender','$driver_License')";
+			$query="INSERT INTO $users_table (
+				firstName,
+				lastName,
+				password,
+				emailAddress,
+				gender,
+				driversLicenseID
+			) VALUES('$first_name',
+					 '$last_name',
+					 '$pass',
+					 '$email',
+					 '$gender',
+					 '$driver_License')";
 
 			if (!queryMysql($query))
   				{
