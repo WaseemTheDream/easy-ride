@@ -5,8 +5,8 @@ $appname = 'Easy Ride';
 $dbhost = 'localhost';
 $dbname = 'easy_ride';
 $dbuser = 'easy_ride';
-$dbpass = 'rideLikeABaller';
-$users_table = 'Users';
+$dbpass = 'rideLikeABaller';			/* Password FOr everyone: rideLikeABaller */
+$users_table = 'Users'; 
 
 $connection = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
 mysql_select_db($dbname, $connection) or die(mysql_error());

@@ -12,6 +12,9 @@
     //Show some error if smth went wrong:
         $errors = array(); 
 
+    if (!empty($_POST)){
+
+
     $error = $email = $password = "";
     if (isset($_SESSION['email'])) destroySession(); 
 
@@ -55,9 +58,11 @@ _END;
 
             mysql_close($connection);
             
-            
+            }
                 /* die("<h4> Account created</h4> Please Login.<br /><br />"); */
         include 'footer.php';
+
     ?>
+
 </body>
 </html>

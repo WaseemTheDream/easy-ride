@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Easy Ride</a>
+          <a class="brand" href="/index.php">Easy Ride</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
               <?php
@@ -20,9 +20,9 @@
             </p>
             <ul class="nav">
               <li class="active"><a href="/index.php">Home</a></li>
-              <li><a>About</a></li>
+              <li><a href="#">About</a></li>
               <li><a href="/register.php">Register</a></li>
-              <li><a>Contact</a></li>
+              <li><a href="#">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
