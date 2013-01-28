@@ -1,3 +1,11 @@
+<html lang='en'>
+	<?php 
+	include 'head.php'; 
+	include 'navbar.php'; 
+	?>
+ 	
+	<script src="js/register.js"></script>
+	<body>
 <?php
 
 include_once "functions.php";
@@ -28,3 +36,5 @@ if (!queryMySql($sql)) {
 mysql_close($connection);
 
 ?>
+	</body>
+</html>

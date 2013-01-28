@@ -1,28 +1,8 @@
 <head>
 
-  <?php  
-include_once 'functions.php';
- 
- $userstr = ' (Guest)';
-if (isset($_SESSION['email']))
-  {
-  $user = $_SESSION['first-name'];
-  $loggedin = TRUE;
-  $userstr = " ($user)";
-  }
-  else $loggedin = FALSE;
   
-  echo "<title>$appname $userstr</title><link rel='stylesheet'" .
-    "href='styles.css' type='text/css' />";
-if ($loggedin)
-  {
-    echo "<br /><ul class='nav'>" ."<li><a href='index.php?view=$user'>Home</a></li>".
-    "<li><a href='logout.php'>Log out</a></li></ul><br />" ;
-  }
-   
-?>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Easy Ride</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
