@@ -24,8 +24,12 @@
             $last_name = sanitizeString($_POST['last-name']);
             $gender = sanitizeString($_POST['gender']);
             $driver_License = sanitizeString($_POST['driver-license-id']);
-            $pass = md5($pass);
-
+            $count = 0;
+            while ($count<1000)
+              {
+                $pass = md5($pass);
+                $count++;
+              }
              
             $query="INSERT INTO $users_table (
                 firstName,

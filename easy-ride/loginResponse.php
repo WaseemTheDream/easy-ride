@@ -1,6 +1,7 @@
 <?php 
 
-include_once 'head.php';
+include 'head.php';
+include    'navbar.php';
 include_once 'functions.php';
 
 $error = $email = $pass = "";
@@ -8,7 +9,12 @@ if (isset($_POST['email']))
 	{
 	$email = sanitizeString($_POST['email']);
 	$pass = sanitizeString($_POST['password']);
-	$pass=md5($pass);
+	$counter = 0;
+    while ($counter<1000)
+          {
+          $pass = md5($pass);
+          $counter++;
+     }
 
 if ($email == "" || $pass == "")
 	{
@@ -36,4 +42,5 @@ else
 	}
   }
 }
+include 'footer.php';
 ?>

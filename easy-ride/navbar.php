@@ -12,7 +12,7 @@
               <?php
                 session_start();
                 if (isset($_SESSION['email'])) {
-                  echo "Logged in as " . $_SESSION['logged_in'];
+                  echo "Logged in as " . $_SESSION['email'];
                 } else {
                   echo "<a href='login.php' class='navbar-link'>Click here to log in.</a>";
                 }
