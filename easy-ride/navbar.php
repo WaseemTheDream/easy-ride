@@ -11,7 +11,7 @@
             <p class="navbar-text pull-right">
               <?php
                 session_start();
-                if ($_SESSION['email']) {
+                if (isset($_SESSION['email'])) {
                   echo "Logged in as " . $_SESSION['logged_in'];
                 } else {
                   echo "<a href='login.php' class='navbar-link'>Click here to log in.</a>";
