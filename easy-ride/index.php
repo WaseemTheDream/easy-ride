@@ -10,35 +10,30 @@
    
      <div class="container-fluid">
   			<div class="row-fluid">
-    			<div class="span2">
-     				 <!--Sidebar content-->
+    			<div class="span4" style="background-color: grey;">
+     				<!--Sidebar content-->
      				 
-     				 <!-- From -->
-				<div class="control-group">
-					<label class="control-label" for="from">From</label>
-					<div class="controls">
-						<input type="text" class="input-large" id="from" name="from">
-					</div>
-				</div>
-    			</div>
-    			
-    		<div class="row-fluid">
-    			<div class="span2">
-     				 <!--Sidebar content-->
-     				 <!-- To -->
-				<div class="control-group">
-					<label class="control-label" for="to">To</label>
-					<div class="controls">
-						<input type="text" class="input-large" id="to" name="to">
-					</div>
-				</div>
-    			</div>
-    			
-    			
-    			<div class="span10">
-     				 <!--Body content-->
-    			</div>
+     				<!-- From -->
+    				<div class="control-group">
+    					<label class="control-label" for="from">From</label>
+    					<div class="controls">
+    						<input type="text" class="input-large" id="from" name="from">
+              </div>
+      				
+            <!-- To -->
+            <div class="control-group">
+    					<label class="control-label" for="to">To</label>
+    					<div class="controls">
+    						<input type="text" class="input-large" id="to" name="to">
+    					</div>
+    				</div>
+          </div>
+        </div>
+          
+  			<div class="span8" style="background-color: grey;">
+   				 <!--Body content-->
   			</div>
+			</div> 
 		</div>
 		
     
