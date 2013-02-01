@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <?php include "head.php"?>
+  <?php 
+    include "head.php";
+    include "navbar.php";
+  ?>
   <body>
-    <?php  include "navbar.php"?>
+    <?php  ?>
     <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
@@ -26,7 +29,6 @@
             </ul>
           </div><!--/.well -->
         </div><!--/span-->
-    
 	<hr>
     <?php include "footer.php"?>
     </div>
