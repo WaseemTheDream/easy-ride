@@ -1,3 +1,8 @@
+<?php 
+  include "head.php";
+  include "navbar.php";
+  ?>
+
 <div class="row-fluid">
         <div class="span3">
           <div class="well sidebar-nav">
