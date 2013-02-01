@@ -15,22 +15,16 @@
             <form class="form-horizontal well" id="search">
             <fieldset>
        				<!-- From -->
+       		<div class="form-input">
               <label>From</label>
-              <input class="input-xlarge" type="text" placeholder="Type an address or zipcode over here.">
-
-      				<div class="control-group">
-      					<label class="control-label" for="from">From</label>
-      					<div class="controls">
-      						<input type="text" class="input-large" id="from" name="from">
-                </div>
-        				
-              <!-- To -->
-              <div class="control-group">
-      					<label class="control-label" for="to">To</label>
-      					<div class="controls">
-      						<input type="text" class="input-large" id="to" name="to">
-      					</div>
-      				</div>
+              <input class="input-xlarge" type="text" placeholder="Type an address or zip code over here">
+        	</div>			
+              		<!-- To -->
+            <div class="form-input">
+              <label>To</label>
+              <input class="input-xlarge" type="text" placeholder="Type an address or zip code over here">
+			</div>
+      			</div>
             </fieldset>
             </form><!-- End Sidebar Content -->
 
