@@ -4,9 +4,11 @@
     include "head.php";
     include "navbar.php";
   ?>
-  <body>
-    <script src="js/index.js"></script>
-	<body>
+  <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuwEG1p2ewZFCY6Xt5pHKuBlOElPpUVw&sensor=true">
+  </script>
+  <script src="js/index.js"></script>
+	<body onload="initialize()">
    
      <div class="container-fluid">
   			<div class="row-fluid">
@@ -31,8 +33,7 @@
           </div>
         </div>
           
-  			<div class="container span8">
-   				 <!--Body content-->
+  			<div id="map_canvas" class="container span8" style="float: right; height: 500px;">
   			</div>
 			</div> 
 		</div>
