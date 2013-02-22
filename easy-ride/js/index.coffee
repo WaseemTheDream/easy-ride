@@ -5,7 +5,9 @@ jQuery ->
             # Member variables
             @from = new google.maps.places.SearchBox($('#search-from')[0])
             @to = new google.maps.places.SearchBox($('#search-to')[0])
-            @departure = $('#search-departure-date').datepicker()
+            @date = $('#search-departure-date').datepicker()
+            @departureTime = $('#search-departure-time').timepicker()
+            @arrivalTime = $('#search-arrival-time').timepicker()
 
             # Google Maps Options
             mapOptions =
