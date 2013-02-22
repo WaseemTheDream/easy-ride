@@ -8,7 +8,7 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuwEG1p2ewZFCY6Xt5pHKuBlOElPpUVw&sensor=true">
   </script>
   <script src="js/index.js"></script>
-  <body onload="initialize()">
+  <body>
    
      <div class="container-fluid">
         <div class="row-fluid">
@@ -19,12 +19,12 @@
               <!-- From -->
               <div class="form-input">
                 <label>From</label>
-                <input class="input-xlarge" type="text" placeholder="Type an address or zip code over here">
+                <input class="input-xlarge" id="search-from" type="text" placeholder="Type an address or zip code over here">
               </div>      
               <!-- To -->
               <div class="form-input">
                 <label>To</label>
-                <input class="input-xlarge" type="text" placeholder="Type an address or zip code over here">
+                <input class="input-xlarge" id="search-to" type="text" placeholder="Type an address or zip code over here">
               </div>
             </fieldset>
             </form><!-- End Sidebar Content -->
