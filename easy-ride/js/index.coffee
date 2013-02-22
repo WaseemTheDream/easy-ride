@@ -4,7 +4,7 @@ jQuery ->
 
 	# Google Maps Options
 	mapOptions =
-		center: new google.maps.LatLng(-34.397, 150.644)
+		center: new google.maps.LatLng(51.517099, -0.146084)
 		zoom: 8
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 
