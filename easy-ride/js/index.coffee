@@ -14,6 +14,23 @@ jQuery ->
 
             # Initialize Google Maps
             map = new google.maps.Map($('#map_canvas')[0], mapOptions)
+            markers = []
+
+            # Add from/to event listeners
+            google.maps.event.addListener @from, 'from_changed', =>
+                places = @from.getPlaces()
+
+                for marker in markers
+                    market.setMap(null)
+
+                # markers = []
+                # bounds = new google.maps.LatLngBounds()
+                # for place in places
+                #     image =
+                #         url: place.icon
+                #         size: new google.maps.Size(71, 71)
+                #         origin: 
+
             
 
         updateFrom: ->
