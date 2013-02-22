@@ -37,7 +37,8 @@ else
 	$_SESSION['password'] = $pass;
 	$FName_Query = queryMysql("SELECT firstName FROM $users_table WHERE password='$pass' AND EmailAddress='$email'");
 	$FName = mysql_result($FName_Query, 0);
-    die("Hi, $FName! Welcome Back to Easy Ride..Plenty of rides waiting..");
+	$_SESSION['fName']= $FName;
+	header("Location: http://localhost/$url"); 
 	
 	}
   }

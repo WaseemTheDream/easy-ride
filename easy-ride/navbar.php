@@ -1,18 +1,27 @@
 <?php
 function login() {
   session_start();
-  if (isset($_SESSION['email'])) {
-    echo "Logged in as " . $_SESSION['email'];
+  $_SESSION['url'] = $_SERVER['REQUEST_URI'];
+
+  if(isset($_SESSION['url'])) 
+   $url = $_SESSION['url'];
+ else {
+  $url = 'index.php';
+ }
+
+  if (isset($_SESSION['fName'])) {
+    echo "Hello, " . $_SESSION['fName'];
+
   } else {
 echo <<<_END
   <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
   <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-    <form method="post" accept-charset="UTF-8">
+    <form method="post" action="loginResponse.php" accept-charset="UTF-8">
       <input id="email" style="margin-bottom: 15px;" type="text" name="email" size="30" placeholder="Email Address" />
       <input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" placeholder="Password" />
       <input id="remember-me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" value="1" />
       <label class="string optional" for="user_remember_me"> Remember me</label>
-      <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
+      <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="submit" value="Sign In" />
     </form>
   </div>
 _END;
