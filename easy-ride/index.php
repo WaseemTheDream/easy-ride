@@ -4,8 +4,8 @@
     include "head.php";
     include "navbar.php";
   ?>
-  <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuwEG1p2ewZFCY6Xt5pHKuBlOElPpUVw&sensor=true">
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places">
+            // src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuwEG1p2ewZFCY6Xt5pHKuBlOElPpUVw&sensor=true">
   </script>
   <script src="js/index.js"></script>
   <body>
@@ -29,7 +29,7 @@
             </fieldset>
             </form><!-- End Sidebar Content -->
           </div>
-          <div id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
+          <d$iv id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
         </div>
       </div>
     </div> 

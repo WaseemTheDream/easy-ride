@@ -3,8 +3,8 @@ jQuery ->
     class RideSearcher
         constructor: ->
             # Member variables
-            @from = $('#search-from')
-            @to = $('#search-to')
+            @from = new google.maps.places.SearchBox($('#search-from')[0])
+            @to = new google.maps.places.SearchBox($('#search-to')[0])
 
             # Google Maps Options
             mapOptions =
@@ -14,8 +14,8 @@ jQuery ->
 
             # Initialize Google Maps
             map = new google.maps.Map($('#map_canvas')[0], mapOptions)
-            @from = new google.maps.places.SearchBox($('#search-from')[0])
             
+
         updateFrom: ->
             query = @from.val().trim()
             if not query

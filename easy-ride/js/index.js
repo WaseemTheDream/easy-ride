@@ -6,15 +6,14 @@ jQuery(function() {
 
     function RideSearcher() {
       var map, mapOptions;
-      this.from = $('#search-from');
-      this.to = $('#search-to');
+      this.from = new google.maps.places.SearchBox($('#search-from')[0]);
+      this.to = new google.maps.places.SearchBox($('#search-to')[0]);
       mapOptions = {
         center: new google.maps.LatLng(51.517099, -0.146084),
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       map = new google.maps.Map($('#map_canvas')[0], mapOptions);
-      this.from = new google.maps.places.SearchBox($('#search-from')[0]);
     }
 
     RideSearcher.prototype.updateFrom = function() {
