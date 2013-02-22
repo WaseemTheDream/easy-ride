@@ -5,15 +5,28 @@ jQuery(function() {
   RideSearcher = (function() {
 
     function RideSearcher() {
-      var map, mapOptions;
+      var map, mapOptions, markers,
+        _this = this;
       this.from = new google.maps.places.SearchBox($('#search-from')[0]);
       this.to = new google.maps.places.SearchBox($('#search-to')[0]);
+      this.departure = $('#search-departure-date').datepicker();
       mapOptions = {
         center: new google.maps.LatLng(51.517099, -0.146084),
         zoom: 8,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       map = new google.maps.Map($('#map_canvas')[0], mapOptions);
+      markers = [];
+      google.maps.event.addListener(this.from, 'from_changed', function() {
+        var marker, places, _i, _len, _results;
+        places = _this.from.getPlaces();
+        _results = [];
+        for (_i = 0, _len = markers.length; _i < _len; _i++) {
+          marker = markers[_i];
+          _results.push(market.setMap(null));
+        }
+        return _results;
+      });
     }
 
     RideSearcher.prototype.updateFrom = function() {
