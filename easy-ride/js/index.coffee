@@ -9,10 +9,5 @@ jQuery ->
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 
 	# Initialize Google Maps
-	# map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions)
-	console.log(document.getElementById('map_canvas'))
-	console.log($('#map_canvas'))
 	map = new google.maps.Map($('#map_canvas')[0], mapOptions)
-	console.log('Maps initalized.')
-
 	return

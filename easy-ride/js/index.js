@@ -8,8 +8,5 @@ jQuery(function() {
     zoom: 8,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  console.log(document.getElementById('map_canvas'));
-  console.log($('#map_canvas'));
   map = new google.maps.Map($('#map_canvas')[0], mapOptions);
-  console.log('Maps initalized.');
 });
