@@ -1,13 +1,17 @@
 jQuery ->
 
-    class RideSearcher
+    class RideSharer
         constructor: ->
             # Member variables
-            @from = new google.maps.places.SearchBox($('#share-from')[0])
-            @to = new google.maps.places.SearchBox($('#share-to')[0])
+            @from = $('#share-from')
+            @to = $('#share-to')
             @date = $('#share-departure-date').datepicker()
             @departureTime = $('#share-departure-time').timepicker()
             @arrivalTime = $('#share-arrival-time').timepicker()
+
+            # Google Maps
+            @directionsDisplay = new google.maps.DirectionsRenderer()
+            @directionsService = new google.maps.DirectionsService()
 
             # Google Maps Options
             @mapOptions =
@@ -19,40 +23,29 @@ jQuery ->
             @map = new google.maps.Map($('#map_canvas')[0], @mapOptions)
             @mapMarkers = []
 
-            # Bind the search box bounds to the map's view
-            @from.bindTo('bounds', @map)
+            @directionsDisplay.setMap(@map)
 
-            # Add from/to event listeners
-            google.maps.event.addListener @from, 'places_changed', =>
-                console.log('Places changed!')
-                places = @from.getPlaces()
+            # Add event binders for calculating route
+            $('#share-from, #share-to').change(@calculateRoute)            
 
-                for marker in @mapMarkers
-                    marker.setMap(null)
+        
+        calculateRoute: =>
+            from = @from.val().trim()
+            to = @to.val().trim()
 
-                @mapMarkers = []
-                bounds = new google.maps.LatLngBounds()
-                for place in places
-                    image =
-                        url: place.icon
-                        size: new google.maps.Size(71, 71)
-                        origin: new google.maps.Point(0, 0)
-                        anchor: new google.maps.Point(17, 34)
-                        scaledSize: new google.maps.Size(25, 25)
+            if not from or not to
+                return
 
-                    marker = new google.maps.Marker 
-                        map: @map
-                        icon: image
-                        title: place.name
-                        position: place.geometry.location
+            request = 
+                origin: from
+                destination: to
+                travelMode: google.maps.TravelMode.DRIVING
+                region: 'uk'
 
-                    @mapMarkers.push(marker)
-
-                    bounds.extend(place.geometry.location)
-
-                @map.fitBounds(bounds)
-
-            
+            @directionsService.route request, (result, status) =>
+                console.log(result)
+                if status == google.maps.DirectionsStatus.OK
+                    @directionsDisplay.setDirections(result)
 
         updateFrom: ->
             query = @from.val().trim()
@@ -62,4 +55,4 @@ jQuery ->
 
 
 
-    new RideSearcher()
+    new RideSharer()
