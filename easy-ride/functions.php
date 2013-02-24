@@ -5,11 +5,10 @@ $appname = 'Easy Ride';
 $dbhost = 'localhost';
 $dbname = 'easy_ride';
 $dbuser = 'easy_ride';
-$dbpass = 'Rs3ewSd20';			/* Password FOr everyone: rideLikeABaller */
+$dbpass = 'rideLikeABaller';			/* Password FOr everyone: rideLikeABaller */
 $users_table = 'Users'; 
-$Address_Table = 'Address';
 $Trip_Table = 'Trip';
-$zipCodes_Table = 'zipcodes';
+$CoordinatesTable = 'Coordinates_Info';
 
 
 
