@@ -1,0 +1,11 @@
+#search .control-label {
+    width: 60px;
+}
+
+#search .controls {
+    margin-left: 80px;
+}
+
+#search .form-actions {
+    text-align: right;
+}
