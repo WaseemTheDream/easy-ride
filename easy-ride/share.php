@@ -31,7 +31,7 @@
               </div>
               <!-- DepartureDate -->
               <div class="form-input">
-                <label>Date </label>
+                <label>Departure Date</label>
                 <div class="input-append date" id="share-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
                  <input class="span8" size="16" type="text" >
                    <span class="add-on"><i class="icon-calendar"></i></span>
@@ -39,22 +39,22 @@
               </div>
               <!-- DepartureTime -->
               <div class="form-input">
-               <label>Departure Time: </label>
-                <div class="input-append bootstrap-timepicker" id="share-departure-time">
-                 <input id="timepicker1" type="text" class="input-small">
+               <label>Departure Time</label>
+                <div class="input-append bootstrap-timepicker">
+                 <input id="share-departure-time" type="text" class="input-small">
                  <span class="add-on"><i class="icon-time"></i></span>
                 </div>
               </div>
               <!-- ArrivalTime -->
               <div class="form-input">
-               <label>Trip Length:</label>
+               <label>Trip Length</label>
                <input class="input-medium" id="share-trip-length" type="text">
               </div>       
             </fieldset>
               <!-- WomenOnly -->
               <div class="form-input">
                <label class="checkbox">
-                 <input type="checkbox" id="share-woman-only"> Women Only
+                 <input type="checkbox" id="share-woman-only">Women Only
                </label>
               </div>
              <!-- Message -->
