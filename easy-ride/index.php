@@ -39,7 +39,7 @@
 
             <!-- DepartureDate -->
             <div class="control-group">
-              <label class="control-label">Date </label>
+              <label class="control-label">Date</label>
               <div class="controls">
                 <div class="input-append date" id="search-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
                  <input class="span8" size="16" type="text" >

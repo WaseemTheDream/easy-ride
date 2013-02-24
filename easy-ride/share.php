@@ -18,22 +18,22 @@
         <div class="row-fluid">
           <div class="container span4">
             <!--Sidebar content-->
-            <form class="form-horizontal well" id="search">
+            <form class="form-horizontal well" id="share">
             <fieldset>
               <!-- From -->
               <div class="form-input">
                 <label>From</label>
-                <input class="input-xlarge" id="search-from" type="text" placeholder="Type an address or zip code over here">
+                <input class="input-xlarge" id="share-from" type="text" placeholder="Type an address or zip code over here">
               </div>      
               <!-- To -->
               <div class="form-input">
                 <label>To</label>
-                <input class="input-xlarge" id="search-to" type="text" placeholder="Type an address or zip code over here">
+                <input class="input-xlarge" id="share-to" type="text" placeholder="Type an address or zip code over here">
               </div>
               <!-- DepartureDate -->
               <div class="form-input"
                 <label>Date </label>
-                <div class="input-append date" id="search-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
+                <div class="input-append date" id="share-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
                  <input class="span8" size="16" type="text" >
                    <span class="add-on"><i class="icon-calendar"></i></span>
                 </div>
@@ -41,7 +41,7 @@
               <!-- DepartureTime -->
               <div class="form-input"
                <label>Departure Time: </label>
-                <div class="input-append bootstrap-timepicker" id="search-departure-time">
+                <div class="input-append bootstrap-timepicker" id="share-departure-time">
                  <input id="timepicker1" type="text" class="input-small">
                  <span class="add-on"><i class="icon-time"></i></span>
                 </div>
@@ -49,7 +49,7 @@
               <!-- ArrivalTime -->
               <div class="form-input"
                <label>Arrival Time: </label>
-                <div class="input-append bootstrap-timepicker" id="search-arrival-time">
+                <div class="input-append bootstrap-timepicker" id="share-arrival-time">
                  <input id="timepicker2" type="text" class="input-small">
                  <span class="add-on"><i class="icon-time"></i></span>
                 </div>
@@ -60,16 +60,16 @@
               <!-- WomenOnly -->
               <div class="form-input" >
                <label class="checkbox">
-                 <input type="checkbox" id="search-woman-only"> Women Only
+                 <input type="checkbox" id="share-woman-only"> Women Only
                </label>
               </div>
              <!-- Message -->
              <div class="form-input" >
-                <textarea id="search-message" rows="3" placeholder="Message..."></textarea>
+                <textarea id="share-message" rows="3" placeholder="Message..."></textarea>
              </div>
              <!-- ShareButton -->
              <div class="form-input" >
-               <button type="button" id="search-share-button" class="btn">Share</button>
+               <button type="button" id="share-button" class="btn">Share</button>
              </div>
             </form><!-- End Sidebar Content -->
           </div>
