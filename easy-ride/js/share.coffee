@@ -13,12 +13,77 @@ jQuery ->
                 $('#share-to'),
                 $('#share-trip-length'))
 
+            @message = $('#share-message')
+            @womenOnly = $('#share-women-only')
+            @shareButton = $('#share-button')
+
+            @shareButton.click =>
+                if @shareButton.hasClass('disabled')
+                    return
+
+                data = @toJson()
+                return if data == null
+                console.log(data)
+
+                $.ajax
+                    url: '/addTripInfo.php'
+                    type: 'POST'
+                    data: 'data': JSON.stringify(data)
+                    success: (data) =>
+                        @setButton('disabled btn btn-success', 'Trip Saved!')
+                    error: (data) ->
+                        @setButton('disabled btn btn-danger', 'Error!')
+            
+        setButton: (btnClass, msg) =>
+            @shareButton.attr('class', btnClass)
+            @shareButton.text(msg)
+
+
+        toJson: =>
+            json =
+                departure: @departure.getDateTime()
+                route: @route.toJson()
+                message: @message.val()
+                women_only: @womenOnly.prop('checked')
+            for key, value of json
+                if value == null
+                    return null
+            return json
+
+    class UserInterface
+        constructor: (@container) ->
+
+        ###
+            Set error.
+            Args:
+                msg {String}: error message string.
+        ###
+        setError: (msg) =>
+            @removeError()
+            @container.addClass('error')
+            error = $(
+                '<div>',
+                    class: 'controls help-inline error-msg'
+                ).append(msg)
+            @container.append(error)
+
+        ###
+            Remove error.
+        ###
+        removeError: =>
+            @container.removeClass('error')
+            @container.children().filter('.error-msg').remove()
+
     ###
         A Google Maps based Route module for finding a origin and destination
         information with trip length.
     ###
-    class MapRoute
-        constructor: (@container, @from, @to, @tripLength) ->
+    class MapRoute extends UserInterface
+        constructor: (@container, @from, @to, tripLength) ->
+            super(@container)
+            @tripLength = new RequiredInput(
+                tripLength.parent().parent(),
+                tripLength)
             @result
 
             # Google Maps
@@ -74,39 +139,52 @@ jQuery ->
         updateRoute: =>
             route = @result['routes'][0]
             leg = route['legs'][0]
+            console.log(leg)
             @from.val(leg['start_address'])
             @to.val(leg['end_address'])
-            @tripLength.val(leg['duration']['text'])
+            @tripLength.setValue(leg['duration']['text'])
 
         ###
-            Set routes error.
-            Args:
-                msg {String}: error message string.
+            Returns the route in JSON form if it exists.
         ###
-        setError: (msg) =>
-            console.log(msg)
+        toJson: =>
+            if not @result
+                @setError('No route specified.')
+                return null
+
+            route = @result['routes'][0]
+            leg = route['legs'][0]
+
+            from =
+                address: leg['start_address']
+                lat: leg['start_location']['hb']
+                lon: leg['start_location']['ib']
+
+            to =
+                address: leg['end_address']
+                lat: leg['end_location']['hb']
+                lon: leg['end_location']['ib']
+
+            length = @tripLength.getValue()
+            if not length
+                return null
+
+            json =
+                from: from
+                to: to
+                trip_length: length
+
+            console.log(json)
             @removeError()
-            @container.addClass('error')
-            error = $(
-                '<div>',
-                    class: 'controls help-inline error-msg'
-                ).append(msg)
-            console.log(error)
-            @container.append(error)
-
-        ###
-            Removes routes error.
-        ###
-        removeError: =>
-            @container.removeClass('error')
-            @container.children().filter('.error-msg').remove()
+            return json
 
     ###
         A DateTime module that uses a Bootstrap DatePicker and TimePicker and
         combines the input.
     ###
-    class DateTime
+    class DateTime extends UserInterface
         constructor: (@container, date, time) ->
+            super(@container)
             @date = date.datepicker().data('datepicker')
             @time = time.timepicker()
 
@@ -117,13 +195,12 @@ jQuery ->
             dateString = @date.element.children().filter('input').val()
             timeString = @time.val()
             if not dateString or not timeString
-                console.log('Missing departure information')
+                @setError('Missing departure information.')
                 return null
 
             time = @parseTime(timeString)
             date = @date.date.valueOf() / 1000
-            console.log(time)
-            console.log(date)
+            @removeError()
             return date + time
 
         ###
@@ -140,6 +217,23 @@ jQuery ->
             if meridiem == 'PM'
                 hours += 12
             return hours * 3600 + minutes * 60
+
+    class RequiredInput extends UserInterface
+        constructor: (@container, @input) ->
+            super(@container)
+
+        getValue: =>
+            inputString = @input.val().trim()
+            if not inputString
+                @setError('Required field.')
+                return null
+            else
+                @removeError()
+                return inputString
+
+        setValue: (val) =>
+            @input.val(val)
+            @removeError()
 
 
     new RideSharer()
