@@ -20,7 +20,7 @@ if ($_POST)
    $email = sanitizeString($_POST['email']);
    $Depdate = sanitizeString($_POST['search-departure-date']);
    $departure_time = sanitizeString($_POST['search-departure-time']);
-   $arrival_time = sanitizeString($_POST['search-arrival-time']);
+   $TripLength = sanitizeString($_POST['search-arrival-time']);
    $Spots = sanitizeString($_POST['Spots']);
    $Women_Only = sanitizeString($_POST['Women_Only']);
    $message = sanitizeString($_POST['message']); 
@@ -63,7 +63,7 @@ if ($_POST)
                AddressTo,
                DepDate,
                DepartureTime,
-               ArrivalTime,
+               TripLength,
                WomenOnly,
                Spots,
                Message,
@@ -73,7 +73,7 @@ if ($_POST)
                '$addressTo',
                '$Depdate',
                '$departure_time',
-               '$arrival_time',
+               '$TripLength',
                '$Women_Only',
                '$Spots',
                '$message',
@@ -82,6 +82,7 @@ if ($_POST)
 
   $cordsQuery = "INSERT INTO $CoordinatesTable (
                 DriverID ,
+                DepartureDate,
                 DepartureTime ,
                 LatitudeFrom ,
                 LongitudeFrom ,
@@ -90,6 +91,7 @@ if ($_POST)
 
             ) VALUES(
                 '$DriverID',
+                '$Depdate',
                 '$departure_time',
                 '$latFrom',
                 '$longFrom',
@@ -296,14 +298,12 @@ function geocode($address)
         </div>
       </div>   
 
-    <!-- Arrival Time-->
+    <!-- Trip Time-->
         <div class="control-group">
-          <label class="control-label" for="search-arrival-time">Arrival Time</label>
-          <div class="controls">
-            <div class="input-append bootstrap-timepicker">
+          <label class="control-label" for="search-arrival-time">Length of Trip (in minutes)</label>
+          <div class="controls">  
             <input id="search-arrival-time"  type="text" class="input-large"  name="search-arrival-time" value="<?php echo empty($_POST['search-arrival-time']) ? '' : $_POST['search-arrival-time']?>">
-         <span class="add-on"><i class="icon-time"></i></span>
-          </div>
+       <script type="text/javascript"> $('#search-departure-time').timepicker(); </script>
         </div>
       </div>
        
@@ -312,7 +312,7 @@ function geocode($address)
         <div class="control-group">
           <label class="control-label" for="State">Spots in The Car</label>
           <div class="controls">
-            <input type="text" class="input-xlarge" id="Spots" name="Spots" value="<?php echo empty($_POST['Spots']) ? '' : $_POST['Spots']?>">
+            <input type="text" class="input-large" id="Spots" name="Spots" value="<?php echo empty($_POST['Spots']) ? '' : $_POST['Spots']?>">
           </div>
         </div>    
 
@@ -340,8 +340,7 @@ function geocode($address)
            <button type="submit" class="btn btn-primary" name="submit"> Submit</button>
             <button type="reset" class="btn">Cancel</button>
     </div>      
-        <script type="text/javascript"> $('#search-departure-time').timepicker(); </script>
-        <script type="text/javascript"> $('#search-arrival-time').timepicker(); </script>
+        
       </p>
           
   </fieldset>

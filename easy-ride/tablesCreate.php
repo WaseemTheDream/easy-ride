@@ -20,7 +20,7 @@ $Create_Table1 = "CREATE TABLE Trip
 	AddressTo varchar(64) NOT NULL,
 	DepDate varchar(64) NOT NULL,
 	DepartureTime varchar(128) NOT NULL,
-	ArrivalTime varchar(128) NOT NULL,
+	TripLength varchar(128) NOT NULL,
 	WomenOnly binary(1) NOT NULL,
 	Spots int NOT NULL,
 	Message varchar(160) NOT NULL,
@@ -34,7 +34,8 @@ $Create_Table2 = "CREATE TABLE Coordinates_Info
 (
 	DriverID int NOT NULL,
 	DepartureTime varchar(128) NOT NULL,
-	PRIMARY KEY (DriverID, DepartureTime),
+	DepartureDate varchar(64) NOT NULL,
+	PRIMARY KEY (DriverID,DepartureDate,DepartureTime),
 	LatitudeFrom FLOAT( 14) NOT NULL,
 	LongitudeFrom FLOAT( 14 ) NOT NULL,
 	LatitudeTo FLOAT( 14) NOT NULL,
