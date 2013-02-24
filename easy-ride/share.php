@@ -22,25 +22,25 @@
           <form class="form-horizontal well" id="share">
           <fieldset>
 
+            <div id="share-route" class="control-group">
+              <!-- From -->
+              <div class="control-group">
+                <label class="control-label">From</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="share-from" type="text" placeholder="Type the name of a place or address over here">
+                </div>
+              </div>
 
-            <!-- From -->
-            <div class="control-group">
-              <label class="control-label">From</label>
-              <div class="controls">
-                <input class="input-xlarge" id="share-from" type="text" placeholder="Type the name of a place or address over here">
+              <!-- To -->
+              <div class="control-group">
+                <label class="control-label">To</label>
+                <div class="controls">
+                  <input class="input-xlarge" id="share-to" type="text" placeholder="Type the name of a place or address over here">
+                </div>
               </div>
             </div>
-
-            <!-- To -->
-            <div class="control-group">
-              <label class="control-label">To</label>
-              <div class="controls">
-                <input class="input-xlarge" id="share-to" type="text" placeholder="Type the name of a place or address over here">
-              </div>
-            </div>
-
             <!-- Departure -->
-            <div class="control-group">
+            <div class="control-group" id="share-departure">
               <label class="control-label">Departure</label>
               <div class="controls controls-row">
                 <!-- Date Picker -->

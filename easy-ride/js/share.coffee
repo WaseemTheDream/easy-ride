@@ -1,14 +1,14 @@
-departure = null
-picker = null
 jQuery ->
 
     class RideSharer
         constructor: ->
-            departure = @departure = new DateTime(
+            @departure = new DateTime(
+                $('#share-departure'),
                 $('#share-departure-date'),
                 $('#share-departure-time'))
 
             @route = new MapRoute(
+                $('#share-route')
                 $('#share-from'),
                 $('#share-to'),
                 $('#share-trip-length'))
@@ -18,10 +18,7 @@ jQuery ->
         information with trip length.
     ###
     class MapRoute
-        constructor: (fromField, toField, tripLengthField) ->
-            @from = fromField
-            @to = toField
-            @tripLength = tripLengthField
+        constructor: (@container, @from, @to, @tripLength) ->
             @result
 
             # Google Maps
@@ -65,10 +62,11 @@ jQuery ->
                 if status == google.maps.DirectionsStatus.OK
                     @directionsDisplay.setDirections(result)
                     @result = result
+                    @removeError()
                     @updateRoute()
                 else
                     @result = null
-                    console.log('No routes found')
+                    @setError('No routes found.')
 
         ###
             Updates the form on the page to reflect the results of a route.
@@ -80,14 +78,37 @@ jQuery ->
             @to.val(leg['end_address'])
             @tripLength.val(leg['duration']['text'])
 
+        ###
+            Set routes error.
+            Args:
+                msg {String}: error message string.
+        ###
+        setError: (msg) =>
+            console.log(msg)
+            @removeError()
+            @container.addClass('error')
+            error = $(
+                '<div>',
+                    class: 'controls help-inline error-msg'
+                ).append(msg)
+            console.log(error)
+            @container.append(error)
+
+        ###
+            Removes routes error.
+        ###
+        removeError: =>
+            @container.removeClass('error')
+            @container.children().filter('.error-msg').remove()
+
     ###
         A DateTime module that uses a Bootstrap DatePicker and TimePicker and
         combines the input.
     ###
     class DateTime
-        constructor: (dateField, timeField) ->
-            picker = @date = dateField.datepicker().data('datepicker')
-            @time = timeField.timepicker()
+        constructor: (@container, date, time) ->
+            @date = date.datepicker().data('datepicker')
+            @time = time.timepicker()
 
         ###
             Returns departure time as an integer value, if entered
@@ -105,6 +126,11 @@ jQuery ->
             console.log(date)
             return date + time
 
+        ###
+            Parses the time and returns the integer value in seconds.
+            Args:
+                string {String}: time string e.g. '04:50 PM'
+        ###
         parseTime: (string) =>
             strings = string.split(' ')
             time = strings[0].split(':')
