@@ -11,9 +11,9 @@ jQuery(function() {
       this.calculateRoute = __bind(this.calculateRoute, this);
       this.from = $('#share-from');
       this.to = $('#share-to');
-      this.date = $('#share-departure-date').datepicker();
+      this.departureDate = $('#share-departure-date').datepicker();
       this.departureTime = $('#share-departure-time').timepicker();
-      this.arrivalTime = $('#share-arrival-time').timepicker();
+      this.tripLength = $('#share-trip-length');
       this.directionsDisplay = new google.maps.DirectionsRenderer();
       this.directionsService = new google.maps.DirectionsService();
       this.mapOptions = {
@@ -63,11 +63,13 @@ jQuery(function() {
 
 
     RideSharer.prototype.updateRoute = function(result) {
-      var route;
+      var leg, route;
       route = result['routes'][0];
+      leg = route['legs'][0];
       console.log(route);
-      this.from.val(route['legs'][0]['start_address']);
-      return this.to.val(route['legs'][0]['end_address']);
+      this.from.val(leg['start_address']);
+      this.to.val(leg['end_address']);
+      return this.tripLength.val(leg['duration']['text']);
     };
 
     RideSharer.prototype.updateFrom = function() {

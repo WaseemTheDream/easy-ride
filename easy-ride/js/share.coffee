@@ -5,9 +5,9 @@ jQuery ->
             # Member variables
             @from = $('#share-from')
             @to = $('#share-to')
-            @date = $('#share-departure-date').datepicker()
+            @departureDate = $('#share-departure-date').datepicker()
             @departureTime = $('#share-departure-time').timepicker()
-            @arrivalTime = $('#share-arrival-time').timepicker()
+            @tripLength = $('#share-trip-length')
 
             # Google Maps
             @directionsDisplay = new google.maps.DirectionsRenderer()
@@ -57,9 +57,12 @@ jQuery ->
         ###
         updateRoute: (result) =>
             route = result['routes'][0]
+            leg = route['legs'][0]
             console.log(route)
-            @from.val(route['legs'][0]['start_address'])
-            @to.val(route['legs'][0]['end_address'])
+            @from.val(leg['start_address'])
+            @to.val(leg['end_address'])
+            @tripLength.val(leg['duration']['text'])
+
 
         updateFrom: ->
             query = @from.val().trim()
