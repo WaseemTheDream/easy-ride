@@ -28,7 +28,10 @@ jQuery ->
             # Add event binders for calculating route
             $('#share-from, #share-to').change(@calculateRoute)            
 
-        
+        ###
+            Uses Google Maps Directions API to calculate the route for the data
+            entered by the user.
+        ###
         calculateRoute: =>
             from = @from.val().trim()
             to = @to.val().trim()
@@ -43,9 +46,20 @@ jQuery ->
                 region: 'uk'
 
             @directionsService.route request, (result, status) =>
-                console.log(result)
                 if status == google.maps.DirectionsStatus.OK
                     @directionsDisplay.setDirections(result)
+                    @updateRoute(result)
+                else
+                    console.log('No routes found')
+
+        ###
+            Updates the form on the page to reflect the results of a route.
+        ###
+        updateRoute: (result) =>
+            route = result['routes'][0]
+            console.log(route)
+            @from.val(route['legs'][0]['start_address'])
+            @to.val(route['legs'][0]['end_address'])
 
         updateFrom: ->
             query = @from.val().trim()

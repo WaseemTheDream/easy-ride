@@ -6,6 +6,8 @@ jQuery(function() {
   RideSharer = (function() {
 
     function RideSharer() {
+      this.updateRoute = __bind(this.updateRoute, this);
+
       this.calculateRoute = __bind(this.calculateRoute, this);
       this.from = $('#share-from');
       this.to = $('#share-to');
@@ -25,6 +27,12 @@ jQuery(function() {
       $('#share-from, #share-to').change(this.calculateRoute);
     }
 
+    /*
+                Uses Google Maps Directions API to calculate the route for the data
+                entered by the user.
+    */
+
+
     RideSharer.prototype.calculateRoute = function() {
       var from, request, to,
         _this = this;
@@ -40,11 +48,26 @@ jQuery(function() {
         region: 'uk'
       };
       return this.directionsService.route(request, function(result, status) {
-        console.log(result);
         if (status === google.maps.DirectionsStatus.OK) {
-          return _this.directionsDisplay.setDirections(result);
+          _this.directionsDisplay.setDirections(result);
+          return _this.updateRoute(result);
+        } else {
+          return console.log('No routes found');
         }
       });
+    };
+
+    /*
+                Updates the form on the page to reflect the results of a route.
+    */
+
+
+    RideSharer.prototype.updateRoute = function(result) {
+      var route;
+      route = result['routes'][0];
+      console.log(route);
+      this.from.val(route['legs'][0]['start_address']);
+      return this.to.val(route['legs'][0]['end_address']);
     };
 
     RideSharer.prototype.updateFrom = function() {
