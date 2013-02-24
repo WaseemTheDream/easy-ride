@@ -5,29 +5,50 @@ jQuery(function() {
   RideSearcher = (function() {
 
     function RideSearcher() {
-      var map, mapOptions, markers,
-        _this = this;
-      this.from = new google.maps.places.SearchBox($('#search-from')[0]);
-      this.to = new google.maps.places.SearchBox($('#search-to')[0]);
-      this.date = $('#search-departure-date').datepicker();
-      this.departureTime = $('#search-departure-time').timepicker();
-      this.arrivalTime = $('#search-arrival-time').timepicker();
-      mapOptions = {
+      var _this = this;
+      this.from = new google.maps.places.SearchBox($('#share-from')[0]);
+      this.to = new google.maps.places.SearchBox($('#share-to')[0]);
+      this.date = $('#share-departure-date').datepicker();
+      this.departureTime = $('#share-departure-time').timepicker();
+      this.arrivalTime = $('#share-arrival-time').timepicker();
+      this.mapOptions = {
         center: new google.maps.LatLng(51.517099, -0.146084),
-        zoom: 8,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
-      map = new google.maps.Map($('#map_canvas')[0], mapOptions);
-      markers = [];
-      google.maps.event.addListener(this.from, 'from_changed', function() {
-        var marker, places, _i, _len, _results;
+      this.map = new google.maps.Map($('#map_canvas')[0], this.mapOptions);
+      this.mapMarkers = [];
+      this.from.bindTo('bounds', this.map);
+      google.maps.event.addListener(this.from, 'places_changed', function() {
+        var bounds, image, marker, place, places, _i, _j, _len, _len1, _ref;
+        console.log('Places changed!');
         places = _this.from.getPlaces();
-        _results = [];
-        for (_i = 0, _len = markers.length; _i < _len; _i++) {
-          marker = markers[_i];
-          _results.push(market.setMap(null));
+        _ref = _this.mapMarkers;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          marker = _ref[_i];
+          marker.setMap(null);
         }
-        return _results;
+        _this.mapMarkers = [];
+        bounds = new google.maps.LatLngBounds();
+        for (_j = 0, _len1 = places.length; _j < _len1; _j++) {
+          place = places[_j];
+          image = {
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+          marker = new google.maps.Marker({
+            map: _this.map,
+            icon: image,
+            title: place.name,
+            position: place.geometry.location
+          });
+          _this.mapMarkers.push(marker);
+          bounds.extend(place.geometry.location);
+        }
+        return _this.map.fitBounds(bounds);
       });
     }
 
