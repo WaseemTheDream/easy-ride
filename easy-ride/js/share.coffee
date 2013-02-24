@@ -139,7 +139,6 @@ jQuery ->
         updateRoute: =>
             route = @result['routes'][0]
             leg = route['legs'][0]
-            console.log(leg)
             @from.val(leg['start_address'])
             @to.val(leg['end_address'])
             @tripLength.setValue(leg['duration']['text'])
@@ -174,7 +173,6 @@ jQuery ->
                 to: to
                 trip_length: length
 
-            console.log(json)
             @removeError()
             return json
 

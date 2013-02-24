@@ -187,7 +187,6 @@ jQuery(function() {
       var leg, route;
       route = this.result['routes'][0];
       leg = route['legs'][0];
-      console.log(leg);
       this.from.val(leg['start_address']);
       this.to.val(leg['end_address']);
       return this.tripLength.setValue(leg['duration']['text']);
@@ -225,7 +224,6 @@ jQuery(function() {
         to: to,
         trip_length: length
       };
-      console.log(json);
       this.removeError();
       return json;
     };
