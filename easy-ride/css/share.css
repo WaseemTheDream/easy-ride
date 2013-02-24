@@ -1,0 +1,11 @@
+#share .control-label {
+    width: 75px;
+}
+
+#share .controls {
+    margin-left: 95px;
+}
+
+#share .form-actions {
+    text-align: right;
+}

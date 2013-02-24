@@ -6,76 +6,92 @@
   ?>
   <link href="css/datepicker.css" rel="stylesheet">
   <link href="css/timepicker.css" rel="stylesheet">
+  <link href="css/share.css" rel="stylesheet">
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places">
   </script>
+  <script src="js/bootstrap.js"></script>
   <script src="js/bootstrap-datepicker.js"></script>
   <script src="js/bootstrap-timepicker.js"></script>
   <script src="js/share.js"></script>
   <body>
    
-     <div class="container-fluid">
-        <div class="row-fluid">
-          <div class="container span4">
-            <!--Sidebar content-->
-            <form class="form-horizontal well" id="share">
-            <fieldset>
-              <!-- From -->
-              <div class="form-input">
-                <label>From</label>
-                <input class="input-xlarge" id="share-from" type="text" placeholder="Type an address or zip code over here">
-              </div>      
-              <!-- To -->
-              <div class="form-input">
-                <label>To</label>
-                <input class="input-xlarge" id="share-to" type="text" placeholder="Type an address or zip code over here">
+   <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="container span4">
+          <!--Sidebar content-->
+          <form class="form-horizontal well" id="share">
+          <fieldset>
+
+
+            <!-- From -->
+            <div class="control-group">
+              <label class="control-label">From</label>
+              <div class="controls">
+                <input class="input-xlarge" id="share-from" type="text" placeholder="Type the name of a place or address over here">
               </div>
-              <!-- DepartureDate -->
-              <div class="form-input">
-                <label>Departure Date</label>
-                <div class="input-append date" id="share-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
-                 <input class="span8" size="16" type="text" >
+            </div>
+
+            <!-- To -->
+            <div class="control-group">
+              <label class="control-label">To</label>
+              <div class="controls">
+                <input class="input-xlarge" id="share-to" type="text" placeholder="Type the name of a place or address over here">
+              </div>
+            </div>
+
+            <!-- Departure -->
+            <div class="control-group">
+              <label class="control-label">Departure</label>
+              <div class="controls controls-row">
+                <!-- Date Picker -->
+                <div class="input-append date" id="share-departure-date" data-date="" data-date-format="dd-mm-yyyy">
+                 <input class="span7" size="16" type="text" >
                    <span class="add-on"><i class="icon-calendar"></i></span>
                 </div>
-              </div>
-              <!-- DepartureTime -->
-              <div class="form-input">
-               <label>Departure Time</label>
+                <!-- Time Picker -->
                 <div class="input-append bootstrap-timepicker">
-                 <input id="share-departure-time" type="text" class="input-small">
+                 <input id="share-departure-time" type="text" class="input-mini">
                  <span class="add-on"><i class="icon-time"></i></span>
                 </div>
               </div>
-              <!-- ArrivalTime -->
-              <div class="form-input">
-               <label>Trip Length</label>
-               <input class="input-medium" id="share-trip-length" type="text">
-              </div>       
-            </fieldset>
-              <!-- WomenOnly -->
-              <div class="form-input">
-               <label class="checkbox">
-                 <input type="checkbox" id="share-woman-only">Women Only
-               </label>
-              </div>
-             <!-- Message -->
-             <div class="form-input" >
-                <textarea id="share-message" rows="3" placeholder="Message..."></textarea>
-             </div>
-             <!-- ShareButton -->
-             <div class="form-input" >
-               <button type="button" id="share-button" class="btn">Share</button>
-             </div>
-            </form><!-- End Sidebar Content -->
-          </div>
-          <div id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
+            </div>
+              
+            <!-- Trip Length -->
+            <div class="control-group">
+              <label class="control-label">Trip Length</label>
+              <div class="controls">
+                <input class="input-medium" id="share-trip-length" type="text">
+              </div> 
+            </div>
+
+            <!-- Women Only -->
+            <div class="control-group" >
+             <label class="checkbox">
+              <div class="controls">
+               <input type="checkbox" id="share-women-only">Women Only
+               </div>
+             </label>
+            </div>
+
+           <!-- Message -->
+           <div class="control-group">
+            <label class="control-label">Message</label>
+            <div class="controls">
+              <textarea id="share-message" class="input-xlarge" rows="5" placeholder="Message..."></textarea>
+            </div>
+           </div>
+
+           <!-- Share Button -->
+           <div class="form-actions" >
+             <button type="button" id="share-button" class="btn btn-primary">Share</button>
+           </div>
+           </fieldset>
+          </form><!-- End Sidebar Content -->
         </div>
+        <div id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
       </div>
-    </div> 
-  </div>
-    
-    
+    </div>
   <hr>
     <?php include "footer.php"?>
-    </div>
   </body>
 </html>

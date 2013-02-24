@@ -22,8 +22,8 @@
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <!-- Le javascript
     ================================================== -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write("<script src='js/jquery.js'>\x3C/script>");</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- <script>window.jQuery || document.write("<script src='js/jquery.js'>\x3C/script>");</script> -->
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>

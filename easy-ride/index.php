@@ -25,7 +25,7 @@
             <div class="control-group">
               <label class="control-label">From</label>
               <div class="controls">
-                <input class="input-xlarge" id="search-from" type="text" placeholder="Type an address or zip code over here">
+                <input class="input-xlarge" id="search-from" type="text" placeholder="Type the name of a place or address over here">
               </div>
             </div>
 
@@ -33,11 +33,11 @@
             <div class="control-group">
               <label class="control-label">To</label>
               <div class="controls">
-                <input class="input-xlarge" id="search-to" type="text" placeholder="Type an address or zip code over here">
+                <input class="input-xlarge" id="search-to" type="text" placeholder="Type the name of a place or address over here">
               </div>
             </div>
 
-            <!-- DepartureDate -->
+            <!-- Departure Date -->
             <div class="control-group">
               <label class="control-label">Date</label>
               <div class="controls">
@@ -48,7 +48,7 @@
               </div>
             </div>
           
-            <!-- WomenOnly -->
+            <!-- Women Only -->
             <div class="control-group" >
              <label class="checkbox">
               <div class="controls">
@@ -57,7 +57,7 @@
              </label>
             </div>
 
-           <!-- ShareButton -->
+           <!-- Search Button -->
            <div class="form-actions" >
              <button type="button" id="search-button" class="btn btn-primary">Search</button>
            </div>
@@ -71,6 +71,5 @@
     
   <hr>
     <?php include "footer.php"?>
-    </div>
   </body>
 </html>
