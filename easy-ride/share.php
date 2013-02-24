@@ -30,7 +30,7 @@
                 <input class="input-xlarge" id="share-to" type="text" placeholder="Type an address or zip code over here">
               </div>
               <!-- DepartureDate -->
-              <div class="form-input"
+              <div class="form-input">
                 <label>Date </label>
                 <div class="input-append date" id="share-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
                  <input class="span8" size="16" type="text" >
@@ -38,7 +38,7 @@
                 </div>
               </div>
               <!-- DepartureTime -->
-              <div class="form-input"
+              <div class="form-input">
                <label>Departure Time: </label>
                 <div class="input-append bootstrap-timepicker" id="share-departure-time">
                  <input id="timepicker1" type="text" class="input-small">
@@ -46,16 +46,13 @@
                 </div>
               </div>
               <!-- ArrivalTime -->
-              <div class="form-input"
-               <label>Arrival Time: </label>
-                <div class="input-append bootstrap-timepicker" id="share-arrival-time">
-                 <input id="timepicker2" type="text" class="input-small">
-                 <span class="add-on"><i class="icon-time"></i></span>
-                </div>
+              <div class="form-input">
+               <label>Trip Length:</label>
+               <input class="input-medium" id="share-trip-length" type="text">
               </div>       
             </fieldset>
               <!-- WomenOnly -->
-              <div class="form-input" >
+              <div class="form-input">
                <label class="checkbox">
                  <input type="checkbox" id="share-woman-only"> Women Only
                </label>
