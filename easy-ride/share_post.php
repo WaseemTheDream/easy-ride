@@ -20,7 +20,6 @@ $dataArray = explode("message", $phpData,2);
 $messageString = $dataArray[1];
 $restData = $dataArray[0];
 
-
 $delimiterArray = array("departure","route","from","to",
                           "address","lat","lon",
                           "spots","email",
@@ -30,12 +29,8 @@ $delimiterArray = array("departure","route","from","to",
 $dataNow = explode($delimiterArray[0],str_replace(
         $delimiterArray,$delimiterArray[0], $restData));
 
-
-
-
 $messageArray = explode(":",$messageString,2);
 $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
-
 
 
 
@@ -60,7 +55,7 @@ $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
   $email = $_SESSION['email'];
 
 
-  
+
   $women_only = explode(",",$dataNow[33]);
   $women_only = $women_only[0];
 
@@ -176,7 +171,7 @@ _END;
          }  // End of this if statement
 
       
-    //  } // end of the Database Queries if Statement 
+      } // end of the Database Queries if Statement 
 
 } // End of the Driver Query if Statement
 
