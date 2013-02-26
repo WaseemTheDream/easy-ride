@@ -20,6 +20,7 @@ $dataArray = explode("message", $phpData,2);
 $messageString = $dataArray[1];
 $restData = $dataArray[0];
 
+
 $delimiterArray = array("departure","route","from","to",
                           "address","lat","lon",
                           "spots","email",
@@ -32,10 +33,10 @@ $dataNow = explode($delimiterArray[0],str_replace(
 
 
 
-
 $messageArray = explode(":",$messageString,2);
 $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
-$message=$message;
+
+
 
 
 
@@ -56,17 +57,15 @@ $message=$message;
 
   $spots = explode(",",$dataNow[31]);
   $spots = $spots[0];
+  $email = $_SESSION['email'];
 
 
-  $email = explode(",",$dataNow[33]);
-  $email = str_replace("''","",$email[0]);
-
-
-  $women_only = explode(",",$dataNow[35]);
+  
+  $women_only = explode(",",$dataNow[33]);
   $women_only = $women_only[0];
 
 
-  $DriverIDQuery = queryMysql("SELECT userID FROM $users_table WHERE EmailAddress='$email'");
+  $DriverIDQuery = queryMysql("SELECT userID FROM $users_table WHERE emailAddress='$email'");
 
   // Driver Query if Statement
 
@@ -78,7 +77,7 @@ $message=$message;
 
     // Database Queries if Statement 
 
- /* if (mysql_num_rows($DriverIDQuery) == 0)
+  if (mysql_num_rows($DriverIDQuery) == 0)
   {
     $error = "<span class='error'>
      <div class='well ds-component ds-hover' data-componentid='well1'>
@@ -90,7 +89,7 @@ $message=$message;
              </div> </span><br /><br />";
     echo $error;
     }
-  else{ */
+  else{ 
 
  $DriverID = mysql_result($DriverIDQuery, 0);
 
@@ -109,7 +108,7 @@ $message=$message;
                '$addressTo',
                '$depDate',
                '$TripLength',
-               '$Women_Only',
+               '$women_only',
                '$spots',
                '$message',
                '$DriverID'

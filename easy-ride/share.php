@@ -70,18 +70,11 @@
              <div class="control-group">
               <label class="control-label" for="share-spots">Spots in Your Car</label>
              <div class="controls">
-              <input type="text" class="input-medium" id="share-spots" name="share-spots">
+              <input type="number" class="input-medium" id="share-spots" name="share-spots">
            </div>
              </div>
 
-          <!-- email -->
-        <div class="control-group">
-          <label class="control-label" for="share-email">Your Registered Email</label>
-          <div class="controls">
-            <input type="text" class="input-large" id="share-email" name="share-email">
-          </div>
-        </div>
-
+          
             <!-- Women Only -->
             <div class="control-group" >
              <label class="checkbox">

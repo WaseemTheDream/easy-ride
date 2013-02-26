@@ -16,7 +16,6 @@ jQuery(function() {
       this.departure = new DateTime($('#share-departure'), $('#share-departure-date'), $('#share-departure-time'));
       this.route = new MapRoute($('#share-route'), $('#share-from'), $('#share-to'), $('#share-trip-length'));
       this.spots = $('#share-spots');
-      this.email= $('#share-email');
       this.womenOnly = $('#share-women-only');
       this.message = $('#share-message');
       this.shareButton = $('#share-button');
@@ -58,7 +57,6 @@ jQuery(function() {
         departure: this.departure.getDateTime(),
         route: this.route.toJson(),
         spots:this.spots.val(),
-        email:this.email.val(),
         women_only: this.womenOnly.prop('checked'),
          message: this.message.val()
       };
