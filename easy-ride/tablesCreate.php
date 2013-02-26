@@ -21,7 +21,7 @@ $Create_Table1 = "CREATE TABLE trip
 	TripDate int NOT NULL,
 	TripLength varchar(128) NOT NULL,
 	WomenOnly binary(1) NOT NULL,
-	Spots int NOT NULL,
+	Spots varchar(128) NOT NULL,
 	Message varchar(160) NOT NULL,
 	DriverID int NOT NULL
 )";

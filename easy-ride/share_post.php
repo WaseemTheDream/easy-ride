@@ -7,7 +7,8 @@ include_once 'functions.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
 
-
+if ($_POST) {
+  
 $postedData = sanitizeString($_POST['data']);
 $postedData = str_replace("&quot;"," ''",$postedData);
 
@@ -33,9 +34,6 @@ $messageArray = explode(":",$messageString,2);
 $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
 
 
-
-
-
   $depDate = explode(",",$dataNow[3]);
   $depDate =  $depDate[0];
   $addressFrom=str_replace(","," ",$dataNow[11]);
@@ -52,7 +50,10 @@ $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
 
   $spots = explode(",",$dataNow[31]);
   $spots = $spots[0];
+
+  echo "**********Spots-----------------$spots";
   $email = $_SESSION['email'];
+
 
 
 
@@ -174,6 +175,8 @@ _END;
       } // end of the Database Queries if Statement 
 
 } // End of the Driver Query if Statement
+
+}  // End of the main if statement, the one that deals with empty post requests.
 
             mysql_close($connection);
 
