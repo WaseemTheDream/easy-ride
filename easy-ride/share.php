@@ -19,7 +19,7 @@
       <div class="row-fluid">
         <div class="container span4">
           <!--Sidebar content-->
-          <form class="form-horizontal well" id="share">
+          <form action="share_post.php" method="post" class="form-horizontal well" id="share">
           <fieldset>
 
             <div id="share-route" class="control-group">
@@ -48,6 +48,7 @@
                  <input class="span7" size="16" type="text" >
                    <span class="add-on"><i class="icon-calendar"></i></span>
                 </div>
+
                 <!-- Time Picker -->
                 <div class="input-append bootstrap-timepicker">
                  <input id="share-departure-time" type="text" class="input-mini">
@@ -64,6 +65,23 @@
               </div> 
             </div>
 
+          
+               <!-- Spots-->
+             <div class="control-group">
+              <label class="control-label" for="share-spots">Spots in Your Car</label>
+             <div class="controls">
+              <input type="text" class="input-medium" id="share-spots" name="share-spots">
+           </div>
+             </div>
+
+          <!-- email -->
+        <div class="control-group">
+          <label class="control-label" for="share-email">Your Registered Email</label>
+          <div class="controls">
+            <input type="text" class="input-large" id="share-email" name="share-email">
+          </div>
+        </div>
+
             <!-- Women Only -->
             <div class="control-group" >
              <label class="checkbox">
@@ -73,6 +91,7 @@
              </label>
             </div>
 
+           
            <!-- Message -->
            <div class="control-group">
             <label class="control-label">Message</label>

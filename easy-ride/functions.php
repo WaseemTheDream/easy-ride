@@ -5,11 +5,11 @@ $appname = 'Easy Ride';
 $dbhost = 'localhost';
 $dbname = 'easy_ride';
 $dbuser = 'easy_ride';
-$dbpass = 'rideLikeABaller ';			/* Password FOr everyone: rideLikeABaller */
-$users_table = 'Users'; 
-$Trip_Table = 'Trip';
-$CoordinatesTable = 'Coordinates_Info';
-
+$dbpass = 'rideLikeABaller';			/* Password FOr everyone: rideLikeABaller */
+$users_table = 'users'; 
+$Trip_Table = 'trip';
+$CoordinatesTable = 'coordinates_Info';
+$addressTable = 'tripaddress';
 
 
 $connection = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());

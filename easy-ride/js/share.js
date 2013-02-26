@@ -15,8 +15,10 @@ jQuery(function() {
       var _this = this;
       this.departure = new DateTime($('#share-departure'), $('#share-departure-date'), $('#share-departure-time'));
       this.route = new MapRoute($('#share-route'), $('#share-from'), $('#share-to'), $('#share-trip-length'));
-      this.message = $('#share-message');
+      this.spots = $('#share-spots');
+      this.email= $('#share-email');
       this.womenOnly = $('#share-women-only');
+      this.message = $('#share-message');
       this.shareButton = $('#share-button');
       this.shareButton.click(function() {
         var data;
@@ -24,12 +26,13 @@ jQuery(function() {
           return;
         }
         data = _this.toJson();
+
         if (data === null) {
           return;
         }
         console.log(data);
         return $.ajax({
-          url: '/addTripInfo.php',
+          url: 'share_post.php',
           type: 'POST',
           data: {
             'data': JSON.stringify(data)
@@ -54,8 +57,10 @@ jQuery(function() {
       json = {
         departure: this.departure.getDateTime(),
         route: this.route.toJson(),
-        message: this.message.val(),
-        women_only: this.womenOnly.prop('checked')
+        spots:this.spots.val(),
+        email:this.email.val(),
+        women_only: this.womenOnly.prop('checked'),
+         message: this.message.val()
       };
       for (key in json) {
         value = json[key];
