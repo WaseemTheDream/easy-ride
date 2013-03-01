@@ -70,7 +70,7 @@
              <div class="control-group">
               <label class="control-label" for="share-spots">Spots in Your Car</label>
              <div class="controls">
-              <input type="number" class="input-medium" id="share-spots" name="share-spots">
+              <input type="number" class="input-medium" id="share-spots" name="share-spots" min="1" max="49">
            </div>
              </div>
 

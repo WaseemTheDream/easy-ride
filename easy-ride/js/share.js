@@ -4,7 +4,7 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 jQuery(function() {
-  var DateTime, MapRoute, RequiredInput, RideSharer, UserInterface;
+  var DateTime, MapRoute, NumberInput, RideSharer, TextInput, UserInterface;
   RideSharer = (function() {
 
     function RideSharer() {
@@ -15,9 +15,8 @@ jQuery(function() {
       var _this = this;
       this.departure = new DateTime($('#share-departure'), $('#share-departure-date'), $('#share-departure-time'));
       this.route = new MapRoute($('#share-route'), $('#share-from'), $('#share-to'), $('#share-trip-length'));
-      this.spots = $('#share-spots');
-      this.womenOnly = $('#share-women-only');
       this.message = $('#share-message');
+      this.womenOnly = $('#share-women-only');
       this.shareButton = $('#share-button');
       this.shareButton.click(function() {
         var data;
@@ -25,13 +24,12 @@ jQuery(function() {
           return;
         }
         data = _this.toJson();
-
         if (data === null) {
           return;
         }
         console.log(data);
         return $.ajax({
-          url: 'share_post.php',
+          url: '/addTripInfo.php',
           type: 'POST',
           data: {
             'data': JSON.stringify(data)
@@ -56,9 +54,8 @@ jQuery(function() {
       json = {
         departure: this.departure.getDateTime(),
         route: this.route.toJson(),
-        spots:this.spots.val(),
-        women_only: this.womenOnly.prop('checked'),
-         message: this.message.val()
+        message: this.message.val(),
+        women_only: this.womenOnly.prop('checked')
       };
       for (key in json) {
         value = json[key];
@@ -132,7 +129,7 @@ jQuery(function() {
       this.calculateRoute = __bind(this.calculateRoute, this);
 
       MapRoute.__super__.constructor.call(this, this.container);
-      this.tripLength = new RequiredInput(tripLength.parent().parent(), tripLength);
+      this.tripLength = new TextInput(tripLength.parent().parent(), tripLength);
       this.result;
       this.directionsDisplay = new google.maps.DirectionsRenderer();
       this.directionsService = new google.maps.DirectionsService();
@@ -296,39 +293,68 @@ jQuery(function() {
     return DateTime;
 
   })(UserInterface);
-  RequiredInput = (function(_super) {
+  TextInput = (function(_super) {
 
-    __extends(RequiredInput, _super);
+    __extends(TextInput, _super);
 
-    function RequiredInput(container, input) {
+    function TextInput(container, input, required) {
       this.container = container;
       this.input = input;
+      this.required = required != null ? required : false;
       this.setValue = __bind(this.setValue, this);
 
       this.getValue = __bind(this.getValue, this);
 
-      RequiredInput.__super__.constructor.call(this, this.container);
+      TextInput.__super__.constructor.call(this, this.container);
     }
 
-    RequiredInput.prototype.getValue = function() {
+    TextInput.prototype.getValue = function() {
       var inputString;
       inputString = this.input.val().trim();
-      if (!inputString) {
+      if (this.required && !inputString) {
         this.setError('Required field.');
         return null;
-      } else {
-        this.removeError();
-        return inputString;
       }
+      this.removeError();
+      return inputString;
     };
 
-    RequiredInput.prototype.setValue = function(val) {
+    TextInput.prototype.setValue = function(val) {
       this.input.val(val);
       return this.removeError();
     };
 
-    return RequiredInput;
+    return TextInput;
 
   })(UserInterface);
+  NumberInput = (function(_super) {
+
+    __extends(NumberInput, _super);
+
+    function NumberInput() {
+      this.getValue = __bind(this.getValue, this);
+      return NumberInput.__super__.constructor.apply(this, arguments);
+    }
+
+    NumberInput.prototype.getValue = function() {
+      var inputString, max, min, val;
+      inputString = this.input.val().trim();
+      if (this.required && !inputString) {
+        this.setError('Required field.');
+        return null;
+      }
+      min = parseInt(this.input.attr('min'));
+      max = parseInt(this.input.attr('max'));
+      val = parseInt(this.input.val());
+      if (!(min <= val && val <= max)) {
+        this.setError('Not within valid range.');
+        return null;
+      }
+      return val;
+    };
+
+    return NumberInput;
+
+  })(TextInput);
   return new RideSharer();
 });

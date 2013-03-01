@@ -81,7 +81,7 @@ jQuery ->
     class MapRoute extends UserInterface
         constructor: (@container, @from, @to, tripLength) ->
             super(@container)
-            @tripLength = new RequiredInput(
+            @tripLength = new TextInput(
                 tripLength.parent().parent(),
                 tripLength)
             @result
@@ -216,22 +216,36 @@ jQuery ->
                 hours += 12
             return hours * 3600 + minutes * 60
 
-    class RequiredInput extends UserInterface
-        constructor: (@container, @input) ->
+    class TextInput extends UserInterface
+        constructor: (@container, @input, @required=false) ->
             super(@container)
 
         getValue: =>
             inputString = @input.val().trim()
-            if not inputString
+            if @required and not inputString
                 @setError('Required field.')
                 return null
-            else
-                @removeError()
-                return inputString
+            @removeError()
+            return inputString
 
         setValue: (val) =>
             @input.val(val)
             @removeError()
 
+    class NumberInput extends TextInput
+        getValue: =>
+            inputString = @input.val().trim()
+            if @required and not inputString
+                @setError('Required field.')
+                return null
+
+            min = parseInt(@input.attr('min'))
+            max = parseInt(@input.attr('max'))
+            val = parseInt(@input.val())
+            if not (min <= val and val <= max)
+                @setError('Not within valid range.')
+                return null
+
+            return val
 
     new RideSharer()

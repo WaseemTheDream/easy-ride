@@ -108,8 +108,8 @@ _END;
       <a class="brand" href="/index.php">Easy Ride</a>
       <div class="nav-collapse">
         <ul class="nav">
-          <li class="active"><a href="/index.php">Home</a></li>
-          <li><a href="#">About</a></li>
+          <li class="active"><a href="/index.php">Search</a></li>
+          <li><a href="/share.php">Share</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
         <ul class="nav pull-right">
