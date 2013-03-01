@@ -1,6 +1,5 @@
 <?php
-include 'head.php';
-include 'navbar.php';
+
 include_once 'functions.php'; 
 
 
@@ -51,11 +50,9 @@ $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
   $spots = explode(",",$dataNow[31]);
   $spots = $spots[0];
 
-  echo "**********Spots-----------------$spots";
-  $email = $_SESSION['email'];
-
-
-
+  
+  // $email = $_SESSION['email'];
+  $email = "temp@temp.com";
 
   $women_only = explode(",",$dataNow[33]);
   $women_only = $women_only[0];
@@ -75,15 +72,9 @@ $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
 
   if (mysql_num_rows($DriverIDQuery) == 0)
   {
-    $error = "<span class='error'>
-     <div class='well ds-component ds-hover' data-componentid='well1'>
-               <div class='ds-component ds-hover' data-componentid='content2'>
-                  <h1 style='text-align: center;'>Sorry!</h1>
-                     <p style='text-align: center;'>This e-mail is not registered to Easy-Ride. Please, Make sure you register first. Thanks!</p>
-
-                </div>  
-             </div> </span><br /><br />";
-    echo $error;
+    $error = array( "status"=> 'Error', "msg"=>'Not Registered!');
+    $errorArray = json_encode($error);
+    echo $errorArray;
     }
   else{ 
 
@@ -153,23 +144,19 @@ $addressQueryTo = "INSERT INTO $addressTable (
 
             if (!queryMysql($TripQuery) &!queryMysql($coordsInfoQuery)
               &!queryMysql($addressQueryFrom)&!queryMysql($addressQueryTo))
-                {
-                    die('Error: ' . mysql_error());
+                {   
+                    $responseArray = array("status"=> 'OK',"msg"=> 'Error');
+                    $returnArray = json_encode($responseArray);
+                    echo $returnArray;
                  }
             else{
 
-echo <<<_END
-          
-            <div class="well ds-component ds-hover" data-componentid="well1">
-               <div class="ds-component ds-hover" data-componentid="content2">
-                  <h1 style="text-align: center;">Success!</h1>
-                     <p style="text-align: center;">You have successfully Added Your Trip Details to Easy Ride!</p>
 
-                </div>  
-             </div>
-             
-_END;
-         }  // End of this if statement
+     $responseArray = array( "status"=> 'OK',"msg"=> 'Trip Saved');
+     $returnArray = json_encode($responseArray);
+     echo $returnArray;
+
+     }  // End of this if statement
 
       
       } // end of the Database Queries if Statement 
