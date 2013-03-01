@@ -15,6 +15,10 @@ jQuery ->
 
             @message = $('#share-message')
             @womenOnly = $('#share-women-only')
+            @spots = new NumberInput(
+                $('#share-spots').parent().parent(),
+                $('#share-spots'),
+                true)
             @shareButton = $('#share-button')
 
             @shareButton.click =>
@@ -45,6 +49,7 @@ jQuery ->
                 route: @route.toJson()
                 message: @message.val()
                 women_only: @womenOnly.prop('checked')
+                spots: @spots.getValue()
             for key, value of json
                 if value == null
                     return null

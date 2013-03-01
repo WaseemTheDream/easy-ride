@@ -17,6 +17,7 @@ jQuery(function() {
       this.route = new MapRoute($('#share-route'), $('#share-from'), $('#share-to'), $('#share-trip-length'));
       this.message = $('#share-message');
       this.womenOnly = $('#share-women-only');
+      this.spots = new NumberInput($('#share-spots').parent().parent(), $('#share-spots'), true);
       this.shareButton = $('#share-button');
       this.shareButton.click(function() {
         var data;
@@ -55,7 +56,8 @@ jQuery(function() {
         departure: this.departure.getDateTime(),
         route: this.route.toJson(),
         message: this.message.val(),
-        women_only: this.womenOnly.prop('checked')
+        women_only: this.womenOnly.prop('checked'),
+        spots: this.spots.getValue()
       };
       for (key in json) {
         value = json[key];
