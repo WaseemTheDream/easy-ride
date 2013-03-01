@@ -21,6 +21,7 @@ jQuery ->
                 true)
             @shareButton = $('#share-button')
 
+
             @shareButton.click =>
                 if @shareButton.hasClass('disabled')
                     return
@@ -34,8 +35,11 @@ jQuery ->
                     type: 'POST'
                     data: 'data': JSON.stringify(data)
                     success: (data) =>
-                        console.log(data)
-                        @setButton('disabled btn btn-success', 'Trip Saved!')
+                        json = JSON.parse(data)
+                        if json['status'] == 'OK'
+                            @setButton('disabled btn btn-success', json['msg'])
+                        else
+                            @setButton('disabled btn btn-danger', json['msg'])
                     error: (data) ->
                         @setButton('disabled btn btn-danger', 'Error!')
             

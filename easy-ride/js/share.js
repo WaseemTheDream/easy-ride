@@ -36,8 +36,13 @@ jQuery(function() {
             'data': JSON.stringify(data)
           },
           success: function(data) {
-            console.log(data);
-            return _this.setButton('disabled btn btn-success', 'Trip Saved!');
+            var json;
+            json = JSON.parse(data);
+            if (json['status'] === 'OK') {
+              return _this.setButton('disabled btn btn-success', json['msg']);
+            } else {
+              return _this.setButton('disabled btn btn-danger', json['msg']);
+            }
           },
           error: function(data) {
             return this.setButton('disabled btn btn-danger', 'Error!');
