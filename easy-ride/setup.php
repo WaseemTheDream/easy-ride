@@ -1,20 +1,14 @@
 <html lang='en'>
-	<?php 
-	include 'head.php'; 
-	include 'navbar.php'; 
-	?>
- 	
-	<script src="js/register.js"></script>
-	<body>
+<body>
 <?php
 
 include_once "functions.php";
 
-$connection = mysql_connect($dbhost, $dbuser,$dbpass);
+$connection = mysql_connect($dbhost, $dbuser, $dbpass);
 mysql_select_db($dbname, $connection);
 
 // Create  table
-$sql = "CREATE TABLE Users
+$create_users = "CREATE TABLE user_accounts
 (
 	userID int NOT NULL AUTO_INCREMENT,
 	PRIMARY KEY (userID),
@@ -27,7 +21,7 @@ $sql = "CREATE TABLE Users
 )";
 
 
-if (!queryMySql($sql)) {
+if (!queryMySql($create_users)) {
 	die ('Error: ' . mysql_error());
 } else {
 	echo "Successfully created tables.";
@@ -36,5 +30,5 @@ if (!queryMySql($sql)) {
 mysql_close($connection);
 
 ?>
-	</body>
+</body>
 </html>

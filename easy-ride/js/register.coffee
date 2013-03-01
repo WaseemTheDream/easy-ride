@@ -57,7 +57,7 @@ jQuery ->
 	verifyRequiredRadio = (radioInputList) ->
 		selected = false
 		for input in radioInputList
-			if input.attr('checked')
+			if input.prop('checked')
 				selected = true
 		if selected
 			removeError(radioInputList[0], 3)
@@ -66,13 +66,13 @@ jQuery ->
 				setError(radioInputList[0], 3, 'Field required.')
 		return selected
 	
-	firstName = getId('first-name')
-	lastName = getId('last-name')
-	email = getId('email')
-	password = getId('password')
-	repeatPassword = getId('repeat-password')
-	driverLicenseId = getId('driver-license-id')
-	gender = getIds(['male', 'female'])
+	firstName = getId('register-first-name')
+	lastName = getId('register-last-name')
+	email = getId('register-email')
+	password = getId('register-password')
+	repeatPassword = getId('register-repeat-password')
+	driverLicenseId = getId('register-driver-license-id')
+	gender = getIds(['register-male', 'register-female'])
 	required = [firstName, lastName, email, password, repeatPassword]
 	$.each required, ->
 		field = this
@@ -92,13 +92,13 @@ jQuery ->
 		for field in required
 			if not verifyRequiredField(field)
 				errors = true
-		
+
 		if not verifyEmailAddressField(email)
 			errors = true
-		
+
 		if not verifyPasswordsMatch(password, repeatPassword)
 			errors = true
-		
+
 		if not verifyRequiredRadio(gender)
 			errors = true
 		

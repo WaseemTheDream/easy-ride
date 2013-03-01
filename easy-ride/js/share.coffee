@@ -30,10 +30,11 @@ jQuery ->
                 console.log(data)
 
                 $.ajax
-                    url: '/addTripInfo.php'
+                    url: '/share_post.php'
                     type: 'POST'
                     data: 'data': JSON.stringify(data)
                     success: (data) =>
+                        console.log(data)
                         @setButton('disabled btn btn-success', 'Trip Saved!')
                     error: (data) ->
                         @setButton('disabled btn btn-danger', 'Error!')

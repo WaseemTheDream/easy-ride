@@ -30,12 +30,13 @@ jQuery(function() {
         }
         console.log(data);
         return $.ajax({
-          url: '/addTripInfo.php',
+          url: '/share_post.php',
           type: 'POST',
           data: {
             'data': JSON.stringify(data)
           },
           success: function(data) {
+            console.log(data);
             return _this.setButton('disabled btn btn-success', 'Trip Saved!');
           },
           error: function(data) {

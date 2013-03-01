@@ -11,64 +11,64 @@
  
 	<div class="container-narrow">
       <!-- Main hero unit for a primary marketing message or call to action -->
-        <form class="form-horizontal well" id="register"  method="post" action="registerResponse.php">
+        <form class="form-horizontal well" id="register"  method="post" action="register_post.php">
 			<fieldset>
 				<legend>Registration Form</legend>
 				
 				<!-- First Name -->
 				<div class="control-group">
-					<label class="control-label" for="first-name">First Name</label>
+					<label class="control-label" for="register-first-name">First Name</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="first-name" name="first-name">
+						<input type="text" class="input-large" id="register-first-name">
 					</div>
 				</div>
 				
 				<!-- Last Name -->
 				<div class="control-group">
-					<label class="control-label" for="last-name">Last Name</label>
+					<label class="control-label" for="register-last-name">Last Name</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="last-name" name="last-name">
+						<input type="text" class="input-large" id="register-last-name">
 					</div>
 				</div>
 				
 				<!-- Email Address -->
 				<div class="control-group">
-					<label class="control-label" for="email">Email Address</label>
+					<label class="control-label" for="register-email">Email Address</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="email" name="email">
+						<input type="text" class="input-xlarge" id="register-email">
 					</div>
 				</div>
 				
 				<!--  Password -->
 				<div class="control-group">
-					<label class="control-label" for="password">Password</label>
+					<label class="control-label" for="register-password">Password</label>
 					<div class="controls">
-						<input type="password" class="input-medium" id="password" name="password">
+						<input type="password" class="input-medium" id="register-password">
 					</div>
 				</div>
 				
 				<!--  Repeat Password -->
 				<div class="control-group">
-					<label class="control-label" for="repeat-password">Repeat Password</label>
+					<label class="control-label" for="register-repeat-password">Repeat Password</label>
 					<div class="controls">
-						<input type="password" class="input-medium" id="repeat-password" name="repeat-password">
+						<input type="password" class="input-medium" id="register-repeat-password">
 					</div>
 				</div>
 				
 				<!-- Driver's License ID -->
 				<div class="control-group">
-					<label class="control-label" for="driver-license-id">Driver's License ID</label>
+					<label class="control-label" for="register-driver-license-id">Driver's License ID</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="driver-license-id" name="driver-license-id">
+						<input type="text" class="input-xlarge" id="register-driver-license-id">
 					</div>
 				</div>
 				
 				<!--  Gender -->
 				<div class="control-group">
-					<label class="control-label" for="gender">Gender</label>
+					<label class="control-label" for="register-gender">Gender</label>
 					<div class="controls">
-						<label class="radio"><input type="radio" value="male" name="gender" id="male">Male</label>
-            			<label class="radio"><input type="radio" value="female" name="gender" id="female">Female</label>
+						<label class="radio"><input type="radio" value="male" name="register-gender" id="register-male">Male</label>
+            			<label class="radio"><input type="radio" value="female" name="register-gender" id="register-female">Female</label>
 					</div>
 				</div>
 			

@@ -4,7 +4,6 @@
     include 'navbar.php'; 
     ?>
     
-    <script src="js/register.js"></script>
     <body>
 <?php 
     include_once 'functions.php';
@@ -18,12 +17,12 @@
     $error = $email = $password = "";
     if (isset($_SESSION['email'])) destroySession(); 
 
-            $email = sanitizeString($_POST['email']);
-            $pass = sanitizeString($_POST['password']);
-            $first_name = sanitizeString($_POST['first-name']);
-            $last_name = sanitizeString($_POST['last-name']);
-            $gender = sanitizeString($_POST['gender']);
-            $driver_License = sanitizeString($_POST['driver-license-id']);
+            $email = sanitizeString($_POST['register-email']);
+            $pass = sanitizeString($_POST['register-password']);
+            $first_name = sanitizeString($_POST['register-first-name']);
+            $last_name = sanitizeString($_POST['register-last-name']);
+            $gender = sanitizeString($_POST['register-gender']);
+            $driver_License = sanitizeString($_POST['register-driver-license-id']);
             $count = 0;
             while ($count<1000)
               {
