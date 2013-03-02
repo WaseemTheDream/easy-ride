@@ -50,9 +50,10 @@ $message = substr($messageArray[1],0,strrpos($messageArray[1],"}"));
   $spots = explode(",",$dataNow[31]);
   $spots = $spots[0];
 
-  
   // $email = $_SESSION['email'];
-  $email = "temp@temp.com";
+  $email = "ahmad.waseem@live.com";
+
+  
 
   $women_only = explode(",",$dataNow[33]);
   $women_only = $women_only[0];

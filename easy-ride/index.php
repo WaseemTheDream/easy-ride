@@ -19,6 +19,7 @@
         <div class="container span4">
           <!--Sidebar content-->
           <form class="form-horizontal well" id="search">
+          <h1><?php echo $_SESSION['email'];?></h1>
           <fieldset>
 
             <!-- From -->

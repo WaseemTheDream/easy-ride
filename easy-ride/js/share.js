@@ -36,13 +36,19 @@ jQuery(function() {
             'data': JSON.stringify(data)
           },
           success: function(data) {
-            var json;
-            json = JSON.parse(data);
-            if (json['status'] === 'OK') {
-              return _this.setButton('disabled btn btn-success', json['msg']);
-            } else {
-              return _this.setButton('disabled btn btn-danger', json['msg']);
+            var error, json;
+            console.log(data);
+            error = 'Unknown Error!';
+            if (json) {
+              json = JSON.parse(data);
+              if (json['status'] === 'OK') {
+                _this.setButton('disabled btn btn-success', json['msg']);
+                return;
+              } else {
+                error = json['msg'];
+              }
             }
+            return _this.setButton('disabled btn btn-danger', error);
           },
           error: function(data) {
             return this.setButton('disabled btn btn-danger', 'Error!');

@@ -35,11 +35,16 @@ jQuery ->
                     type: 'POST'
                     data: 'data': JSON.stringify(data)
                     success: (data) =>
-                        json = JSON.parse(data)
-                        if json['status'] == 'OK'
-                            @setButton('disabled btn btn-success', json['msg'])
-                        else
-                            @setButton('disabled btn btn-danger', json['msg'])
+                        console.log(data)
+                        error = 'Unknown Error!'
+                        if json
+                            json = JSON.parse(data)
+                            if json['status'] == 'OK'
+                                @setButton('disabled btn btn-success', json['msg'])
+                                return
+                            else
+                                error = json['msg']
+                        @setButton('disabled btn btn-danger', error)
                     error: (data) ->
                         @setButton('disabled btn btn-danger', 'Error!')
             
