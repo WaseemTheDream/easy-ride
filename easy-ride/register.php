@@ -19,7 +19,7 @@
 				<div class="control-group">
 					<label class="control-label" for="register-first-name">First Name</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="register-first-name">
+						<input type="text" class="input-large" id="register-first-name" name="register-first-name">
 					</div>
 				</div>
 				
@@ -27,7 +27,7 @@
 				<div class="control-group">
 					<label class="control-label" for="register-last-name">Last Name</label>
 					<div class="controls">
-						<input type="text" class="input-large" id="register-last-name">
+						<input type="text" class="input-large" id="register-last-name" name="register-last-name">
 					</div>
 				</div>
 				
@@ -35,7 +35,7 @@
 				<div class="control-group">
 					<label class="control-label" for="register-email">Email Address</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="register-email">
+						<input type="text" class="input-xlarge" id="register-email" name="register-email">
 					</div>
 				</div>
 				
@@ -43,7 +43,7 @@
 				<div class="control-group">
 					<label class="control-label" for="register-password">Password</label>
 					<div class="controls">
-						<input type="password" class="input-medium" id="register-password">
+						<input type="password" class="input-medium" id="register-password" name="register-password">
 					</div>
 				</div>
 				
@@ -51,7 +51,7 @@
 				<div class="control-group">
 					<label class="control-label" for="register-repeat-password">Repeat Password</label>
 					<div class="controls">
-						<input type="password" class="input-medium" id="register-repeat-password">
+						<input type="password" class="input-medium" id="register-repeat-password" name="register-repeat-password">
 					</div>
 				</div>
 				
@@ -59,7 +59,7 @@
 				<div class="control-group">
 					<label class="control-label" for="register-driver-license-id">Driver's License ID</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="register-driver-license-id">
+						<input type="text" class="input-xlarge" id="register-driver-license-id" name="register-driver-license-id">
 					</div>
 				</div>
 				
