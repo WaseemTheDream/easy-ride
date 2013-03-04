@@ -2,19 +2,18 @@
 
 require_once 'functions.php';
 
-$user_table = 'user';
+define("USER_TABLE", 'user');
 
-// Create  table
-$create_user_table = "CREATE TABLE $user_table
+// Table Definition
+$user_table_definition = USER_TABLE."
 (
-    user_id int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (user_id),
-    first_name varchar(64) NOT NULL,
-    last_name varchar(64) NOT NULL,
-    email_address varchar(128) NOT NULL UNIQUE,
-    drivers_license_id varchar(64),
-    gender binary(1) NOT NULL,
-    password varchar(64) NOT NULL
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(64) NOT NULL,
+    last_name VARCHAR(64) NOT NULL,
+    email_address VARCHAR(128) NOT NULL UNIQUE,
+    drivers_license_id VARCHAR(64),
+    gender BINARY(1) NOT NULL,
+    password VARCHAR(64) NOT NULL
 )";
 
 /**
@@ -35,14 +34,14 @@ function encrypt_password($password) {
  * @return row the associative row of the user if authenticated, NULL otherwise.
  */
 function authenticate_user($email, $password) {
-    $query = "SELECT * FROM user WHERE email_address='$email'";
+    $query = "SELECT * FROM ".USER_TABLE." WHERE email_address='$email'";
     $result = mysql_query($query);
     if (!$result) die("Database access failed: " . mysql_error());
     elseif (mysql_num_rows($result)) {
         $row = mysql_fetch_assoc($result);
         $input_token = encrypt_password($password);
         if ($row['password'] == $input_token) {
-            $_SESSION['user_id'] = $row['user_id'];
+            $_SESSION['user_id'] = $row['id'];
             $_SESSION['email_address'] = $row['email_address'];
             $_SESSION['first_name'] = $row['first_name'];
             return $row;
@@ -63,7 +62,7 @@ function add_user($user_data) {
     $drivers_license_id = $user_data['drivers_license_id'];
     $gender = $user_data['gender'];
     $password = encrypt_password($user_data['password']);
-    $query = "INSERT INTO user (
+    $query = "INSERT INTO ".USER_TABLE." (
             first_name,
             last_name,
             email_address,
@@ -87,7 +86,7 @@ function add_user($user_data) {
  * @return boolean whether the user exists.
  */
 function user_exists($email) {
-    $query = "SELECT * FROM $user_table WHERE email_address='$email'";
+    $query = "SELECT * FROM ".USER_TABLE." WHERE email_address='$email'";
     if (mysql_num_rows(mysql_query($query)))
         return true;
     else
