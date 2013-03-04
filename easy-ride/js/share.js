@@ -41,18 +41,17 @@ jQuery(function() {
             error = 'Unknown Error!';
             json = JSON.parse(data);
             if (json) {
-              console.log(json);
               if (json['status'] === 'OK') {
-                _this.setButton('disabled btn btn-success', json['msg']);
+                _this.setButton('btn btn-success', json['msg']);
                 return;
               } else {
                 error = json['msg'];
               }
             }
-            return _this.setButton('disabled btn btn-danger', error);
+            return _this.setButton('btn btn-danger', error);
           },
           error: function(data) {
-            return _this.setButton('disabled btn btn-danger', 'Error!');
+            return _this.setButton('btn btn-danger', 'Error!');
           }
         });
       });

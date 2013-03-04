@@ -40,13 +40,13 @@ jQuery ->
                         json = JSON.parse(data)
                         if json
                             if json['status'] == 'OK'
-                                @setButton('disabled btn btn-success', json['msg'])
+                                @setButton('btn btn-success', json['msg'])
                                 return
                             else
                                 error = json['msg']
-                        @setButton('disabled btn btn-danger', error)
+                        @setButton('btn btn-danger', error)
                     error: (data) =>
-                        @setButton('disabled btn btn-danger', 'Error!')
+                        @setButton('btn btn-danger', 'Error!')
             
         setButton: (btnClass, msg) =>
             @shareButton.attr('class', btnClass)
