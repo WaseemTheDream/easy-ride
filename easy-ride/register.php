@@ -55,9 +55,9 @@
 				
 				<!-- Driver's License ID -->
 				<div class="control-group">
-					<label class="control-label" for="register-driver-license-id">Driver's License ID</label>
+					<label class="control-label" for="register-drivers-license-id">Driver's License ID</label>
 					<div class="controls">
-						<input type="text" class="input-xlarge" id="register-driver-license-id" name="register-driver-license-id">
+						<input type="text" class="input-xlarge" id="register-drivers-license-id" name="register-drivers-license-id">
 					</div>
 				</div>
 				

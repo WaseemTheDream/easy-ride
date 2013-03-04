@@ -1,108 +1,48 @@
-<!DOCTYPE html>
-<html lang='en'>
-<?php 
-    include 'templates/head.php'; 
-    include 'templates/navbar.php'; 
-    include_once 'functions/functions.php';
+<html>
+<?php
+    include 'templates/head.php';
+    include 'templates/navbar.php';
+    require_once 'functions/user.php';
 ?>
-
 <body>
+<div class="well ds-component ds-hover container-narrow" data-componentid="well1">
+<div class="ds-component ds-hover" data-componentid="content2">
+<?php
+    if (empty($_POST)) {
+        echo "Registration information not specified.";
+    } else {
+        $user_data = array();
+        $required = array(
+            'register-email' => 'email_address',
+            'register-password' => 'password',
+            'register-first-name' => 'first_name',
+            'register-last-name' => 'last_name',
+            'register-gender' => 'gender');
 
-<?php 
-    
+        // Make sure all required fields are defined
+        $missing_fields = array();
+        foreach ($required as $post_key => $db_key) {
+            if (empty($_POST[$post_key])) {
+                $missing_fields[] = $post_key;
+            } else {
+                $user_data[$db_key] = sanitize_string($_POST[$post_key]);
+            }
+        }
 
-    //Show some error if smth went wrong:
-    $errors = array(); 
+        // Copy over non-required fields
+        $user_data['drivers_license_id'] = sanitize_string($_POST['register-drivers-license-id']);
 
-    // Check if there was no empty post request 
-
-    if (!empty($_POST))
-
-    { 
-
-        // We need to make sure all the required fields were entered before storing the user's details
-
-        if (  
-              isset($_POST['register-email'])
-              & isset($_POST['register-password'])
-              & isset($_POST['register-first-name'])
-              & isset($_POST['register-last-name'])
-              & isset($_POST['register-gender'])
-            )
-        {
-
-                $error = $email = $password = "";
-
-                $email = sanitizeString($_POST['register-email']);
-                $pass = sanitizeString($_POST['register-password']);
-                $first_name = sanitizeString($_POST['register-first-name']);
-                $last_name = sanitizeString($_POST['register-last-name']);
-                $gender = sanitizeString($_POST['register-gender']);
-                $driver_License = sanitizeString($_POST['register-driver-license-id']);
-                
-                /* The salt String to increase password security */
-                $saltString = "rideLikeABallerEasyRide";
-
-                /* Encrypt the password with sha256 hashing algorithm and the provided salt */
-                $pass = hash('sha256',$pass.$saltString);
-
-                // Insert Details into the users table
-                $query="INSERT INTO $users_table (
-                                                    firstName,
-                                                    lastName,
-                                                    password,
-                                                    emailAddress,
-                                                    gender,
-                                                    driversLicenseID
-                                                  ) 
-
-                                    VALUES(
-                                                  '$first_name',
-                                                  '$last_name',
-                                                  '$pass',
-                                                  '$email',
-                                                  '$gender',
-                                                  '$driver_License'
-                                                  )";
-
-                // If the query wasn't successful, redirect to the register failure page
-
-                if (!queryMysql($query))
-                {
-
-                 header("Location: register_Failed.php");
-                }
-                
-                // Otherwise, the query was successful, let the user know it was a successful operation 
-
-                else
-
-                {
-
-                    // Automatically login the user. For that, set the session's e-mail and password
-                    // And also set the first name
-
-                  $_SESSION['email'] = $email;
-                  $_SESSION['password'] = $pass;
-                  $_SESSION['fName']= $first_name;
-
-                  header("Location: register_Success.php"); 
-                 
-                } // End of the else statement that notifies the user of a successful registration
-
-
-        }  // End of the if statement that checks if some required variables are set
-
-  // Close the connection to the database 
-
-  mysql_close($connection);
-            
-  } // End of the main if close that checks for empty post requests 
-
-                 
-  include 'templates/footer.php';
-
-    ?>
-
+        if ($missing_fields) {
+            echo 'Missing fields: ' . implode(', ', $missing_fields);
+        } else {
+            add_user($user_data);
+            echo '<h1 style="text-align: center;">Success!</h1>';
+            echo '<p style="text-align: center;">You have successfully registered for Easy Ride!</p>';
+        }
+    }
+?>
+</div>
+</div>
+<?php include 'templates/footer.php'; ?>
 </body>
 </html>

@@ -1,24 +1,11 @@
 <html lang='en'>
 <body>
 <?php
-
-include_once "functions.php";
+require_once "functions.php";
+require_once "user.php";
 
 $connection = mysql_connect($dbhost, $dbuser, $dbpass);
 mysql_select_db($dbname, $connection);
-
-// Create  table
-$create_users = "CREATE TABLE user_accounts
-(
-	userID int NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (userID),
-	firstName varchar(64) NOT NULL,
-	lastName varchar(64) NOT NULL,
-	emailAddress varchar(128) NOT NULL,
-	driversLicenseID varchar(64),
-	gender binary(1) NOT NULL,
-	password varchar(32) NOT NULL
-)";
 
 // Create the trip table
 $Create_Table1 = "CREATE TABLE trip
@@ -59,17 +46,22 @@ $Create_Table3 = "CREATE TABLE tripaddress
 	DriverID int NOT NULL
 )";
 
-if (!queryMySql($create_users)) {
-	die ('Error: ' . mysql_error());
-} else {
-	echo "Successfully created tables.";
-}
+// if (!queryMySql($create_users)) {
+// 	die ('Error: ' . mysql_error());
+// } else {
+// 	echo "Successfully created tables.";
+// }
 
-if (!queryMysql($Create_Table1)&!queryMysql($Create_Table2)&!queryMysql($Create_Table3)) {
-	die ('Error: ' . mysql_error());
-} else {
-	echo "Successfully created tables.";
-}
+// if (!queryMysql($Create_Table1)&!queryMysql($Create_Table2)&!queryMysql($Create_Table3)) {
+// 	die ('Error: ' . mysql_error());
+// } else {
+// 	echo "Successfully created tables.";
+// }
+
+if (!mysql_query($create_user_table))
+	die ("Failed to create user table: " . mysql_error());
+else
+	echo "Successfully created $user_table table.";
 
 mysql_close($connection);
 

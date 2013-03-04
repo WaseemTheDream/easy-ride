@@ -1,21 +1,15 @@
 <?php
 
 $appname = 'Easy Ride';
-
 $dbhost = 'localhost';
 $dbname = 'easy_ride';
 $dbuser = 'easy_ride';
-$dbpass = 'rideLikeABaller';			/* Password FOr everyone: rideLikeABaller */
-$users_table = 'user_accounts'; 
-$Trip_Table = 'trip';
-$CoordinatesTable = 'coordinates_Info';
-$addressTable = 'tripaddress';
-
+$dbpass = 'rideLikeABaller';
 
 $connection = mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
 mysql_select_db($dbname, $connection) or die(mysql_error());
 
-function sanitizeString($var)
+function sanitize_string($var)
 {
 	$var = strip_tags($var);
 	$var = htmlentities($var);
@@ -27,7 +21,7 @@ function queryMysql($query)
 {
 	$result = mysql_query($query) or die(mysql_error());
 	return $result;
-	}
+}
 
 function destroySession()
 {
