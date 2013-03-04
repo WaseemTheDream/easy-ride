@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
-include 'login.php';
+include 'functions/login.php';
 
 function login() {
 
@@ -19,7 +19,7 @@ _END;
 echo <<<_END
         </a>
           </li>
-          <li><a href="logout.php">Logout</a></li> 
+          <li><a href="functions/logout.php">Logout</a></li> 
         </ul>
       </div><!--/.nav-collapse -->
 
@@ -39,7 +39,7 @@ echo <<<_END
 
   <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
   <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-    <form method="post" action="#" accept-charset="UTF-8">
+    <form method="post" action="functions/login.php" accept-charset="UTF-8">
       <input id="email" style="margin-bottom: 15px;" type="text" name="email" size="30" placeholder="Email Address" />
       <input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" placeholder="Password" />
       <input id="remember-me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" value="1" />
@@ -54,8 +54,8 @@ _END;
   }
 }
 ?>
-<script src="js/bootstrap-dropdown.js"></script>
-<script src="js/navbar.js"></script>
+<script src="js/common/bootstrap-dropdown.js"></script>
+<script src="js/common/navbar.js"></script>
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">

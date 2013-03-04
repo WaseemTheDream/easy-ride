@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang='en'>
 	<?php 
-	include 'head.php'; 
-	include 'navbar.php'; 
+	include 'templates/head.php'; 
+	include 'templates/navbar.php'; 
 	?>
- 	
-	<script src="js/register.js"></script>
 	<body>
 
  
@@ -81,7 +79,9 @@
           		</div>
 			</fieldset>
 		</form>
-      <?php include "footer.php" ?>
+      <?php include "templates/footer.php" ?>
     </div>
   </body>
+  <!-- Load JS in the end for faster page loading -->
+  <script src="js/register.js"></script>
 </html>

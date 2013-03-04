@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php 
-    include "head.php";
-    include "navbar.php";
+    include "templates/head.php";
+    include "templates/navbar.php";
   ?>
-  <link href="css/datepicker.css" rel="stylesheet">
-  <link href="css/home.css" rel="stylesheet">
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places">
-            // src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeuwEG1p2ewZFCY6Xt5pHKuBlOElPpUVw&sensor=true">
-  </script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/bootstrap-timepicker.js"></script>
-  <script src="js/index.js"></script>
+  <link href="css/common/datepicker.css" rel="stylesheet">
+  <link href="css/index.css" rel="stylesheet">
   <body>
    
    <div class="container-fluid">
@@ -74,9 +68,12 @@
         <div id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
       </div>
     </div>
-    
-    
   <hr>
-    <?php include "footer.php"?>
+    <?php include "footer.php" ?>
   </body>
+  <!-- Load JS in the end for faster page loading -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
+  <script src="js/common/bootstrap-datepicker.js"></script>
+  <script src="js/common/bootstrap-timepicker.js"></script>
+  <script src="js/index.js"></script>
 </html>

@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <?php 
-    include "head.php";
-    include "navbar.php";
+    include "templates/head.php";
+    include "templates/navbar.php";
   ?>
-  <link href="css/datepicker.css" rel="stylesheet">
-  <link href="css/timepicker.css" rel="stylesheet">
+  <link href="css/common/datepicker.css" rel="stylesheet">
+  <link href="css/common/timepicker.css" rel="stylesheet">
   <link href="css/share.css" rel="stylesheet">
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places">
-  </script>
-  <script src="js/bootstrap.js"></script>
-  <script src="js/bootstrap-datepicker.js"></script>
-  <script src="js/bootstrap-timepicker.js"></script>
-  <script src="js/share.js"></script>
   <body>
    
    <div class="container-fluid">
@@ -104,6 +98,12 @@
       </div>
     </div>
   <hr>
-    <?php include "footer.php"?>
+    <?php include "templates/footer.php" ?>
   </body>
+  <!-- Load JS in the end for faster page loading -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
+  <script src="js/common/bootstrap.js"></script>
+  <script src="js/common/bootstrap-datepicker.js"></script>
+  <script src="js/common/bootstrap-timepicker.js"></script>
+  <script src="js/share.js"></script>
 </html>
