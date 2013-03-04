@@ -1,8 +1,8 @@
 <?php
-    session_start();
+    if(!isset($_SESSION)){session_start();}
 ?>
-<html>
-<head>
+<!DOCTYPE html>
+<html lang="en">
   <meta charset="utf-8">
   <title>Easy Ride</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
 
   <!-- Le javascript
   ================================================== -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -24,7 +24,11 @@
   <![endif]-->
 
   <!-- Fav and touch icons -->
-  <!-- TODO: Set this <link rel="shortcut icon" href="../assets/ico/favicon.png"> -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="assets/ico/favicon.png">
 </head>
 <body>
 <?php

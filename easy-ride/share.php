@@ -1,9 +1,9 @@
 <?php 
   include "templates/head.php";
 ?>
-<link href="css/common/datepicker.css" rel="stylesheet">
-<link href="css/common/timepicker.css" rel="stylesheet">
-<link href="css/share.css" rel="stylesheet">
+<link href="/css/common/datepicker.css" rel="stylesheet">
+<link href="/css/common/timepicker.css" rel="stylesheet">
+<link href="/css/share.css" rel="stylesheet">
  
  <div class="container-fluid">
     <div class="row-fluid">
@@ -96,8 +96,8 @@
 <hr>
 <!-- Load JS in the end for faster page loading -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
-<script src="js/common/bootstrap.js"></script>
-<script src="js/common/bootstrap-datepicker.js"></script>
-<script src="js/common/bootstrap-timepicker.js"></script>
-<script src="js/share.js"></script>
+<script src="/js/common/bootstrap.js"></script>
+<script src="/js/common/bootstrap-datepicker.js"></script>
+<script src="/js/common/bootstrap-timepicker.js"></script>
+<script src="/js/share.js"></script>
 <?php include "templates/footer.php" ?>

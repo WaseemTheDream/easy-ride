@@ -1,3 +1,9 @@
+.container-fluid .row-fluid {
+    overflow: hidden;
+}
+
+/*.container-fluid .row-fluid .*/
+
 #share .control-label {
     width: 75px;
 }
