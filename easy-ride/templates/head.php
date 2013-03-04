@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+<html>
 <head>
   <meta charset="utf-8">
   <title>Easy Ride</title>
@@ -22,3 +26,6 @@
   <!-- Fav and touch icons -->
   <!-- TODO: Set this <link rel="shortcut icon" href="../assets/ico/favicon.png"> -->
 </head>
+<?php
+  include_once 'navbar.php';
+?>

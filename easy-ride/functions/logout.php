@@ -1,6 +1,30 @@
 <?php
-// Logout script
 session_start();
-session_destroy();
-header("Location: /index.php");  
+$status = "";
+$msg = "";
+function logout_main() {
+    global $status, $msg;
+    if (!isset($_SESSION['user_id'])) {
+        $status = 'Error!';
+        $msg = "You weren't logged in.";
+        return;
+    }
+
+    $_SESSION = array();
+    if (session_id() != "" or isset($_COOKIE[session_name()]))
+        setcookie(session_name(), '', time()-2592000, '/');
+    session_destroy();
+    $status = 'Logged Out!';
+    $msg = 'You have successfully logged out. Come back soon!';
+}
+
+logout_main();
+include_once '../templates/head.php';
+require_once 'functions.php';
 ?>
+<div class="well ds-component ds-hover container-narrow" data-componentid="well1">
+<div class="ds-component ds-hover" data-componentid="content2">
+    <?php html_respond($status, $msg); ?>
+</div>
+</div>
+<?php include '../templates/footer.php'; ?>

@@ -1,57 +1,43 @@
 <?php
-session_start();
-$_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
-//include '/functions/login.php';
+$not_logged_in = <<<XYZ
+<ul class="nav pull-right">
+  <li class="divider-vertical"></li>
+  <li class="dropdown">
+    <div class="nav-collapse">
+            <ul class="nav pull-right">
+            <li>
+    <a href="register.php">Sign Up</a>
+    </li>
+    <li>
 
-function login() {
-
-  if (isset($_SESSION['fName'])) {
-echo <<<_END
-
- <div class="nav-collapse">
-         
-        <ul class="nav pull-right">
-        <li><a href="#">
-_END;
-    echo  "Welcome, ".$_SESSION['fName'];
-
-echo <<<_END
-        </a>
-          </li>
-          <li><a href="functions/logout.php">Logout</a></li> 
-        </ul>
-      </div><!--/.nav-collapse -->
-
-_END;
-
-}
-  else 
-  {
-    
-echo <<<_END
-<div class="nav-collapse">
-        <ul class="nav pull-right">
-        <li>
-<a href="register.php">Sign Up</a>
-</li>
-<li>
-
-  <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
-  <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-    <form method="post" action="functions/login.php" accept-charset="UTF-8">
-      <input id="login-email" style="margin-bottom: 15px;" type="text" name="login-email" size="30" placeholder="Email Address" />
-      <input id="login-password" style="margin-bottom: 15px;" type="password" name="login-password" size="30" placeholder="Password" />
-      <input id="remember-me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" value="1" />
-      <label class="string optional" for="user_remember_me"> Remember me</label>
-      <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="submit" value="Sign In" />
-    </form>
-  </div>
+      <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+      <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+        <form method="post" action="/functions/login.php" accept-charset="UTF-8">
+          <input id="login-email" style="margin-bottom: 15px;" type="text" name="login-email" size="30" placeholder="Email Address" />
+          <input id="login-password" style="margin-bottom: 15px;" type="password" name="login-password" size="30" placeholder="Password" />
+          <input id="remember-me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" value="1" />
+          <label class="string optional" for="user_remember_me"> Remember me</label>
+          <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="submit" value="Sign In" />
+        </form>
+      </div>
+      </li>
+      </ul>
+      </div>
   </li>
-  </ul>
-  </div>
-_END;
-  }
+</ul>
+XYZ;
+
+function user_status() {
+    if (isset($_SESSION['user_id'])) {
+        echo '<ul class="nav pull-right"><li><a href="/functions/logout.php">Logout</a></li></ul>';
+        echo '<p class="navbar-text pull-right">';
+        $first_name = $_SESSION['first_name'];
+        echo "Logged in as $first_name.</p>";
+    } else {
+        global $not_logged_in;
+        echo $not_logged_in;
+    }
 }
 ?>
 <script src="/js/common/bootstrap-dropdown.js"></script>
@@ -71,12 +57,7 @@ _END;
           <li><a href="/share.php">Share</a></li>
           <li><a href="#">Contact</a></li>
         </ul>
-        <ul class="nav pull-right">
-          <li class="divider-vertical"></li>
-          <li class="dropdown">
-            <?php login(); ?>
-          </li>
-        </ul>
+        <?php user_status(); ?>
       </div><!--/.nav-collapse -->
     </div>
   </div>

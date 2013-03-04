@@ -1,10 +1,7 @@
-<html>
 <?php
     include 'templates/head.php';
-    include 'templates/navbar.php';
     require_once 'functions/user.php';
 ?>
-<body>
 <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
 <div class="ds-component ds-hover" data-componentid="content2">
 <?php
@@ -43,5 +40,3 @@
 </div>
 </div>
 <?php include 'templates/footer.php'; ?>
-</body>
-</html>
