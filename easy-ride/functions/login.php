@@ -11,65 +11,67 @@ $error = "";
 if (!empty($_POST))
 {
 
-    /* Make sure something was entered in the password and e-mail fields before doing anything else */
+   
+            /* Make sure something was entered in the password and e-mail fields before doing anything else */
 
-    if (isset($_POST['email'])& isset($_POST['password']))
+            if (isset($_POST['email'])& isset($_POST['password']))
 
-        {
-          $email = sanitizeString($_POST['email']);
-          $pass = sanitizeString($_POST['password']);
+                {
+                  $email = sanitizeString($_POST['email']);
+                  $pass = sanitizeString($_POST['password']);
 
-          /* The salt String to increase password security */
-          $saltString = "rideLikeABallerEasyRide";
+                  /* The salt String to increase password security */
+                  $saltString = "rideLikeABallerEasyRide";
 
-          /* Encrypt the password with sha256 hashing algorithm and the provided salt */
-          $pass = hash('sha256',$pass.$saltString);
+                  /* Encrypt the password with sha256 hashing algorithm and the provided salt */
+                  $pass = hash('sha256',$pass.$saltString);
 
-          /* The Database Query */
+                  /* The Database Query */
 
-          $query = "SELECT password,emailAddress FROM $users_table
-                    WHERE password='$pass' AND EmailAddress='$email'";
-
-
-          /* Check to see if the email and password are those stored in our database */
+                  $query = "SELECT password,emailAddress FROM $users_table
+                            WHERE password='$pass' AND emailAddress='$email'";
 
 
-          if (mysql_num_rows(queryMysql($query)) == 0)
-          {
+                  /* Check to see if the email and password are those stored in our database */
 
-                // If nothing was returned, then either the password or the e-mail is wrong
 
-                $error = "<span class='error'>Email/Password invalid</span><br /><br />";
-                echo $error;
-          }
+                  if (mysql_num_rows(queryMysql($query)) == 0)
+                  {
 
-          // Success, the password and the e-mail do exist in our database 
-          else
+                        // If nothing was returned, then either the password or the e-mail is wrong
+                         
+                        $error = "<span class='error'>Email/Password invalid</span><br /><br />";
+                        echo $error;
+                  }
 
-          {
-                // Set the session e-mail and password
+                  // Success, the password and the e-mail do exist in our database 
+                  else
 
-                $_SESSION['email'] = $email;
-                $_SESSION['password'] = $pass;
+                  {
+                        // Set the session e-mail and password
 
-                // Query for the User's first name to display on the page
+                        $_SESSION['email'] = $email;
+                        $_SESSION['password'] = $pass;
 
-                $FName_Query = queryMysql("SELECT firstName 
-                                           FROM $users_table 
-                                           WHERE password='$pass' AND EmailAddress='$email'"
-                                           );
-                // Get the actual First name
+                        // Query for the User's first name to display on the page
 
-                $FName = mysql_result($FName_Query, 0);
+                        $FName_Query = queryMysql("SELECT firstName 
+                                                   FROM $users_table 
+                                                   WHERE password='$pass' AND EmailAddress='$email'"
+                                                   );
+                        // Get the actual First name
 
-                // Set the first name for the current user
+                        $FName = mysql_result($FName_Query, 0);
 
-                $_SESSION['fName']= $FName;
-            
-            }  // End of the else statement for successful login
+                        // Set the first name for the current user
 
-      } // End of the if statement that check whether or not the e-mail and password were set for the session
-          
+                        $_SESSION['fName']= $FName;
+                    
+                    }  // End of the else statement for successful login
+
+              } // End of the if statement that check whether or not the e-mail and password were post in the request
+
+         
 } // End of the main if statement that checks for empty post requests
     
 
