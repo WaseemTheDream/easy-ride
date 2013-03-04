@@ -19,7 +19,13 @@
         <div class="container span4">
           <!--Sidebar content-->
           <form class="form-horizontal well" id="search">
-          <h1><?php echo $_SESSION['email'];?></h1>
+          <h1><?php 
+
+          // Display the session e-mail only if it is set 
+
+          if (isset($_SESSION['email']))echo $_SESSION['email'];
+          ?>
+        </h1>
           <fieldset>
 
             <!-- From -->
