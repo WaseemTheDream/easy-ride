@@ -10,9 +10,9 @@
   <meta name="author" content="COMP3013: Team 14">
 
   <!-- Le styles -->
+  <link href="/css/common/bootstrap-responsive.css" rel="stylesheet">
   <link href="/css/common/bootstrap.css" rel="stylesheet">
   <link href="/css/common/stylesheet.css" rel="stylesheet">
-  <link href="/css/common/bootstrap-responsive.css" rel="stylesheet">
 
   <!-- Le javascript
   ================================================== -->
@@ -26,6 +26,7 @@
   <!-- Fav and touch icons -->
   <!-- TODO: Set this <link rel="shortcut icon" href="../assets/ico/favicon.png"> -->
 </head>
+<body>
 <?php
   include_once 'navbar.php';
 ?>

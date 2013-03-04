@@ -11,7 +11,7 @@ $not_logged_in = <<<XYZ
     </li>
     <li>
 
-      <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
+      <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In<strong class="caret"></strong></a>
       <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
         <form method="post" action="/functions/login.php" accept-charset="UTF-8">
           <input id="login-email" style="margin-bottom: 15px;" type="text" name="login-email" size="30" placeholder="Email Address" />
