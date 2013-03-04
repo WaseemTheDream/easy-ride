@@ -37,5 +37,12 @@ function postStatusRespond($status, $msg)
 	echo json_encode($response);
 }
 
+function html_respond($status, $msg) {
+	$string = "<h1 style='text-align: center;'>$status</h1>";
+	$string .= "<p style='text-align: center;'>$msg</p>";
+	$string .= "<p style='text-align: center;'><a href='/index.php'>Click here to continue</a></p>";
+	echo $string;
+}
+
 
 ?>

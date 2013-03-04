@@ -14,7 +14,7 @@ $create_user_table = "CREATE TABLE $user_table
     email_address varchar(128) NOT NULL UNIQUE,
     drivers_license_id varchar(64),
     gender binary(1) NOT NULL,
-    password varchar(32) NOT NULL
+    password varchar(64) NOT NULL
 )";
 
 /**
@@ -25,7 +25,7 @@ $create_user_table = "CREATE TABLE $user_table
 function encrypt_password($password) {
     $salt1 = "qm&h*";
     $salt2 = "ez!@";
-    return md5("$salt1$password$salt2");
+    return hash('sha256', $salt1.$password.$salt2);
 }
 
 /**
@@ -35,16 +35,17 @@ function encrypt_password($password) {
  * @return row the associative row of the user if authenticated, NULL otherwise.
  */
 function authenticate_user($email, $password) {
-    $query = "SELECT * FROM $user_table WHERE email='$email'";
+    $query = "SELECT * FROM user WHERE email_address='$email'";
     $result = mysql_query($query);
     if (!$result) die("Database access failed: " . mysql_error());
     elseif (mysql_num_rows($result)) {
         $row = mysql_fetch_assoc($result);
         $input_token = encrypt_password($password);
-        if ($row['password'] == $input_token)
+        if ($row['password'] == $input_token) {
             return $row;
-        else
+        } else {
             return NULL;
+        }
     }
 }
 

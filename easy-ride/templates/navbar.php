@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
-include '/functions/login.php';
+//include '/functions/login.php';
 
 function login() {
 
@@ -40,8 +40,8 @@ echo <<<_END
   <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
   <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
     <form method="post" action="functions/login.php" accept-charset="UTF-8">
-      <input id="email" style="margin-bottom: 15px;" type="text" name="email" size="30" placeholder="Email Address" />
-      <input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" placeholder="Password" />
+      <input id="login-email" style="margin-bottom: 15px;" type="text" name="login-email" size="30" placeholder="Email Address" />
+      <input id="login-password" style="margin-bottom: 15px;" type="password" name="login-password" size="30" placeholder="Password" />
       <input id="remember-me" style="float: left; margin-right: 10px;" type="checkbox" name="remember-me" value="1" />
       <label class="string optional" for="user_remember_me"> Remember me</label>
       <input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="submit" value="Sign In" />
@@ -54,8 +54,8 @@ _END;
   }
 }
 ?>
-<script src="js/common/bootstrap-dropdown.js"></script>
-<script src="js/common/navbar.js"></script>
+<script src="/js/common/bootstrap-dropdown.js"></script>
+<script src="/js/common/navbar.js"></script>
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">

@@ -6,9 +6,9 @@
   <meta name="author" content="COMP3013: Team 14">
 
   <!-- Le styles -->
-  <link href="css/common/bootstrap.css" rel="stylesheet">
-  <link href="css/common/stylesheet.css" rel="stylesheet">
-  <link href="css/common/bootstrap-responsive.css" rel="stylesheet">
+  <link href="/css/common/bootstrap.css" rel="stylesheet">
+  <link href="/css/common/stylesheet.css" rel="stylesheet">
+  <link href="/css/common/bootstrap-responsive.css" rel="stylesheet">
 
   <!-- Le javascript
   ================================================== -->
