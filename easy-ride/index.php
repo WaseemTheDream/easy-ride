@@ -69,7 +69,7 @@
       </div>
     </div>
   <hr>
-    <?php include "footer.php" ?>
+    <?php include "templates/footer.php" ?>
   </body>
   <!-- Load JS in the end for faster page loading -->
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
