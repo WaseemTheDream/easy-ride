@@ -7,7 +7,7 @@ $not_logged_in = <<<XYZ
     <div class="nav-collapse">
             <ul class="nav pull-right">
             <li>
-    <a href="register.php">Sign Up</a>
+    <a href="/register.php">Sign Up</a>
     </li>
     <li>
 
