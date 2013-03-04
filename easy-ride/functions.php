@@ -35,6 +35,13 @@ function destroySession()
 	if (session_id() != "" || isset($_COOKIE[session_name()]))
 		setcookie(session_name(), '', time()-2592000, '/');
 		session_destroy();
-	}
+}
+
+function postStatusRespond($status, $msg)
+{
+	$response = array("status" => $status, "msg" => $msg);
+	echo json_encode($response);
+}
+
 
 ?>

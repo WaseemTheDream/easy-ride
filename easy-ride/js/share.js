@@ -39,8 +39,9 @@ jQuery(function() {
             var error, json;
             console.log(data);
             error = 'Unknown Error!';
+            json = JSON.parse(data);
             if (json) {
-              json = JSON.parse(data);
+              console.log(json);
               if (json['status'] === 'OK') {
                 _this.setButton('disabled btn btn-success', json['msg']);
                 return;
@@ -51,7 +52,7 @@ jQuery(function() {
             return _this.setButton('disabled btn btn-danger', error);
           },
           error: function(data) {
-            return this.setButton('disabled btn btn-danger', 'Error!');
+            return _this.setButton('disabled btn btn-danger', 'Error!');
           }
         });
       });
