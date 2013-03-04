@@ -14,7 +14,7 @@ if (!empty($_POST))
    
             /* Make sure something was entered in the password and e-mail fields before doing anything else */
 
-            if (isset($_POST['email'])& isset($_POST['password']))
+            if (isset($_POST['email']) &isset($_POST['password']))
 
                 {
                   $email = sanitizeString($_POST['email']);

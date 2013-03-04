@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['url'] = $_SERVER['REQUEST_URI'];
 
-include 'functions/login.php';
+include '/functions/login.php';
 
 function login() {
 

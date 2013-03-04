@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang='en'>
 <?php 
-    include 'head.php'; 
-    include 'navbar.php'; 
-    include_once 'functions.php';
+    include 'templates/head.php'; 
+    include 'templates/navbar.php'; 
+    include_once 'functions/functions.php';
 ?>
 
 <body>
@@ -100,7 +100,7 @@
   } // End of the main if close that checks for empty post requests 
 
                  
-  include 'footer.php';
+  include 'templates/footer.php';
 
     ?>
 
