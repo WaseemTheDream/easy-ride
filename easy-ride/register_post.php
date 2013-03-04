@@ -9,7 +9,7 @@
 <div class="ds-component ds-hover" data-componentid="content2">
 <?php
     if (empty($_POST)) {
-        echo "Registration information not specified.";
+        html_respond('Error!', 'Registration information not specified.');
     } else {
         $user_data = array();
         $required = array(
@@ -33,11 +33,10 @@
         $user_data['drivers_license_id'] = sanitize_string($_POST['register-drivers-license-id']);
 
         if ($missing_fields) {
-            echo 'Missing fields: ' . implode(', ', $missing_fields);
+            html_respond('Error!', 'Missing fields: ' . implode(', ', $missing_fields));
         } else {
             add_user($user_data);
-            echo '<h1 style="text-align: center;">Success!</h1>';
-            echo '<p style="text-align: center;">You have successfully registered for Easy Ride!</p>';
+            html_respond('Success!', 'You have successfully registered for Easy Ride!');
         }
     }
 ?>

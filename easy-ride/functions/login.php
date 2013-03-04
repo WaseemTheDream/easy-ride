@@ -11,12 +11,12 @@
 
     function main() {
         if (empty($_POST)) {
-            echo "Login information not specified.";
+            html_respond('Error!', 'Login information not specified.');
             return;
         }
 
         if (empty($_POST['login-email']) or empty($_POST['login-password'])) {
-            echo "Missing login information.";
+            html_respond('Error!', 'Login information not specified.');
             return;
         }
 
