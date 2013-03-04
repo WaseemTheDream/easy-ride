@@ -38,8 +38,11 @@ function html_respond($status, $msg) {
     echo $string;
 }
 
-function json_respond($status, $msg) {
+function json_respond($status, $msg, $log = NULL) {
     $response = array("status" => $status, "msg" => $msg);
+    if ($log) {
+        $response["log"] = $log;
+    }
     echo json_encode($response);
 }
 
