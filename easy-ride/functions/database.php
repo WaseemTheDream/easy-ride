@@ -59,30 +59,35 @@ function  add_trip($data)
             '$origin_id',
             '$destination_id')";
 
-    $result = mysql_query($query);
-    if (!$result)
-        echo "Failed to Add Trip Info because: " . mysql_error();
-    else
-        return mysql_insert_id();
+    if (!mysql_query($query)) {
+        echo "Failed to add place: " . mysql_error();
+        return NULL;
+    }
+    return mysql_insert_id();
 }
 
-// Add Adress to the Database
-function add_place($AddressData)
+/**
+ * Adds the specified place to the database.
+ * @param data associative array containing all of the place data.
+ * @return id the id of the inserted place, NULL if there was an error.
+ */
+function add_place($data)
 {
+    $address =  $data['address'];
+    $lat = $data['lat'];
+    $lon = $data['lon'];
 
-    $address =  $AddressData['address'];
-    $lat = $AddressData['lat'];
-    $lon = $AddressData['lon'];
-
-    $AddressQuery ="INSERT INTO ".PLACE_TABLE." (
-                                address,
-                                lat,
-                                lon 
-                        ) VALUES (
-                        '$address',
-                        '$lat',
-                        '$lon'
-                )";
-    $AddressAdd = mysql_query($AddressQuery);
-    if (!$AddressAdd) die("Failed to Add Address because: " . mysql_error());
+    $query = "INSERT INTO ".PLACE_TABLE." (
+            address,
+            lat,
+            lon 
+        ) VALUES (
+            '$address',
+            '$lat',
+            '$lon')";
+    if (!mysql_query($query)) {
+        echo "Failed to add place: " . mysql_error();
+        return NULL;
+    }
+    return mysql_insert_id();
 }
