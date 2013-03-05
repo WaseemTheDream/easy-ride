@@ -5,39 +5,36 @@ require_once 'functions/database.php';
 function share_post() {
     $data = json_decode($_POST['data'], true);
 
-    $log = "";
+    // Get driver info
+    $driver_id = $_SESSION['user_id'];
+    if (!$driver_id)
+        return json_respond('ERROR', "User not logged in!");
 
+    // Store places
     $origin_id = add_place($data['route']['from']);
     $destination_id = add_place($data['route']['to']);
-
-    if (!($origin_id or $destination_id)) {
-        json_respond('ERROR', "Couldn't store places!");
-        return;
-    }
-
-    $log .= "Origin ID: $origin_id\n Destination ID: $destination_id\n";
-
+    if (!($origin_id or $destination_id))
+        return json_respond('ERROR', "Couldn't store places!");
+    
+    // Store trip
     $trip_data = array(
+        'driver_id' => $driver_id,
         'spots' => $data['spots'],
-        'length' => $data['route']['length'],
+        'length' => $data['route']['trip_length'],
         'message' => $data['message'],
         'women_only' => $data['women_only'],
         'departure_time' => $data['departure'],
         'origin_id' => $origin_id,
         'destination_id' => $destination_id);
-
     $trip_id = add_trip($trip_data);
+    if (!$trip_id)
+        return json_respond('ERROR', "Couldn't store trip!");
 
-    if (!$trip_id) {
-        json_respond('ERROR', "Couldn't store trip!");
-    }
-
-    $log .= "Trip ID: $trip_id\n";
-
-    json_respond('OK', 'Trip saved!', $log);
+    json_respond('OK', 'Trip saved!');
 }
 
 if ($_POST) {
+    session_start();
     share_post();
 }
 

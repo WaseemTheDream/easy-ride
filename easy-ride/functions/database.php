@@ -9,6 +9,7 @@ define("PLACE_TABLE", 'place');
 $trip_table_definition = TRIP_TABLE."
 (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    driver_id INT UNSIGNED NOT NULL,
     spots TINYINT NOT NULL,
     length VARCHAR(128) NOT NULL,
     message VARCHAR(4096),
@@ -33,6 +34,7 @@ $place_table_definition = PLACE_TABLE."
  */
 function  add_trip($data)
 {
+    $driver_id = sanitize_string($data['driver_id']);
     $spots = sanitize_string($data['spots']);
     $length = sanitize_string($data['length']);
     $message = sanitize_string($data['message']);
@@ -42,6 +44,7 @@ function  add_trip($data)
     $destination_id = sanitize_string($data['destination_id']);
 
     $query = "INSERT INTO ".TRIP_TABLE." (
+            driver_id,
             spots,
             length,
             message,
@@ -50,6 +53,7 @@ function  add_trip($data)
             origin_id,
             destination_id
         ) VALUES (
+            '$driver_id',
             '$spots',
             '$length',
             '$message',

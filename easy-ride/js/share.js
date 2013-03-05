@@ -219,14 +219,15 @@ jQuery(function() {
       }
       route = this.result['routes'][0];
       leg = route['legs'][0];
+      console.log(leg['start_location']);
       from = {
         address: leg['start_address'],
-        lat: leg['start_location']['hb'],
+        lat: leg['start_location']['jb'],
         lon: leg['start_location']['ib']
       };
       to = {
         address: leg['end_address'],
-        lat: leg['end_location']['hb'],
+        lat: leg['end_location']['jb'],
         lon: leg['end_location']['ib']
       };
       length = this.tripLength.getValue();
