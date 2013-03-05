@@ -1,82 +1,44 @@
 <?php
 require_once 'functions/functions.php';
 require_once 'functions/database.php';
-if ($_POST) {
+
+function share_post() {
     $data = json_decode($_POST['data'], true);
 
-  	// Required fields
-    $spots = $data['spots'];
-    $length = $data['route']['trip_length']; 
-    $departure = $data['departure'];
-	$origin_id = $data['route']['from']['address'];
-    $destination_id = $data['route']['to']['address'];
+    $log = "";
 
-    // Optional fields
-    $message = $data['message'];
-    $women_only = $data['women_only'];
+    $origin_id = add_place($data['route']['from']);
+    $destination_id = add_place($data['route']['to']);
 
-    // Origin
-    $latFrom = $data['route']['from']['lat'];
-    $lonFrom = $data['route']['from']['lon'];
-    
-    // Destination 
-    $latTo = $data['route']['to']['lat'];
-    $lonTo = $data['route']['to']['lon'];
+    if (!($origin_id or $destination_id)) {
+        json_respond('ERROR', "Couldn't store places!");
+        return;
+    }
 
-    $tripData = array();
-    $requiredVals = array(
-			        $spots => 'spots',
-			        $length => 'length',
-			        $departure => 'departure',
-			        $origin_id => 'origin_id',
-			       	$destination_id  =>'destination_id'
-			       	);
+    $log .= "Origin ID: $origin_id\n Destination ID: $destination_id\n";
 
-    // Make sure all required fields are defined
-    $missing_fields = array();
-    foreach ($requiredVals as $post_key => $db_key)
-     {
-		    if ($post_key == "") {
-		            $missing_fields[] = $db_key;
-		    } 
-		    else {
-		        $tripData[$db_key] = sanitize_string($post_key);
-		    }
-    } // End of the foreach Statement 
+    $trip_data = array(
+        'spots' => $data['spots'],
+        'length' => $data['route']['length'],
+        'message' => $data['message'],
+        'women_only' => $data['women_only'],
+        'departure_time' => $data['departure'],
+        'origin_id' => $origin_id,
+        'destination_id' => $destination_id);
 
-    // Now Add to the array non Required Values
-    $tripData['message'] = sanitize_string($message);
-    $tripData['women_only'] = sanitize_string($women_only);
+    $trip_id = add_trip($trip_data);
 
-    // AddressFrom Array
+    if (!$trip_id) {
+        json_respond('ERROR', "Couldn't store trip!");
+    }
 
-    $AddressFrom = array(
-    				'address' => $origin_id,
-    				'lat' => $latFrom,
-    				'lon' => $lonFrom
-    				);
-    $AddressTo = array (
-    				'address' => $destination_id,
-    				'lat' => $latTo,
-    				'lon' => $lonTo
-    				);
+    $log .= "Trip ID: $trip_id\n";
 
-    // Check for missing Fields
+    json_respond('OK', 'Trip saved!', $log);
+}
 
-    if($missing_fields)
-    {
-        $status = 'Error!';
-        $msg = 'Missing fields: ' . implode(', ', $missing_fields);
-    } 
-    else {
-	    add_trip($tripData);
-	    add_place($AddressFrom);
-	    add_place($AddressTo);
-	    $status= 'OK';
-	    $msg = 'Trip Saved!';
-	} 
-
-	json_respond($status, $msg);
+if ($_POST) {
+    share_post();
 }
 
 ?>

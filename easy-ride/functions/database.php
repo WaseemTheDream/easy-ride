@@ -33,13 +33,13 @@ $place_table_definition = PLACE_TABLE."
  */
 function  add_trip($data)
 {
-    $spots = $data['spots'];
-    $length = $data['length'];
-    $message = $data['message'];
-    $women_only = $data['women_only'];
-    $departure_time = $data['departure_time'];
-    $origin_id = $data['origin_id'];
-    $destination_id = $data['destination_id'];
+    $spots = sanitize_string($data['spots']);
+    $length = sanitize_string($data['length']);
+    $message = sanitize_string($data['message']);
+    $women_only = sanitize_string($data['women_only']);
+    $departure_time = sanitize_string($data['departure_time']);
+    $origin_id = sanitize_string($data['origin_id']);
+    $destination_id = sanitize_string($data['destination_id']);
 
     $query = "INSERT INTO ".TRIP_TABLE." (
             spots,
@@ -72,9 +72,9 @@ function  add_trip($data)
  */
 function add_place($data)
 {
-    $address =  $data['address'];
-    $lat = $data['lat'];
-    $lon = $data['lon'];
+    $address =  sanitize_string($data['address']);
+    $lat = sanitize_string($data['lat']);
+    $lon = sanitize_string($data['lon']);
 
     $query = "INSERT INTO ".PLACE_TABLE." (
             address,
