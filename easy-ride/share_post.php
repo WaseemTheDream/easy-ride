@@ -6,6 +6,8 @@ if ($_POST) {
     $log = "From: ".$data['route']['from']['address'];
     $log .= " To: ".$data['route']['to']['address'];
     json_respond('OK', 'Trip Saved!', $log);
+    // You can also do
+    // json_respond('OK', 'Trip Saved!');
 }
 
 ?>
