@@ -25,3 +25,60 @@ $place_table_definition = PLACE_TABLE."
     lat FLOAT NOT NULL,
     lon FLOAT NOT NULL
 )";
+
+
+// Function Adds trip Info the Database
+
+function  add_trip($tripData)
+{
+    $Add_Spots = $tripData['spots'];
+    $length = $tripData['length'];
+    $message = $tripData['message'];
+    $women_only = $tripData['women_only'];
+    $departure = $tripData['departure'];
+    $origin_id = $tripData['origin_id'];
+    $destination_id = $tripData['destination_id'];
+
+    $TripQuery="INSERT INTO ".TRIP_TABLE." (
+                        spots,
+                        length,
+                        message,
+                        women_only,
+                        departure,
+                        origin_id,
+                        destination_id    
+                       ) VALUES(
+                         '$Add_Spots',
+                         '$length',
+                         '$message',
+                         '$women_only',
+                         '$departure',
+                         '$origin_id',
+                         '$destination_id'
+                        )";
+
+    $tripAdd = mysql_query($TripQuery);
+    if (!$tripAdd) die("Failed to Add Trip Info because: " . mysql_error());
+}
+
+// Add Adress to the Database
+
+function add_place($AddressData)
+{
+
+    $address =  $AddressData['address'];
+    $lat = $AddressData['lat'];
+    $lon = $AddressData['lon'];
+
+    $AddressQuery ="INSERT INTO ".PLACE_TABLE." (
+                                address,
+                                lat,
+                                lon 
+                        ) VALUES (
+                        '$address',
+                        '$lat',
+                        '$lon'
+                )";
+    $AddressAdd = mysql_query($AddressQuery);
+    if (!$AddressAdd) die("Failed to Add Address because: " . mysql_error());
+}

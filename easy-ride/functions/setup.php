@@ -15,7 +15,7 @@ $tables = array(
 
 foreach ($tables as $name => $definition) {
 	if (!mysql_query("CREATE TABLE IF NOT EXISTS $definition"))
-		die ("Failed to create table: $name.");
+		die ("Failed to create table: $name.<br>");
 	else
 		echo "Created table $name if it didn't exist.<br>";
 }

@@ -41,7 +41,7 @@ function authenticate_user($email, $password) {
         $row = mysql_fetch_assoc($result);
         $input_token = encrypt_password($password);
         if ($row['password'] == $input_token) {
-            $_SESSION['user_id'] = $row['id'];
+            $_SESSION['user_id'] = $row['user_id'];
             $_SESSION['email_address'] = $row['email_address'];
             $_SESSION['first_name'] = $row['first_name'];
             return $row;
