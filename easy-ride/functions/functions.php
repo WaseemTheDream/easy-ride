@@ -14,6 +14,7 @@ function sanitize_string($var)
     $var = strip_tags($var);
     $var = htmlentities($var);
     $var = stripslashes($var);
+    $var = trim($var);
     return mysql_real_escape_string($var);
 }
 
