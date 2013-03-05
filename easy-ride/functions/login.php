@@ -19,8 +19,8 @@ function login_main() {
         return;
     }
 
-    $email_address = sanitize_string($_POST['login-email']);
-    $password = sanitize_string($_POST['login-password']);
+    $email_address = $_POST['login-email'];
+    $password = $_POST['login-password'];
 
     if (authenticate_user($email_address, $password)) {
         $status = 'Logged In!';

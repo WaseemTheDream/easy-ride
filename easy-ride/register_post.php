@@ -21,12 +21,12 @@ if (empty($_POST)) {
         if (empty($_POST[$post_key])) {
             $missing_fields[] = $post_key;
         } else {
-            $user_data[$db_key] = sanitize_string($_POST[$post_key]);
+            $user_data[$db_key] = $_POST[$post_key];
         }
     }
 
     // Copy over non-required fields
-    $user_data['drivers_license_id'] = sanitize_string($_POST['register-drivers-license-id']);
+    $user_data['drivers_license_id'] = $_POST['register-drivers-license-id'];
 
     if ($missing_fields) {
         $status = 'Error!';

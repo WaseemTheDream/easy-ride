@@ -26,7 +26,6 @@ $place_table_definition = PLACE_TABLE."
     lon FLOAT NOT NULL
 )";
 
-
 /**
  * Adds the specified trip to the database.
  * @param data associative array containing all of the trip data.
@@ -85,6 +84,7 @@ function add_place($data)
             '$address',
             '$lat',
             '$lon')";
+
     if (!mysql_query($query)) {
         echo "Failed to add place: " . mysql_error();
         return NULL;

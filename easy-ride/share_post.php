@@ -3,21 +3,22 @@ require_once 'functions/functions.php';
 require_once 'functions/database.php';
 if ($_POST) {
     $data = json_decode($_POST['data'], true);
-  	// Required Values
+
+  	// Required fields
     $spots = $data['spots'];
-    $Trip_length = $data['route']['trip_length']; 
+    $length = $data['route']['trip_length']; 
     $departure = $data['departure'];
 	$origin_id = $data['route']['from']['address'];
     $destination_id = $data['route']['to']['address'];
 
-    // Non Required Values
+    // Optional fields
     $message = $data['message'];
     $women_only = $data['women_only'];
 
-    // Generated Values
     // Origin
     $latFrom = $data['route']['from']['lat'];
     $lonFrom = $data['route']['from']['lon'];
+    
     // Destination 
     $latTo = $data['route']['to']['lat'];
     $lonTo = $data['route']['to']['lon'];
@@ -25,7 +26,7 @@ if ($_POST) {
     $tripData = array();
     $requiredVals = array(
 			        $spots => 'spots',
-			        $Trip_length => 'length',
+			        $length => 'length',
 			        $departure => 'departure',
 			        $origin_id => 'origin_id',
 			       	$destination_id  =>'destination_id'
