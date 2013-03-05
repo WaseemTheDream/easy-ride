@@ -53,15 +53,15 @@ function authenticate_user($email, $password) {
 
 /**
  * Adds the user to the database.
- * @param user_data associative array containing all of the user information.
+ * @param data associative array containing all of the user information.
  */
-function add_user($user_data) {
-    $first_name = $user_data['first_name'];
-    $last_name = $user_data['last_name'];
-    $email_address = $user_data['email_address'];
-    $drivers_license_id = $user_data['drivers_license_id'];
-    $gender = $user_data['gender'];
-    $password = encrypt_password($user_data['password']);
+function add_user($data) {
+    $first_name = $data['first_name'];
+    $last_name = $data['last_name'];
+    $email_address = $data['email_address'];
+    $drivers_license_id = $data['drivers_license_id'];
+    $gender = $data['gender'];
+    $password = encrypt_password($data['password']);
     $query = "INSERT INTO ".USER_TABLE." (
             first_name,
             last_name,

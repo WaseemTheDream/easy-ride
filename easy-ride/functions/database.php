@@ -13,7 +13,7 @@ $trip_table_definition = TRIP_TABLE."
     length VARCHAR(128) NOT NULL,
     message VARCHAR(4096),
     women_only BINARY(1) NOT NULL,
-    departure INT NOT NULL,
+    departure_time INT NOT NULL,
     origin_id INT NOT NULL,
     destination_id INT NOT NULL
 )";
@@ -27,42 +27,46 @@ $place_table_definition = PLACE_TABLE."
 )";
 
 
-// Function Adds trip Info the Database
-
-function  add_trip($tripData)
+/**
+ * Adds the specified trip to the database.
+ * @param data associative array containing all of the trip data.
+ * @return id the id of the inserted trip, NULL if there was an error
+ */
+function  add_trip($data)
 {
-    $Add_Spots = $tripData['spots'];
-    $length = $tripData['length'];
-    $message = $tripData['message'];
-    $women_only = $tripData['women_only'];
-    $departure = $tripData['departure'];
-    $origin_id = $tripData['origin_id'];
-    $destination_id = $tripData['destination_id'];
+    $spots = $data['spots'];
+    $length = $data['length'];
+    $message = $data['message'];
+    $women_only = $data['women_only'];
+    $departure_time = $data['departure_time'];
+    $origin_id = $data['origin_id'];
+    $destination_id = $data['destination_id'];
 
-    $TripQuery="INSERT INTO ".TRIP_TABLE." (
-                        spots,
-                        length,
-                        message,
-                        women_only,
-                        departure,
-                        origin_id,
-                        destination_id    
-                       ) VALUES(
-                         '$Add_Spots',
-                         '$length',
-                         '$message',
-                         '$women_only',
-                         '$departure',
-                         '$origin_id',
-                         '$destination_id'
-                        )";
+    $query = "INSERT INTO ".TRIP_TABLE." (
+            spots,
+            length,
+            message,
+            women_only,
+            departure_time,
+            origin_id,
+            destination_id
+        ) VALUES (
+            '$spots',
+            '$length',
+            '$message',
+            '$women_only',
+            '$departure_time',
+            '$origin_id',
+            '$destination_id')";
 
-    $tripAdd = mysql_query($TripQuery);
-    if (!$tripAdd) die("Failed to Add Trip Info because: " . mysql_error());
+    $result = mysql_query($query);
+    if (!$result)
+        echo "Failed to Add Trip Info because: " . mysql_error();
+    else
+        return mysql_insert_id();
 }
 
 // Add Adress to the Database
-
 function add_place($AddressData)
 {
 
