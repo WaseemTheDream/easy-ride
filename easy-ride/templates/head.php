@@ -10,13 +10,14 @@
   <meta name="author" content="COMP3013: Team 14">
 
   <!-- Le styles -->
-  <link href="/css/common/bootstrap-responsive.css" rel="stylesheet">
   <link href="/css/common/bootstrap.css" rel="stylesheet">
+  <link href="/css/common/bootstrap-responsive.css" rel="stylesheet">
+  <link href="/css/common/docs.css" rel="stylesheet">
   <link href="/css/common/stylesheet.css" rel="stylesheet">
-
   <!-- Le javascript
   ================================================== -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="/js/common/bootstrap.js"></script>
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -30,7 +31,7 @@
                     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="assets/ico/favicon.png">
 </head>
-<body>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
 <?php
   include_once 'navbar.php';
 ?>
