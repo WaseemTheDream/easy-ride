@@ -1,5 +1,7 @@
 <?php
+namespace user;
 require_once 'functions.php';
+use functions;
 
 define("USER_TABLE", 'user');
 
@@ -33,7 +35,7 @@ function encrypt_password($password) {
  * @return row the associative row of the user if authenticated, NULL otherwise.
  */
 function authenticate_user($email, $password) {
-    $s_email = sanitize_string($email);
+    $s_email = functions\sanitize_string($email);
     $query = "SELECT * FROM ".USER_TABLE." WHERE email_address='$s_email'";
     $result = mysql_query($query);
     if (!$result) die("Database access failed: " . mysql_error());
@@ -79,11 +81,11 @@ function user_logged_in() {
  * @param data associative array containing all of the user information.
  */
 function add_user($data) {
-    $first_name = sanitize_string($data['first_name']);
-    $last_name = sanitize_string($data['last_name']);
-    $email_address = sanitize_string($data['email_address']);
-    $drivers_license_id = sanitize_string($data['drivers_license_id']);
-    $gender = sanitize_string($data['gender']);
+    $first_name = functions\sanitize_string($data['first_name']);
+    $last_name = functions\sanitize_string($data['last_name']);
+    $email_address = functions\sanitize_string($data['email_address']);
+    $drivers_license_id = functions\sanitize_string($data['drivers_license_id']);
+    $gender = functions\sanitize_string($data['gender']);
     $password = encrypt_password($data['password']);
     $query = "INSERT INTO ".USER_TABLE." (
             first_name,
@@ -109,7 +111,7 @@ function add_user($data) {
  * @return boolean whether the user exists.
  */
 function user_exists($email) {
-    $s_email = sanitize_string($email);
+    $s_email = functions\sanitize_string($email);
     $query = "SELECT * FROM ".USER_TABLE." WHERE email_address='$s_email'";
     if (mysql_num_rows(mysql_query($query)))
         return true;

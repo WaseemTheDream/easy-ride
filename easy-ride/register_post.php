@@ -1,11 +1,13 @@
 <?php
 session_start();
 require_once 'functions/user.php';
+require_once 'functions/functions.php';
 $status = "";
 $msg = "";
 
 if (empty($_POST)) {
-    html_respond('Error!', 'Registration information not specified.');
+    $status = 'Error!';
+    $msg = 'Registration information not specified.';
 } else {
     $user_data = array();
     $required = array(
@@ -32,8 +34,8 @@ if (empty($_POST)) {
         $status = 'Error!';
         $msg = 'Missing fields: ' . implode(', ', $missing_fields);
     } else {
-        add_user($user_data);
-        authenticate_user($user_data['email_address'], $user_data['password']);
+        user\add_user($user_data);
+        user\authenticate_user($user_data['email_address'], $user_data['password']);
         $status = 'Success!';
         $msg = 'You have successfully registered for Easy Ride!';
     }
@@ -42,7 +44,7 @@ include 'templates/head.php';
 ?>
 <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
 <div class="ds-component ds-hover" data-componentid="content2">
-    <?php html_respond($status, $msg); ?>
+    <?php functions\html_respond($status, $msg); ?>
 </div>
 </div>
 <?php include 'templates/footer.php'; ?>

@@ -1,5 +1,5 @@
 <?php
-
+namespace database;
 require_once 'functions.php';
 
 define("TRIP_TABLE", 'trip');
@@ -34,14 +34,14 @@ $place_table_definition = PLACE_TABLE."
  */
 function  add_trip($data)
 {
-    $driver_id = sanitize_string($data['driver_id']);
-    $spots = sanitize_string($data['spots']);
-    $length = sanitize_string($data['length']);
-    $message = sanitize_string($data['message']);
-    $women_only = sanitize_string($data['women_only']);
-    $departure_time = sanitize_string($data['departure_time']);
-    $origin_id = sanitize_string($data['origin_id']);
-    $destination_id = sanitize_string($data['destination_id']);
+    $driver_id = functions\sanitize_string($data['driver_id']);
+    $spots = functions\sanitize_string($data['spots']);
+    $length = functions\sanitize_string($data['length']);
+    $message = functions\sanitize_string($data['message']);
+    $women_only = functions\sanitize_string($data['women_only']);
+    $departure_time = functions\sanitize_string($data['departure_time']);
+    $origin_id = functions\sanitize_string($data['origin_id']);
+    $destination_id = functions\sanitize_string($data['destination_id']);
 
     $query = "INSERT INTO ".TRIP_TABLE." (
             driver_id,
@@ -76,9 +76,9 @@ function  add_trip($data)
  */
 function add_place($data)
 {
-    $address =  sanitize_string($data['address']);
-    $lat = sanitize_string($data['lat']);
-    $lon = sanitize_string($data['lon']);
+    $address =  functions\sanitize_string($data['address']);
+    $lat = functions\sanitize_string($data['lat']);
+    $lon = functions\sanitize_string($data['lon']);
 
     $query = "INSERT INTO ".PLACE_TABLE." (
             address,

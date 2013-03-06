@@ -1,4 +1,5 @@
 <?php
+namespace functions;
 
 $appname = 'Easy Ride';
 $dbhost = 'localhost';

@@ -5,7 +5,7 @@ $status = "";
 $msg = "";
 function logout_main() {
     global $status, $msg;
-    if (logout_user() == 'LOGGED_OUT') {
+    if (user\logout_user() == 'LOGGED_OUT') {
         $status = 'Logged Out!';
         $msg = 'You have successfully logged out. Come back soon!';
         return;
@@ -21,7 +21,7 @@ require_once 'functions.php';
 ?>
 <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
 <div class="ds-component ds-hover" data-componentid="content2">
-    <?php html_respond($status, $msg); ?>
+    <?php functions\html_respond($status, $msg); ?>
 </div>
 </div>
 <?php include '../templates/footer.php'; ?>

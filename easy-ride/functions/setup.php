@@ -5,13 +5,16 @@ require_once "functions.php";
 require_once "user.php";
 require_once "database.php";
 
-$connection = mysql_connect($dbhost, $dbuser, $dbpass);
-mysql_select_db($dbname, $connection);
+$connection = mysql_connect(
+    functions\$dbhost,
+    functions\$dbuser,
+    functions\$dbpass);
+mysql_select_db(functions\$dbname, functions\$connection);
 
 $tables = array(
-	USER_TABLE => $user_table_definition,
-	TRIP_TABLE => $trip_table_definition,
-	PLACE_TABLE => $place_table_definition);
+	USER_TABLE => user\$user_table_definition,
+	TRIP_TABLE => database\$trip_table_definition,
+	PLACE_TABLE => database\$place_table_definition);
 
 foreach ($tables as $name => $definition) {
 	if (!mysql_query("CREATE TABLE IF NOT EXISTS $definition"))
