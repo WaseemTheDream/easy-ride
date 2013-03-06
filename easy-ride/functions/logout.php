@@ -1,21 +1,18 @@
 <?php
+require_once 'user.php';
 session_start();
 $status = "";
 $msg = "";
 function logout_main() {
     global $status, $msg;
-    if (!isset($_SESSION['user_id'])) {
+    if (logout_user() == 'LOGGED_OUT') {
+        $status = 'Logged Out!';
+        $msg = 'You have successfully logged out. Come back soon!';
+        return;
+    } else {
         $status = 'Error!';
         $msg = "You weren't logged in.";
-        return;
     }
-
-    $_SESSION = array();
-    if (session_id() != "" or isset($_COOKIE[session_name()]))
-        setcookie(session_name(), '', time()-2592000, '/');
-    session_destroy();
-    $status = 'Logged Out!';
-    $msg = 'You have successfully logged out. Come back soon!';
 }
 
 logout_main();

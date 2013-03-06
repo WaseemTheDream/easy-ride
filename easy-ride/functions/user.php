@@ -53,6 +53,21 @@ function authenticate_user($email, $password) {
 }
 
 /**
+ * Logs out the user by destroying session.
+ * @return status LOGGED_OUT if user logged out,
+ *         NOT_LOGGED_IN if user is not logged in.
+ */
+function logout_user() {
+    if (!isset($_SESSION['user_id']))
+        return 'NOT_LOGGED_IN';
+    $_SESSION = array();
+    if (session_id() != "" or isset($_COOKIE[session_name()]))
+        setcookie(session_name(), '', time()-2592000, '/');
+    session_destroy();
+    return 'LOGGED_OUT';
+}
+
+/**
  * Adds the user to the database.
  * @param data associative array containing all of the user information.
  */
