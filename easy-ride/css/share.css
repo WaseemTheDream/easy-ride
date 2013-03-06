@@ -15,3 +15,18 @@
 #share .form-actions {
     text-align: right;
 }
+
+body > .container-fluid > .row-fluid {
+    clear: both;
+}
+
+#share-bar {
+    float: left;
+    min-width: 420px;
+    margin-right: 15px;
+}
+
+#map_canvas {
+    min-width: 300px;
+    min-height: 555px;
+}

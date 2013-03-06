@@ -9,7 +9,7 @@
  
  <div class="container-fluid">
     <div class="row-fluid">
-      <div class="container span4">
+      <div id="share-bar">
         <!--Sidebar content-->
         <form action="share_post.php" method="post" class="form-horizontal well" id="share">
         <fieldset>
@@ -92,7 +92,7 @@
          </fieldset>
         </form><!-- End Sidebar Content -->
       </div>
-      <div id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
+      <div id="map_canvas" class="well"></div>
     </div>
   </div>
 <hr>
