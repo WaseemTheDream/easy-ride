@@ -1,5 +1,4 @@
 <?php
-
 require_once 'functions.php';
 
 define("USER_TABLE", 'user');
@@ -65,6 +64,14 @@ function logout_user() {
         setcookie(session_name(), '', time()-2592000, '/');
     session_destroy();
     return 'LOGGED_OUT';
+}
+
+/**
+ * Whether the user is logged in.
+ * @return boolean whether the user is logged in.
+ */
+function user_logged_in() {
+    return isset($_SESSION['user_id']);
 }
 
 /**

@@ -1,6 +1,8 @@
 <?php 
   include "templates/head.php";
+  include "functions/user.php";
 ?>
+<?php if (user_logged_in()): ?>
 <link href="/css/common/datepicker.css" rel="stylesheet">
 <link href="/css/common/timepicker.css" rel="stylesheet">
 <link href="/css/share.css" rel="stylesheet">
@@ -100,4 +102,11 @@
 <script src="/js/common/bootstrap-datepicker.js"></script>
 <script src="/js/common/bootstrap-timepicker.js"></script>
 <script src="/js/share.js"></script>
+<?php else: ?>
+  <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
+  <div class="ds-component ds-hover" data-componentid="content2">
+  <?php html_respond('Log In Required', 'Please register or log in to access this part of the website'); ?>
+  </div>
+  </div>
+<?php endif; ?>
 <?php include "templates/footer.php" ?>
