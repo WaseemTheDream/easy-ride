@@ -19,20 +19,6 @@ function sanitize_string($var)
     return mysql_real_escape_string($var);
 }
 
-function queryMysql($query)
-{
-    $result = mysql_query($query) or die(mysql_error());
-    return $result;
-}
-
-function destroySession()
-{
-    $_SESSION=array();
-    if (session_id() != "" || isset($_COOKIE[session_name()]))
-        setcookie(session_name(), '', time()-2592000, '/');
-        session_destroy();
-}
-
 function html_respond($status, $msg) {
     $string = "<h1 style='text-align: center;'>$status</h1>";
     $string .= "<p style='text-align: center;'>$msg</p>";

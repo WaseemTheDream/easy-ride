@@ -1,6 +1,7 @@
 <?php
 namespace database;
 require_once 'functions.php';
+use functions;
 
 define("TRIP_TABLE", 'trip');
 define("PLACE_TABLE", 'place');

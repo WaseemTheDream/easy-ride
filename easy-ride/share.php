@@ -2,7 +2,7 @@
   include "templates/head.php";
   include "functions/user.php";
 ?>
-<?php if (user_logged_in()): ?>
+<?php if (user\user_logged_in()): ?>
 <link href="/css/common/datepicker.css" rel="stylesheet">
 <link href="/css/common/timepicker.css" rel="stylesheet">
 <link href="/css/share.css" rel="stylesheet">
@@ -13,7 +13,6 @@
         <!--Sidebar content-->
         <form action="share_post.php" method="post" class="form-horizontal well" id="share">
         <fieldset>
-
           <div id="share-route" class="control-group">
             <!-- From -->
             <div class="control-group">
@@ -105,7 +104,7 @@
 <?php else: ?>
   <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
   <div class="ds-component ds-hover" data-componentid="content2">
-  <?php html_respond('Log In Required', 'Please register or log in to access this part of the website'); ?>
+  <?php functions\html_respond('Log In Required', 'Please register or log in to access this part of the website'); ?>
   </div>
   </div>
 <?php endif; ?>

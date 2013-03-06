@@ -8,13 +8,13 @@ function share_post() {
     // Get driver info
     $driver_id = $_SESSION['user_id'];
     if (!$driver_id)
-        return json_respond('ERROR', "User not logged in!");
+        return functions\json_respond('ERROR', "User not logged in!");
 
     // Store places
-    $origin_id = add_place($data['route']['from']);
-    $destination_id = add_place($data['route']['to']);
+    $origin_id = database\add_place($data['route']['from']);
+    $destination_id = database\add_place($data['route']['to']);
     if (!($origin_id or $destination_id))
-        return json_respond('ERROR', "Couldn't store places!");
+        return functions\json_respond('ERROR', "Couldn't store places!");
     
     // Store trip
     $trip_data = array(
@@ -26,11 +26,11 @@ function share_post() {
         'departure_time' => $data['departure'],
         'origin_id' => $origin_id,
         'destination_id' => $destination_id);
-    $trip_id = add_trip($trip_data);
+    $trip_id = database\add_trip($trip_data);
     if (!$trip_id)
         return json_respond('ERROR', "Couldn't store trip!");
 
-    json_respond('OK', 'Trip saved!');
+    functions\json_respond('OK', 'Trip saved!');
 }
 
 if ($_POST) {
