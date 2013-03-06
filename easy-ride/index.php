@@ -5,16 +5,9 @@
 <link href="css/index.css" rel="stylesheet">
  <div class="container-fluid">
     <div class="row-fluid">
-      <div class="container span4">
+      <div id="search-bar">
         <!--Sidebar content-->
         <form class="form-horizontal well" id="search">
-        <h1><?php 
-
-        // Display the session e-mail only if it is set 
-
-        if (isset($_SESSION['email']))echo $_SESSION['email'];
-        ?>
-      </h1>
         <fieldset>
 
           <!-- From -->
@@ -60,7 +53,7 @@
          </fieldset>
         </form><!-- End Sidebar Content -->
       </div>
-      <div id="map_canvas" class="well container span8" style="float: right; height: 500px;"></div>
+      <div id="map_canvas" class="well"></div>
     </div>
   </div>
 <hr>
