@@ -7,15 +7,16 @@ define ['components/user-interface',
         Requires: Google Maps API V3
     ###
     class MapRoute extends UserInterface
-        constructor: (@container, @from, @to, tripLength) ->
+        constructor: (@container, @from, @to, tripLength=null) ->
             super(@container)
 
             new google.maps.places.SearchBox(@from[0])
             new google.maps.places.SearchBox(@to[0])
 
-            @tripLength = new TextInput(
-                tripLength.parent().parent(),
-                tripLength)
+            if tripLength
+                @tripLength = new TextInput(
+                    tripLength.parent().parent(),
+                    tripLength)
             @result
 
             # Google Maps
@@ -73,7 +74,8 @@ define ['components/user-interface',
             leg = route['legs'][0]
             @from.val(leg['start_address'])
             @to.val(leg['end_address'])
-            @tripLength.setValue(leg['duration']['text'])
+            if @tripLength
+                @tripLength.setValue(leg['duration']['text'])
 
         ###
             Returns the route in JSON form if it exists.
@@ -97,14 +99,16 @@ define ['components/user-interface',
                 lat: leg['end_location']['jb']
                 lon: leg['end_location']['ib']
 
-            length = @tripLength.getValue()
-            if not length
-                return null
-
             json =
                 from: from
                 to: to
-                trip_length: length
+
+            if @tripLength
+                length = @tripLength.getValue()
+                if not length
+                    return null
+                else
+                    json['trip_length'] = length
 
             @removeError()
             return json

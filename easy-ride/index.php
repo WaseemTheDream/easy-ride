@@ -9,25 +9,26 @@
         <!--Sidebar content-->
         <form class="form-horizontal well" id="search">
         <fieldset>
-
-          <!-- From -->
-          <div class="control-group">
-            <label class="control-label">From</label>
-            <div class="controls">
-              <input class="input-xlarge" id="search-from" type="text" placeholder="Type the name of a place or address over here">
+          <div class="control-group" id="search-route">
+            <!-- From -->
+            <div class="control-group">
+              <label class="control-label">From</label>
+              <div class="controls">
+                <input class="input-xlarge" id="search-from" type="text" placeholder="Type the name of a place or address over here">
+              </div>
             </div>
-          </div>
 
-          <!-- To -->
-          <div class="control-group">
-            <label class="control-label">To</label>
-            <div class="controls">
-              <input class="input-xlarge" id="search-to" type="text" placeholder="Type the name of a place or address over here">
+            <!-- To -->
+            <div class="control-group">
+              <label class="control-label">To</label>
+              <div class="controls">
+                <input class="input-xlarge" id="search-to" type="text" placeholder="Type the name of a place or address over here">
+              </div>
             </div>
           </div>
 
           <!-- Departure Date -->
-          <div class="control-group">
+          <div class="control-group" id="search-departure">
             <label class="control-label">Date</label>
             <div class="controls">
               <div class="input-append date" id="search-departure-date" data-date="22-02-2013" data-date-format="dd-mm-yyyy">
@@ -59,7 +60,5 @@
 <hr>
 <!-- Load JS in the end for faster page loading -->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
-<script src="js/common/bootstrap-datepicker.js"></script>
-<script src="js/common/bootstrap-timepicker.js"></script>
-<script src="js/index.js"></script>
+<script data-main="js/index.js" src="js/require.js"></script>
 <?php include "templates/footer.php" ?>

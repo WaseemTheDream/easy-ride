@@ -12,13 +12,13 @@ define ['common/bootstrap-datepicker',
             @time = time.timepicker()
 
         ###
-            Returns departure time as an integer value, if entered
+            Returns time as an integer value, if entered
         ###
         getDateTime: =>
             dateString = @date.element.children().filter('input').val()
             timeString = @time.val()
             if not dateString or not timeString
-                @setError('Missing departure information.')
+                @setError('Missing information.')
                 return null
 
             time = @parseTime(timeString)

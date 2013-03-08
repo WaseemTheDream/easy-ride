@@ -20,6 +20,9 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       this.container = container;
       this.from = from;
       this.to = to;
+      if (tripLength == null) {
+        tripLength = null;
+      }
       this.toJson = __bind(this.toJson, this);
 
       this.updateRoute = __bind(this.updateRoute, this);
@@ -29,7 +32,9 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       MapRoute.__super__.constructor.call(this, this.container);
       new google.maps.places.SearchBox(this.from[0]);
       new google.maps.places.SearchBox(this.to[0]);
-      this.tripLength = new TextInput(tripLength.parent().parent(), tripLength);
+      if (tripLength) {
+        this.tripLength = new TextInput(tripLength.parent().parent(), tripLength);
+      }
       this.result;
       this.directionsDisplay = new google.maps.DirectionsRenderer();
       this.directionsService = new google.maps.DirectionsService();
@@ -89,7 +94,9 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       leg = route['legs'][0];
       this.from.val(leg['start_address']);
       this.to.val(leg['end_address']);
-      return this.tripLength.setValue(leg['duration']['text']);
+      if (this.tripLength) {
+        return this.tripLength.setValue(leg['duration']['text']);
+      }
     };
 
     /*
@@ -116,15 +123,18 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
         lat: leg['end_location']['jb'],
         lon: leg['end_location']['ib']
       };
-      length = this.tripLength.getValue();
-      if (!length) {
-        return null;
-      }
       json = {
         from: from,
-        to: to,
-        trip_length: length
+        to: to
       };
+      if (this.tripLength) {
+        length = this.tripLength.getValue();
+        if (!length) {
+          return null;
+        } else {
+          json['trip_length'] = length;
+        }
+      }
       this.removeError();
       return json;
     };
