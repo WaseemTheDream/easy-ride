@@ -96,11 +96,8 @@
   </div>
 <hr>
 <!-- Load JS in the end for faster page loading -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
-<script src="/js/common/bootstrap.js"></script>
-<script src="/js/common/bootstrap-datepicker.js"></script>
-<script src="/js/common/bootstrap-timepicker.js"></script>
-<script src="/js/share.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
+<script data-main="/js/share" src="/js/require.js"></script>
 <?php else: ?>
   <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
   <div class="ds-component ds-hover" data-componentid="content2">

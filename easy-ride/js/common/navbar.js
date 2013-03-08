@@ -4,7 +4,6 @@ jQuery(function() {
   console.log('Script ran');
   $('.dropdown-toggle').dropdown();
   $('.dropdown input, .dropdown label').click(function(e) {
-  	console.log('Click trigger.')
     return e.stopPropagation();
   });
 });
