@@ -25,11 +25,20 @@ require [
                 console.log(data)
 
                 $.ajax
-                    url: ''
+                    url: '/index_search.php'
                     type: 'GET'
                     data: 'data': JSON.stringify(data)
                     success: (data) =>
-                        @setButton('btn btn-success', 'Search')
+                        console.log(data)
+                        error = 'Unknown Error!'
+                        json = JSON.parse(data)
+                        if json
+                            if json['status'] == 'OK'
+                                @setButton('btn btn-success', 'Search')
+                                return
+                            else
+                                error = json['msg']
+                        @setButton('btn btn-danger', error)
                     error: (data) ->
                         @setButton('btn btn-danger', 'Error!')
             

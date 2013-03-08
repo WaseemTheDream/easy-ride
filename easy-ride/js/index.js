@@ -23,13 +23,25 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         }
         console.log(data);
         return $.ajax({
-          url: '',
+          url: '/index_search.php',
           type: 'GET',
           data: {
             'data': JSON.stringify(data)
           },
           success: function(data) {
-            return _this.setButton('btn btn-success', 'Search');
+            var error, json;
+            console.log(data);
+            error = 'Unknown Error!';
+            json = JSON.parse(data);
+            if (json) {
+              if (json['status'] === 'OK') {
+                _this.setButton('btn btn-success', 'Search');
+                return;
+              } else {
+                error = json['msg'];
+              }
+            }
+            return _this.setButton('btn btn-danger', error);
           },
           error: function(data) {
             return this.setButton('btn btn-danger', 'Error!');
