@@ -9,6 +9,10 @@ define ['components/user-interface',
     class MapRoute extends UserInterface
         constructor: (@container, @from, @to, tripLength) ->
             super(@container)
+
+            new google.maps.places.SearchBox(@from[0])
+            new google.maps.places.SearchBox(@to[0])
+
             @tripLength = new TextInput(
                 tripLength.parent().parent(),
                 tripLength)

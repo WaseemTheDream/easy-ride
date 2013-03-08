@@ -27,6 +27,8 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       this.calculateRoute = __bind(this.calculateRoute, this);
 
       MapRoute.__super__.constructor.call(this, this.container);
+      new google.maps.places.SearchBox(this.from[0]);
+      new google.maps.places.SearchBox(this.to[0]);
       this.tripLength = new TextInput(tripLength.parent().parent(), tripLength);
       this.result;
       this.directionsDisplay = new google.maps.DirectionsRenderer();

@@ -3,8 +3,6 @@ jQuery ->
     class RideSearcher
         constructor: ->
             # Member variables
-            @from = new google.maps.places.SearchBox($('#search-from')[0])
-            @to = new google.maps.places.SearchBox($('#search-to')[0])
             @departureDate = $('#search-departure-date').datepicker()
             @womenOnly = $('#search-women-only')
 

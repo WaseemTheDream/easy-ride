@@ -13,8 +13,6 @@ jQuery(function() {
       this.setButton = __bind(this.setButton, this);
 
       var _this = this;
-      this.from = new google.maps.places.SearchBox($('#search-from')[0]);
-      this.to = new google.maps.places.SearchBox($('#search-to')[0]);
       this.departureDate = $('#search-departure-date').datepicker();
       this.womenOnly = $('#search-women-only');
       this.departure = new Date($('#search-departure'), $('#search-departure-date'));
