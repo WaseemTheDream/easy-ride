@@ -33,7 +33,7 @@ $place_table_definition = PLACE_TABLE."
  * @param data associative array containing all of the trip data.
  * @return id the id of the inserted trip, NULL if there was an error
  */
-function  add_trip($data)
+function add_trip($data)
 {
     $driver_id = functions\sanitize_string($data['driver_id']);
     $spots = functions\sanitize_string($data['spots']);
@@ -71,6 +71,45 @@ function  add_trip($data)
 }
 
 /**
+ * Gets the specified trip.
+ * @param id the id of the trip.
+ * @param row the processed trip row in the database if found, NULL otherwise.
+ */
+function get_trip($id)
+{
+    $s_id = functions\sanitize_string($id);
+    $query = "SELECT * FROM ".TRIP_TABLE." WHERE id='$s_id'";
+    $result = mysql_query($query);
+    if (!$result) return NULL;
+    elseif (mysql_num_rows($result)) {
+        $row = mysql_fetch_assoc($result);
+        return process_trip_row($row);
+    }
+    return NULL;
+}
+
+function get_all_trips()
+{
+    $query = "SELECT * FROM ".TRIP_TABLE;
+    $result = mysql_query($query);
+    $rows = array();
+    if (!$result) return NULL;
+    $num_rows = mysql_num_rows($result);
+    for ($i = 0; $i < $num_rows; ++$i) {
+        $row = mysql_fetch_assoc($result);
+        $rows[] = process_trip_row($row);
+    }
+    return $rows;
+}
+
+function process_trip_row($row)
+{
+    $row['origin'] = get_place($row['origin_id']);
+    $row['destination'] = get_place($row['destination_id']);
+    return $row;
+}
+
+/**
  * Adds the specified place to the database.
  * @param data associative array containing all of the place data.
  * @return id the id of the inserted place, NULL if there was an error.
@@ -95,4 +134,22 @@ function add_place($data)
         return NULL;
     }
     return mysql_insert_id();
+}
+
+/**
+ * Gets the place specified by id.
+ * @param id the row id of the place.
+ * @return row the place row in the database if found, NULL otherwise.
+ */
+function get_place($id)
+{
+    $s_id = functions\sanitize_string($id);
+    $query = "SELECT * FROM ".PLACE_TABLE." WHERE id='$s_id'";
+    $result = mysql_query($query);
+    if (!$result) return NULL;
+    elseif (mysql_num_rows($result)) {
+        $row = mysql_fetch_assoc($result);
+        return $row;
+    }
+    return NULL;
 }

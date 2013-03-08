@@ -26,10 +26,11 @@ function html_respond($status, $msg) {
     echo $string;
 }
 
-function json_respond($status, $msg, $log = NULL) {
+function json_respond($status, $msg, $data = NULL) {
     $response = array("status" => $status, "msg" => $msg);
-    if ($log) {
-        $response["log"] = $log;
+    if ($data) {
+        foreach ($data as $key => $value)
+            $response[$key] = $value;
     }
     echo json_encode($response);
 }

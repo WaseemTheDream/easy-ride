@@ -34,6 +34,7 @@ require [
                         json = JSON.parse(data)
                         if json
                             if json['status'] == 'OK'
+                                @processResults(json['trips'])
                                 @setButton('btn btn-success', 'Search')
                                 return
                             else
@@ -48,12 +49,16 @@ require [
 
         toJson: =>
             json =
-                departure: @departure.getTime()
+                # departure: @departure.getTime()
                 women_only: @womenOnly.prop('checked')
-                route: @route.toJson()
+                # route: @route.toJson()
             for key, value of json
                 if value == null
                     return null
             return json
+
+        processResults: (trips) =>
+            for trip in trips
+                console.log(trip)
 
     new RideSearcher()

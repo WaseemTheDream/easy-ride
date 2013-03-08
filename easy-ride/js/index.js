@@ -6,6 +6,8 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
   RideSearcher = (function() {
 
     function RideSearcher() {
+      this.processResults = __bind(this.processResults, this);
+
       this.toJson = __bind(this.toJson, this);
 
       this.setButton = __bind(this.setButton, this);
@@ -35,6 +37,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
             json = JSON.parse(data);
             if (json) {
               if (json['status'] === 'OK') {
+                _this.processResults(json['trips']);
                 _this.setButton('btn btn-success', 'Search');
                 return;
               } else {
@@ -58,9 +61,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
     RideSearcher.prototype.toJson = function() {
       var json, key, value;
       json = {
-        departure: this.departure.getTime(),
-        women_only: this.womenOnly.prop('checked'),
-        route: this.route.toJson()
+        women_only: this.womenOnly.prop('checked')
       };
       for (key in json) {
         value = json[key];
@@ -69,6 +70,16 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         }
       }
       return json;
+    };
+
+    RideSearcher.prototype.processResults = function(trips) {
+      var trip, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = trips.length; _i < _len; _i++) {
+        trip = trips[_i];
+        _results.push(console.log(trip));
+      }
+      return _results;
     };
 
     return RideSearcher;
