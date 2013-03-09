@@ -5,6 +5,15 @@ require [
 
     class RideSearcher
         constructor: ->
+            # Google Maps Options
+            @mapOptions =
+                center: new google.maps.LatLng(51.517099, -0.146084)
+                zoom: 12
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+
+            # Initialize Google Maps
+            @map = new google.maps.Map($('#map_canvas')[0], @mapOptions)
+
             # Member variables
             @womenOnly = $('#search-women-only')
             @departure = new DatePicker(
@@ -14,6 +23,7 @@ require [
 
             @route = new MapRoute(
                 $('#search-route'),
+                @map,
                 $('#search-from'),
                 $('#search-to'))
 
@@ -58,7 +68,40 @@ require [
             return json
 
         processResults: (trips) =>
+            i = 0
             for trip in trips
+                i += 1
                 console.log(trip)
+                new RouteRenderer(@map, trip)
+
+    class RouteRenderer
+        constructor: (map, route) ->
+            markerOptions =
+                visible: false
+            polylineOptions = 
+                strokeColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
+                strokeOpacity: .6
+                strokeWeight: 4
+            mapRendererOptions =
+                markerOptions: markerOptions
+                polylineOptions: polylineOptions
+
+            directionsDisplay = new google.maps.DirectionsRenderer()
+            directionsDisplay.setOptions(mapRendererOptions)
+            directionsDisplay.setMap(map)
+            console.log(directionsDisplay)
+
+            request =
+                origin: route['origin']['address']
+                destination: route['destination']['address']
+                travelMode: google.maps.TravelMode.DRIVING
+                region: 'uk'
+
+            directionsService = new google.maps.DirectionsService()
+            directionsService.route request, (result, status) =>
+                if status == google.maps.DirectionsStatus.OK
+                    console.log('Received directions')
+                    directionsDisplay.setDirections(result)
+                    console.log(result)
 
     new RideSearcher()

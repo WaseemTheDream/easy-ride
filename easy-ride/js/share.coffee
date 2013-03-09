@@ -6,13 +6,23 @@ require [
 
     class RideSharer
         constructor: ->
+            # Google Maps Options
+            @mapOptions =
+                center: new google.maps.LatLng(51.517099, -0.146084)
+                zoom: 12
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+
+            # Initialize Google Maps
+            @map = new google.maps.Map($('#map_canvas')[0], @mapOptions)
+
             @departure = new DateTime(
                 $('#share-departure'),
                 $('#share-departure-date'),
                 $('#share-departure-time'))
 
             @route = new MapRoute(
-                $('#share-route')
+                $('#share-route'),
+                @map,
                 $('#share-from'),
                 $('#share-to'),
                 $('#share-trip-length'))

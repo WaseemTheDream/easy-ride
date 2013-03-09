@@ -2,7 +2,7 @@
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 require(['components/map-route', 'components/input/date-picker'], function(MapRoute, DatePicker) {
-  var RideSearcher;
+  var RideSearcher, RouteRenderer;
   RideSearcher = (function() {
 
     function RideSearcher() {
@@ -13,9 +13,15 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       this.setButton = __bind(this.setButton, this);
 
       var _this = this;
+      this.mapOptions = {
+        center: new google.maps.LatLng(51.517099, -0.146084),
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      this.map = new google.maps.Map($('#map_canvas')[0], this.mapOptions);
       this.womenOnly = $('#search-women-only');
       this.departure = new DatePicker($('#search-departure'), $('#search-departure-date'), true);
-      this.route = new MapRoute($('#search-route'), $('#search-from'), $('#search-to'));
+      this.route = new MapRoute($('#search-route'), this.map, $('#search-from'), $('#search-to'));
       this.searchButton = $('#search-button');
       this.searchButton.click(function() {
         var data;
@@ -73,16 +79,59 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
     };
 
     RideSearcher.prototype.processResults = function(trips) {
-      var trip, _i, _len, _results;
+      var i, trip, _i, _len, _results;
+      i = 0;
       _results = [];
       for (_i = 0, _len = trips.length; _i < _len; _i++) {
         trip = trips[_i];
-        _results.push(console.log(trip));
+        i += 1;
+        console.log(trip);
+        _results.push(new RouteRenderer(this.map, trip));
       }
       return _results;
     };
 
     return RideSearcher;
+
+  })();
+  RouteRenderer = (function() {
+
+    function RouteRenderer(map, route) {
+      var directionsDisplay, directionsService, mapRendererOptions, markerOptions, polylineOptions, request,
+        _this = this;
+      markerOptions = {
+        visible: false
+      };
+      polylineOptions = {
+        strokeColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
+        strokeOpacity: .6,
+        strokeWeight: 4
+      };
+      mapRendererOptions = {
+        markerOptions: markerOptions,
+        polylineOptions: polylineOptions
+      };
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      directionsDisplay.setOptions(mapRendererOptions);
+      directionsDisplay.setMap(map);
+      console.log(directionsDisplay);
+      request = {
+        origin: route['origin']['address'],
+        destination: route['destination']['address'],
+        travelMode: google.maps.TravelMode.DRIVING,
+        region: 'uk'
+      };
+      directionsService = new google.maps.DirectionsService();
+      directionsService.route(request, function(result, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+          console.log('Received directions');
+          directionsDisplay.setDirections(result);
+          return console.log(result);
+        }
+      });
+    }
+
+    return RouteRenderer;
 
   })();
   return new RideSearcher();

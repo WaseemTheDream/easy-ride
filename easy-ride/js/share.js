@@ -11,8 +11,14 @@ require(['components/map-route', 'components/input/date-time', 'components/input
       this.setButton = __bind(this.setButton, this);
 
       var _this = this;
+      this.mapOptions = {
+        center: new google.maps.LatLng(51.517099, -0.146084),
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      this.map = new google.maps.Map($('#map_canvas')[0], this.mapOptions);
       this.departure = new DateTime($('#share-departure'), $('#share-departure-date'), $('#share-departure-time'));
-      this.route = new MapRoute($('#share-route'), $('#share-from'), $('#share-to'), $('#share-trip-length'));
+      this.route = new MapRoute($('#share-route'), this.map, $('#share-from'), $('#share-to'), $('#share-trip-length'));
       this.message = $('#share-message');
       this.womenOnly = $('#share-women-only');
       this.spots = new NumberInput($('#share-spots').parent().parent(), $('#share-spots'), true);

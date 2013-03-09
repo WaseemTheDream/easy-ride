@@ -16,8 +16,9 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
 
     __extends(MapRoute, _super);
 
-    function MapRoute(container, from, to, tripLength) {
+    function MapRoute(container, map, from, to, tripLength) {
       this.container = container;
+      this.map = map;
       this.from = from;
       this.to = to;
       if (tripLength == null) {
@@ -38,12 +39,6 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       this.result;
       this.directionsDisplay = new google.maps.DirectionsRenderer();
       this.directionsService = new google.maps.DirectionsService();
-      this.mapOptions = {
-        center: new google.maps.LatLng(51.517099, -0.146084),
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      this.map = new google.maps.Map($('#map_canvas')[0], this.mapOptions);
       this.mapMarkers = [];
       this.directionsDisplay.setMap(this.map);
       this.from.change(this.calculateRoute);

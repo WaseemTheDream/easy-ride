@@ -7,7 +7,7 @@ define ['components/user-interface',
         Requires: Google Maps API V3
     ###
     class MapRoute extends UserInterface
-        constructor: (@container, @from, @to, tripLength=null) ->
+        constructor: (@container, @map, @from, @to, tripLength=null) ->
             super(@container)
 
             new google.maps.places.SearchBox(@from[0])
@@ -22,15 +22,6 @@ define ['components/user-interface',
             # Google Maps
             @directionsDisplay = new google.maps.DirectionsRenderer()
             @directionsService = new google.maps.DirectionsService()
-
-            # Google Maps Options
-            @mapOptions =
-                center: new google.maps.LatLng(51.517099, -0.146084)
-                zoom: 12
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-
-            # Initialize Google Maps
-            @map = new google.maps.Map($('#map_canvas')[0], @mapOptions)
             @mapMarkers = []
 
             @directionsDisplay.setMap(@map)
