@@ -30,9 +30,12 @@ require [
             @searchButton = $('#search-button')
             
             @searchButton.click =>
+                return null if @searchButton.hasClass('disabled')
                 data = @toJson()
                 return null if data == null
                 console.log(data)
+
+                @setButton('btn btn-primary disabled', 'Searching...')
 
                 $.ajax
                     url: '/index_search.php'
@@ -45,7 +48,7 @@ require [
                         if json
                             if json['status'] == 'OK'
                                 @processResults(json['trips'])
-                                @setButton('btn btn-success', 'Search')
+                                @setButton('btn btn-primary', 'Search')
                                 return
                             else
                                 error = json['msg']
@@ -79,15 +82,14 @@ require [
             markerOptions =
                 visible: false
             polylineOptions = 
-                strokeColor: "#" + Math.floor(Math.random() * 16777215).toString(16)
+                strokeColor: "#808080"
                 strokeOpacity: .6
                 strokeWeight: 4
             mapRendererOptions =
                 markerOptions: markerOptions
-                polylineOptions: polylineOptions
+                # polylineOptions: polylineOptions
 
-            directionsDisplay = new google.maps.DirectionsRenderer()
-            directionsDisplay.setOptions(mapRendererOptions)
+            directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions)
             directionsDisplay.setMap(map)
             console.log(directionsDisplay)
 

@@ -17,6 +17,7 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
     __extends(MapRoute, _super);
 
     function MapRoute(container, map, from, to, tripLength) {
+      var mapRendererOptions, polylineOptions;
       this.container = container;
       this.map = map;
       this.from = from;
@@ -37,7 +38,15 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
         this.tripLength = new TextInput(tripLength.parent().parent(), tripLength);
       }
       this.result;
-      this.directionsDisplay = new google.maps.DirectionsRenderer();
+      polylineOptions = {
+        strokeColor: "#808080",
+        strokeOpacity: .9,
+        strokeWeight: 4
+      };
+      mapRendererOptions = {
+        polylineOptions: polylineOptions
+      };
+      this.directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions);
       this.directionsService = new google.maps.DirectionsService();
       this.mapMarkers = [];
       this.directionsDisplay.setMap(this.map);

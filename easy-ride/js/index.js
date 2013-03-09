@@ -25,11 +25,15 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       this.searchButton = $('#search-button');
       this.searchButton.click(function() {
         var data;
+        if (_this.searchButton.hasClass('disabled')) {
+          return null;
+        }
         data = _this.toJson();
         if (data === null) {
           return null;
         }
         console.log(data);
+        _this.setButton('btn btn-primary disabled', 'Searching...');
         return $.ajax({
           url: '/index_search.php',
           type: 'GET',
@@ -44,7 +48,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
             if (json) {
               if (json['status'] === 'OK') {
                 _this.processResults(json['trips']);
-                _this.setButton('btn btn-success', 'Search');
+                _this.setButton('btn btn-primary', 'Search');
                 return;
               } else {
                 error = json['msg'];
@@ -103,16 +107,14 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         visible: false
       };
       polylineOptions = {
-        strokeColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
+        strokeColor: "#808080",
         strokeOpacity: .6,
         strokeWeight: 4
       };
       mapRendererOptions = {
-        markerOptions: markerOptions,
-        polylineOptions: polylineOptions
+        markerOptions: markerOptions
       };
-      directionsDisplay = new google.maps.DirectionsRenderer();
-      directionsDisplay.setOptions(mapRendererOptions);
+      directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions);
       directionsDisplay.setMap(map);
       console.log(directionsDisplay);
       request = {

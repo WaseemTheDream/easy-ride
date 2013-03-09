@@ -20,7 +20,14 @@ define ['components/user-interface',
             @result
 
             # Google Maps
-            @directionsDisplay = new google.maps.DirectionsRenderer()
+            polylineOptions = 
+                strokeColor: "#808080"
+                strokeOpacity: .9
+                strokeWeight: 4
+            mapRendererOptions =
+                polylineOptions: polylineOptions
+
+            @directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions)
             @directionsService = new google.maps.DirectionsService()
             @mapMarkers = []
 
