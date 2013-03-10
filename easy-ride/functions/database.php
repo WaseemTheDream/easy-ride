@@ -154,35 +154,3 @@ function get_place($id)
     return NULL;
 }
 
-
-/**
- * Calculates the great-circle distance between two points, with
- * the Haversine formula.
- * @param float $latitudeFrom Latitude of start point in [deg decimal]
- * @param float $longitudeFrom Longitude of start point in [deg decimal]
- * @param float $latitudeTo Latitude of target point in [deg decimal]
- * @param float $longitudeTo Longitude of target point in [deg decimal]
- * @return float Distance between points in miles
- */
-
-function distance_miles ($point_a, $point_b){
-
-    $earthRadius = 6371000; // Mean earth radius in meters [m]
-
-    // convert from degrees to radians
-  $latFrom = deg2rad($point_a['lat']);
-  $lonFrom = deg2rad($point_a['lon']);
-  $latTo = deg2rad($point_b['lat']);
-  $lonTo = deg2rad($point_b['lon']);
-
-    // Computer lon and lat differences
-  $latDelta = $latTo - $latFrom;
-  $lonDelta = $lonTo - $lonFrom;
-
-  $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
-            cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
-
-   $distance= $angle * $earthRadius; // Distance in meters
-   $dist_miles = $distance*0.000621371192 ; // Convert meters to miles
-   return $dist_miles;
-}
