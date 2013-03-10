@@ -31,7 +31,7 @@ body > .container-fluid > .row-fluid {
 
 #search-results {
     max-height: 255px;
-    overflow: hidden;
+    overflow: auto;
 }
 
 #map_canvas {

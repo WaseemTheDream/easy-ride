@@ -89,6 +89,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
 
     RideSearcher.prototype.processResults = function(trips) {
       var i, trip, tripHTML, _i, _len, _results;
+      this.tripsList = trips;
       i = 0;
       _results = [];
       for (_i = 0, _len = trips.length; _i < _len; _i++) {

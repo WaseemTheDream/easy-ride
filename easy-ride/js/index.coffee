@@ -75,6 +75,7 @@ require [
             return json
 
         processResults: (trips) =>
+            @tripsList = trips
             i = 0
             for trip in trips
                 i += 1
