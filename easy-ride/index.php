@@ -56,7 +56,7 @@
         </div><!-- End Sidebar Content -->
         <div class="well" id="search-results">
           <h4>Search Results</h4>
-          <ol id="trips"></ol>
+          <div id="trips"></div>
         </div>
       </div>
       <div id="map_canvas" class="well"></div>
@@ -65,10 +65,23 @@
 <hr>
 <!-- Load JS in the end for faster page loading -->
 <script type="text/template" id="trip-template">
-  <li class="trip-info">
-    <strong>From: </strong><%= origin.address %><br>
-    <strong>To: </strong><%= destination.address %>
-  </li>
+<div class="accordion-group trip-info" id="trip-<%= id %>">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#trip-<%= id %>" href="#collapse-<%= id %>">
+      <strong>From: </strong><%= origin.address %><br>
+      <strong>To: </strong><%= destination.address %><br>
+      <strong>Departure: </strong><%= departure_string %>
+    </a>
+  </div>
+  <div id="collapse-<%= id %>" class="accordion-body collapse">
+    <div class="accordion-inner">
+      <strong>Trip Length: </strong><%= length %><br>
+      <strong>Spots Remaining: </strong><%= spots %><br>
+      <strong>Message: </strong><%= message %><br>
+      <button type="button" class="btn btn-small btn-info"><i class='icon icon-road icon-white'></i> Request Ride</button>
+    </div>
+  </div>
+</div>
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
 <script src="js/lib/underscore.min.js"></script>

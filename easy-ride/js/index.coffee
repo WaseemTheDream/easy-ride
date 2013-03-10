@@ -79,10 +79,11 @@ require [
             i = 0
             for trip in trips
                 i += 1
+                trip.id = i
+                trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString()
                 console.log(trip)
                 new RouteRenderer(@map, trip)
                 tripHTML = @tripTemplate(trip)
-                console.log(tripHTML)
                 @trips.append(tripHTML)
 
 
@@ -100,7 +101,6 @@ require [
 
             directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions)
             directionsDisplay.setMap(map)
-            console.log(directionsDisplay)
 
             request =
                 origin: route['origin']['address']
@@ -111,8 +111,6 @@ require [
             directionsService = new google.maps.DirectionsService()
             directionsService.route request, (result, status) =>
                 if status == google.maps.DirectionsStatus.OK
-                    console.log('Received directions')
                     directionsDisplay.setDirections(result)
-                    console.log(result)
 
     rideSearcher = new RideSearcher()

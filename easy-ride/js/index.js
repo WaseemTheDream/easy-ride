@@ -95,10 +95,11 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       for (_i = 0, _len = trips.length; _i < _len; _i++) {
         trip = trips[_i];
         i += 1;
+        trip.id = i;
+        trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString();
         console.log(trip);
         new RouteRenderer(this.map, trip);
         tripHTML = this.tripTemplate(trip);
-        console.log(tripHTML);
         _results.push(this.trips.append(tripHTML));
       }
       return _results;
@@ -125,7 +126,6 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       };
       directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions);
       directionsDisplay.setMap(map);
-      console.log(directionsDisplay);
       request = {
         origin: route['origin']['address'],
         destination: route['destination']['address'],
@@ -135,9 +135,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       directionsService = new google.maps.DirectionsService();
       directionsService.route(request, function(result, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-          console.log('Received directions');
-          directionsDisplay.setDirections(result);
-          return console.log(result);
+          return directionsDisplay.setDirections(result);
         }
       });
     }

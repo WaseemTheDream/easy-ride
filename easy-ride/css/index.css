@@ -38,3 +38,8 @@ body > .container-fluid > .row-fluid {
     min-width: 300px;
     min-height: 500px;
 }
+
+.trip-info button {
+    float: right;
+    margin-bottom: 8px;
+}
