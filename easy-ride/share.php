@@ -3,8 +3,8 @@
   include "functions/user.php";
 ?>
 <?php if (user\user_logged_in()): ?>
-<link href="/css/common/datepicker.css" rel="stylesheet">
-<link href="/css/common/timepicker.css" rel="stylesheet">
+<link href="/css/lib/bootstrap-datepicker.css" rel="stylesheet">
+<link href="/css/lib/bootstrap-timepicker.css" rel="stylesheet">
 <link href="/css/share.css" rel="stylesheet">
  
  <div class="container-fluid">

@@ -55,7 +55,7 @@ function user_status() {
     }
 }
 ?>
-<script src="/js/common/bootstrap-dropdown.js"></script>
+<script src="/js/lib/bootstrap-dropdown.js"></script>
 <script src="/js/common/navbar.js"></script>
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">

@@ -1,5 +1,5 @@
-define ['common/bootstrap-datepicker',
-        'common/bootstrap-timepicker',
+define ['lib/bootstrap-datepicker',
+        'lib/bootstrap-timepicker',
         'components/user-interface'], (datepicker, timepicker, UserInterface) ->
     ###
         A DateTime module that uses a Bootstrap DatePicker and TimePicker and

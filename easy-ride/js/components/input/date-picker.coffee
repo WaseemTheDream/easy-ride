@@ -1,4 +1,4 @@
-define ['common/bootstrap-datepicker',
+define ['lib/bootstrap-datepicker',
         'components/user-interface'], (datepicker, UserInterface) ->
     ###
         A Date module that uses a Bootstrap DatePicker.

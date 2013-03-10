@@ -3,7 +3,7 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['common/bootstrap-datepicker', 'common/bootstrap-timepicker', 'components/user-interface'], function(datepicker, timepicker, UserInterface) {
+define(['lib/bootstrap-datepicker', 'lib/bootstrap-timepicker', 'components/user-interface'], function(datepicker, timepicker, UserInterface) {
   /*
           A DateTime module that uses a Bootstrap DatePicker and TimePicker and
           combines the input.
@@ -26,7 +26,7 @@ define(['common/bootstrap-datepicker', 'common/bootstrap-timepicker', 'component
     }
 
     /*
-                Returns departure time as an integer value, if entered
+                Returns time as an integer value, if entered
     */
 
 
@@ -35,7 +35,7 @@ define(['common/bootstrap-datepicker', 'common/bootstrap-timepicker', 'component
       dateString = this.date.element.children().filter('input').val();
       timeString = this.time.val();
       if (!dateString || !timeString) {
-        this.setError('Missing departure information.');
+        this.setError('Missing information.');
         return null;
       }
       time = this.parseTime(timeString);

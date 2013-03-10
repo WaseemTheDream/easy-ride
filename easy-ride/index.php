@@ -1,7 +1,7 @@
 <?php 
   include "templates/head.php";
 ?>
-<link href="css/common/datepicker.css" rel="stylesheet">
+<link href="css/lib/bootstrap-datepicker.css" rel="stylesheet">
 <link href="css/index.css" rel="stylesheet">
  <div class="container-fluid">
     <div class="row-fluid">
