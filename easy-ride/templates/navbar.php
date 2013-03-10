@@ -3,7 +3,8 @@
 $nav_bar = array(
     "Search" => "/index.php",
     "Share" => "/share.php",
-    "Contact" => "#");
+    "Contact" => "#",
+    "Admin" => '/admin.php');
 
 function render_nav_bar() {
     global $nav_bar;
