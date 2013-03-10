@@ -1,3 +1,4 @@
+rideSearcher = rideSearcher or {}
 require [
     'components/map-route',
     'components/input/date-picker'
@@ -55,6 +56,9 @@ require [
                         @setButton('btn btn-danger', error)
                     error: (data) ->
                         @setButton('btn btn-danger', 'Error!')
+
+            @tripTemplate = _.template($('#trip-template').html())
+            @trips = $('#trips')
             
         setButton: (btnClass, msg) =>
             @searchButton.attr('class', btnClass)
@@ -76,6 +80,10 @@ require [
                 i += 1
                 console.log(trip)
                 new RouteRenderer(@map, trip)
+                tripHTML = @tripTemplate(trip)
+                console.log(tripHTML)
+                @trips.append(tripHTML)
+
 
     class RouteRenderer
         constructor: (map, route) ->
@@ -106,4 +114,4 @@ require [
                     directionsDisplay.setDirections(result)
                     console.log(result)
 
-    new RideSearcher()
+    rideSearcher = new RideSearcher()

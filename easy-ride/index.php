@@ -7,7 +7,7 @@
     <div class="row-fluid">
       <div id="search-bar">
         <!--Sidebar content-->
-        <form class="form-horizontal well" id="search">
+        <div class="form-horizontal well" id="search">
         <fieldset>
           <div class="control-group" id="search-route">
             <!-- From -->
@@ -52,13 +52,25 @@
            <button type="button" id="search-button" class="btn btn-primary">Search</button>
          </div>
          </fieldset>
-        </form><!-- End Sidebar Content -->
+         </form>
+        </div><!-- End Sidebar Content -->
+        <div class="well" id="search-results">
+          <h4>Search Results</h4>
+          <ol id="trips"></ol>
+        </div>
       </div>
       <div id="map_canvas" class="well"></div>
     </div>
   </div>
 <hr>
 <!-- Load JS in the end for faster page loading -->
+<script type="text/template" id="trip-template">
+  <li class="trip-info">
+    <strong>From: </strong><%= origin.address %><br>
+    <strong>To: </strong><%= destination.address %>
+  </li>
+</script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
+<script src="js/lib/underscore.min.js"></script>
 <script data-main="js/index.js" src="js/require.js"></script>
 <?php include "templates/footer.php" ?>
