@@ -1,7 +1,7 @@
 
-app = app or {}
+admin = admin or {}
 
-app.User = Backbone.Model.extend
+admin.User = Backbone.Model.extend
     defaults:
         first_name: ''
         last_name: ''
