@@ -102,7 +102,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
     };
 
     RideSearcher.prototype.processResults = function(trips) {
-      var i, trip, tripHTML, _i, _len;
+      var i, routeRenderer, trip, tripHTML, _i, _len;
       this.tripsList = trips;
       i = 0;
       this.trips.hide();
@@ -111,10 +111,11 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         i += 1;
         trip.id = i;
         trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString();
-        console.log(trip);
-        new RouteRenderer(this.map, trip);
+        routeRenderer = new RouteRenderer(this.map, trip);
         tripHTML = this.tripTemplate(trip);
+        console.log(tripHTML);
         this.trips.append(tripHTML);
+        $("#trip-" + i).hover(routeRenderer.hoverIn, routeRenderer.hoverOut);
       }
       return this.trips.slideDown(1000);
     };
@@ -125,34 +126,48 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
   RouteRenderer = (function() {
 
     function RouteRenderer(map, route) {
-      var directionsDisplay, directionsService, mapRendererOptions, markerOptions, polylineOptions, request,
+      var request,
         _this = this;
-      markerOptions = {
-        visible: false
+      this.map = map;
+      this.route = route;
+      this.hoverOut = __bind(this.hoverOut, this);
+
+      this.hoverIn = __bind(this.hoverIn, this);
+
+      this.mapRendererOptions = {
+        markerOptions: {
+          visible: false
+        },
+        polylineOptions: {
+          strokeOpacity: 0.0,
+          strokeWeight: 4
+        }
       };
-      polylineOptions = {
-        strokeColor: "#808080",
-        strokeOpacity: .6,
-        strokeWeight: 4
-      };
-      mapRendererOptions = {
-        markerOptions: markerOptions
-      };
-      directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions);
-      directionsDisplay.setMap(map);
+      this.directionsDisplay = new google.maps.DirectionsRenderer(this.mapRendererOptions);
+      this.directionsDisplay.setMap(this.map);
       request = {
         origin: route['origin']['address'],
         destination: route['destination']['address'],
         travelMode: google.maps.TravelMode.DRIVING,
         region: 'uk'
       };
-      directionsService = new google.maps.DirectionsService();
-      directionsService.route(request, function(result, status) {
+      this.directionsService = new google.maps.DirectionsService();
+      this.directionsService.route(request, function(result, status) {
         if (status === google.maps.DirectionsStatus.OK) {
-          return directionsDisplay.setDirections(result);
+          return _this.directionsDisplay.setDirections(result);
         }
       });
     }
+
+    RouteRenderer.prototype.hoverIn = function(e) {
+      this.mapRendererOptions.polylineOptions.strokeOpacity = 0.8;
+      return this.directionsDisplay.setMap(this.map);
+    };
+
+    RouteRenderer.prototype.hoverOut = function(e) {
+      this.mapRendererOptions.polylineOptions.strokeOpacity = 0.0;
+      return this.directionsDisplay.setMap(this.map);
+    };
 
     return RouteRenderer;
 

@@ -90,27 +90,24 @@ require [
                 i += 1
                 trip.id = i
                 trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString()
-                console.log(trip)
-                new RouteRenderer(@map, trip)
+                routeRenderer = new RouteRenderer(@map, trip)
                 tripHTML = @tripTemplate(trip)
+                console.log(tripHTML)
                 @trips.append(tripHTML)
+                $("#trip-#{i}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
             @trips.slideDown(1000)
 
 
     class RouteRenderer
-        constructor: (map, route) ->
-            markerOptions =
-                visible: false
-            polylineOptions = 
-                strokeColor: "#808080"
-                strokeOpacity: .6
-                strokeWeight: 4
-            mapRendererOptions =
-                markerOptions: markerOptions
-                # polylineOptions: polylineOptions
-
-            directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions)
-            directionsDisplay.setMap(map)
+        constructor: (@map, @route) ->
+            @mapRendererOptions =
+                markerOptions:
+                    visible: false
+                polylineOptions:
+                    strokeOpacity: 0.0
+                    strokeWeight: 4
+            @directionsDisplay = new google.maps.DirectionsRenderer(@mapRendererOptions)
+            @directionsDisplay.setMap(@map)
 
             request =
                 origin: route['origin']['address']
@@ -118,9 +115,17 @@ require [
                 travelMode: google.maps.TravelMode.DRIVING
                 region: 'uk'
 
-            directionsService = new google.maps.DirectionsService()
-            directionsService.route request, (result, status) =>
+            @directionsService = new google.maps.DirectionsService()
+            @directionsService.route request, (result, status) =>
                 if status == google.maps.DirectionsStatus.OK
-                    directionsDisplay.setDirections(result)
+                    @directionsDisplay.setDirections(result)
+
+        hoverIn: (e) =>
+            @mapRendererOptions.polylineOptions.strokeOpacity = 0.8
+            @directionsDisplay.setMap(@map)
+
+        hoverOut: (e) =>
+            @mapRendererOptions.polylineOptions.strokeOpacity = 0.0
+            @directionsDisplay.setMap(@map)
 
     rideSearcher = new RideSearcher()

@@ -190,6 +190,7 @@ function get_trips_near_on($route, $departure=NULL) {
              AND pl.lon - 0.25 <= $q_origin_lon
              AND pl.lon + 0.25 >= $q_origin_lon
              AND $departure_condition
+        
         AND (tr.id) IN
 
         (SELECT tr.id FROM $trip_table as tr, $place_table as pl
