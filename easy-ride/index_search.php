@@ -7,7 +7,7 @@ function search_get() {
 
     // Get all trips for now
     // $trips = database\get_all_trips();
-    $trips = database\get_trips_near($data['route']);
+    $trips = database\get_trips_near_on($data['route'],$data['departure']);
     if ($trips == NULL)
         $trips = array();
     $trips_found = array(
