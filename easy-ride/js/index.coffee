@@ -78,9 +78,8 @@ require [
                 departure: @departure.getTime()
                 women_only: @womenOnly.prop('checked')
                 route: @route.toJson()
-            for key, value of json
-                if value == null
-                    return null
+            if json['route'] == null or json['women_only'] == null
+                return null
             return json
 
         processResults: (trips) =>

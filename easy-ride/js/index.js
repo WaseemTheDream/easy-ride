@@ -89,17 +89,14 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
     };
 
     RideSearcher.prototype.toJson = function() {
-      var json, key, value;
+      var json;
       json = {
         departure: this.departure.getTime(),
         women_only: this.womenOnly.prop('checked'),
         route: this.route.toJson()
       };
-      for (key in json) {
-        value = json[key];
-        if (value === null) {
-          return null;
-        }
+      if (json['route'] === null || json['women_only'] === null) {
+        return null;
       }
       return json;
     };

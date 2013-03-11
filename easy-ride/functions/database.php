@@ -160,7 +160,7 @@ function get_place($id)
   * @param route the route for which to find nearby trips
   * @return an array of all the trips nearby the route
   */
-function get_trips_near_on($route,$departure=NULL) {
+function get_trips_near_on($route, $departure=NULL) {
 
     $threshold = 0.25; // The Threshold
     $q_origin_lat = $route['origin']['lat'];
@@ -170,15 +170,16 @@ function get_trips_near_on($route,$departure=NULL) {
     $trip_table = TRIP_TABLE;
     $place_table = PLACE_TABLE;
 
-    $departure_condition ="";
-    $current_time = time();
-    $time_limit = 86400;
-    if (!$departure){
-        $departure_condition="tr.departure_time >=$current_time";
+    $departure_condition = "";
+    if (!$departure) {
+        $current_time = time();
+        $departure_condition = "tr.departure_time >= $current_time";
+    } else {
+        $departure_condition = "tr.departure_time >= $departure
+                                AND tr.departure_time <= $departure + 86400";
     }
-    else{
-        $departure_condition="tr.departure_time >=$departure";
-    }
+
+    error_log("Query: $departure_query");
 
     $search_query = 
         "SELECT tr.* FROM $trip_table as tr, $place_table as pl
