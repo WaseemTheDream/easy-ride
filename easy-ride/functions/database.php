@@ -170,17 +170,14 @@ function get_trips_near_on($route,$departure=NULL) {
     $trip_table = TRIP_TABLE;
     $place_table = PLACE_TABLE;
 
-    $departure_query ="";
+    $departure_condition ="";
     $current_time = time();
-    $time_limit = 8400;
+    $time_limit = 86400;
     if (!$departure){
-        $departure_query="SELECT departure_time FROM $trip_table 
-                                               WHERE departure_time >=$current_time";
+        $departure_condition="tr.departure_time >=$current_time";
     }
     else{
-        $departure_query="SELECT departure_time FROM $trip_table 
-                                               WHERE departure_time >=$departure
-                                               AND departure_time<= $departure+$time_limit";
+        $departure_condition="tr.departure_time >=$departure";
     }
 
     $search_query = 
@@ -190,8 +187,7 @@ function get_trips_near_on($route,$departure=NULL) {
              AND pl.lat + 0.25 >= $q_origin_lat
              AND pl.lon - 0.25 <= $q_origin_lon
              AND pl.lon + 0.25 >= $q_origin_lon
-
-        AND ($departure_query)
+             AND $departure_condition
         AND (tr.id) IN
 
         (SELECT tr.id FROM $trip_table as tr, $place_table as pl
