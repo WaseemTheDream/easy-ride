@@ -156,9 +156,10 @@ function get_place($id)
 
 /**
   * Returns all the trips near the given route
+  * TODO: Sanitize input
   * @param route the route for which to find nearby trips
-  *@return an array of all the trips nearby the route
-*/
+  * @return an array of all the trips nearby the route
+  */
 function get_trips_near($route) {
 
     $threshold = 0.25; // The Threshold
@@ -169,35 +170,36 @@ function get_trips_near($route) {
     $trip_table = TRIP_TABLE;
     $place_table = PLACE_TABLE;
 
+    $search_query =
+        "SELECT  $trip_table.*
+            FROM    $trip_table, $place_table
+            INNER JOIN $trip_table on $trip_table.origin_id = $place_table.id
+            WHERE  
+                    $place_table.lat - $threshold <= $query_origin_lat
+                AND $query_origin_lat <=  $place_table.lat + $threshold 
+                AND $place_table.lon - $threshold <= $query_origin_lon 
+                AND $query_origin_lon <=  $place_table.lon + $threshold
+                       
+        INTERSECT
 
-$search_query =    "SELECT  $trip_table.*
-                    FROM    $trip_table, $place_table
-                    INNER JOIN $trip_table on  $trip_table.origin_id = $place_table.id
-                    WHERE  
-                        $place_table.lat - $threshold <= $query_origin_lat
-                        AND $query_origin_lat <=  $place_table.lat + $threshold 
-                        AND  $place_table.lon - $threshold <= $query_origin_lon 
-                        AND $query_origin_lon <=  $place_table.lon + $threshold
-                   
-                    INTERSECT
+        SELECT  $trip_table.*
+            FROM    $trip_table, $place_table
+            INNER JOIN $trip_table on $trip_table.destination_id = $place_table.id
+            WHERE
+                    $place_table.lat - $threshold <= $destination_origin_lat  
+                AND $destination_origin_lat <=  $place_table.lat + $threshold
+                AND $place_table.lon - $threshold <= $destination_origin_lon
+                AND $destination_origin_lon <=  $place_table.lon + $threshold";
 
-                    SELECT  $trip_table.*
-                    FROM    $trip_table, $place_table
-                    INNER JOIN $trip_table on  $trip_table.destination_id = $place_table.id
-                    WHERE
-                        $place_table.lat - $threshold <= $destination_origin_lat  
-                        AND $destination_origin_lat <=  $place_table.lat + $threshold
-                        AND $place_table.lon - $threshold <= $destination_origin_lon
-                        AND $destination_origin_lon <=  $place_table.lon + $threshold 
-                    ";
-$result = mysql_query($search_query);
-$rows = array();
+    $result = mysql_query($search_query);
+    $rows = array();
 
-if (!$result) return NULL;
-$num_rows = mysql_num_rows($result);
-for ($i = 0; $i < $num_rows; ++$i) {
-        $row = mysql_fetch_assoc($result);
-        $rows[] = process_trip_row($row);
+    if (!$result) return NULL;
+    $num_rows = mysql_num_rows($result);
+
+    for ($i = 0; $i < $num_rows; ++$i) {
+            $row = mysql_fetch_assoc($result);
+            $rows[] = process_trip_row($row);
     }
     return $rows;
 }
