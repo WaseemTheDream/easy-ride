@@ -8,6 +8,8 @@ function search_get() {
     // Get all trips for now
     // $trips = database\get_all_trips();
     $trips = database\get_trips_near($data['route']);
+    if ($trips == NULL)
+        $trips = array();
     $trips_found = array(
         "trips" => $trips);
 

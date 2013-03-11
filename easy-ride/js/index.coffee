@@ -36,7 +36,7 @@ require [
                 return null if data == null
                 console.log(data)
 
-                @setButton('btn btn-primary', 'Searching...')
+                @setButton('btn btn-primary disabled', 'Searching...')
 
                 $.ajax
                     url: '/index_search.php'
@@ -56,11 +56,11 @@ require [
             if json
                 if json['status'] == 'OK'
                     @clearTrips()
-                    if json['trips']
+                    if json['trips'].length == 0
+                        @setButton('btn btn-primary', 'No trips found')
+                    else
                         @processResults(json['trips'])
                         @setButton('btn btn-primary', 'Search')
-                    else
-                        @setButton('btn btn-warning', 'No trips found')
                     return
                 else
                     error = json['msg']

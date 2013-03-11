@@ -40,7 +40,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
           return null;
         }
         console.log(data);
-        _this.setButton('btn btn-primary', 'Searching...');
+        _this.setButton('btn btn-primary disabled', 'Searching...');
         return $.ajax({
           url: '/index_search.php',
           type: 'GET',
@@ -65,11 +65,11 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       if (json) {
         if (json['status'] === 'OK') {
           this.clearTrips();
-          if (json['trips']) {
+          if (json['trips'].length === 0) {
+            this.setButton('btn btn-primary', 'No trips found');
+          } else {
             this.processResults(json['trips']);
             this.setButton('btn btn-primary', 'Search');
-          } else {
-            this.setButton('btn btn-warning', 'No trips found');
           }
           return;
         } else {
