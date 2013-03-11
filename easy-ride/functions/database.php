@@ -158,6 +158,7 @@ function get_place($id)
   * Returns all the trips near the given route
   * TODO: Sanitize input
   * @param route the route for which to find nearby trips
+  * @param Departure time for the ride, null if not specified
   * @return an array of all the trips nearby the route
   */
 function get_trips_near_on($route, $departure=NULL) {
@@ -179,7 +180,7 @@ function get_trips_near_on($route, $departure=NULL) {
                                 AND tr.departure_time <= $departure + 86400";
     }
 
-    error_log("Query: $departure_query");
+    error_log("Query: $departure_condition");
 
     $search_query = 
         "SELECT tr.* FROM $trip_table as tr, $place_table as pl

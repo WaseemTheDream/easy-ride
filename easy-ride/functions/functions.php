@@ -54,7 +54,7 @@ function distance_miles($point_a, $point_b){
     $lat_to = deg2rad($point_b['lat']);
     $lon_to = deg2rad($point_b['lon']);
 
-    // Computer lon and lat differences
+    // Compute lon and lat differences
     $lat_delta = $lat_to - $lat_from;
     $lon_delta = $lon_to - $lon_from;
 
