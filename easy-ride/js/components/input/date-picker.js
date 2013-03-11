@@ -30,8 +30,10 @@ define(['lib/bootstrap-datepicker', 'components/user-interface'], function(datep
     DatePicker.prototype.getTime = function() {
       var dateString;
       dateString = this.date.element.children().filter('input').val();
-      if (!dateString && this.required) {
-        this.setError('Missing information.');
+      if (!dateString) {
+        if (this.required) {
+          this.setError('Missing information.');
+        }
         return null;
       }
       this.removeError();

@@ -13,8 +13,9 @@ define ['lib/bootstrap-datepicker',
         ###
         getTime: =>
             dateString = @date.element.children().filter('input').val()
-            if not dateString and @required
-                @setError('Missing information.')
+            if not dateString
+                if @required
+                    @setError('Missing information.')
                 return null
 
             @removeError()

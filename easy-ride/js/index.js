@@ -27,7 +27,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       };
       this.map = new google.maps.Map($('#map_canvas')[0], this.mapOptions);
       this.womenOnly = $('#search-women-only');
-      this.departure = new DatePicker($('#search-departure'), $('#search-departure-date'), true);
+      this.departure = new DatePicker($('#search-departure'), $('#search-departure-date'), false);
       this.route = new MapRoute($('#search-route'), this.map, $('#search-from'), $('#search-to'));
       this.searchButton = $('#search-button');
       this.searchButton.click(function() {

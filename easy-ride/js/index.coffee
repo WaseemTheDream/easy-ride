@@ -20,7 +20,7 @@ require [
             @departure = new DatePicker(
                 $('#search-departure'),
                 $('#search-departure-date'),
-                true)
+                false)
 
             @route = new MapRoute(
                 $('#search-route'),
