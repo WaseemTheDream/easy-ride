@@ -17,6 +17,8 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
 
       this.clearTrips = __bind(this.clearTrips, this);
 
+      this.searchResults = __bind(this.searchResults, this);
+
       var _this = this;
       this.mapOptions = {
         center: new google.maps.LatLng(51.517099, -0.146084),
@@ -38,30 +40,14 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
           return null;
         }
         console.log(data);
-        _this.setButton('btn btn-primary disabled', 'Searching...');
+        _this.setButton('btn btn-primary', 'Searching...');
         return $.ajax({
           url: '/index_search.php',
           type: 'GET',
           data: {
             'data': JSON.stringify(data)
           },
-          success: function(data) {
-            var error, json;
-            console.log(data);
-            error = 'Unknown Error!';
-            json = JSON.parse(data);
-            if (json) {
-              if (json['status'] === 'OK') {
-                _this.clearTrips();
-                _this.processResults(json['trips']);
-                _this.setButton('btn btn-primary', 'Search');
-                return;
-              } else {
-                error = json['msg'];
-              }
-            }
-            return _this.setButton('btn btn-danger', error);
-          },
+          success: _this.searchResults,
           error: function(data) {
             return this.setButton('btn btn-danger', 'Error!');
           }
@@ -70,6 +56,28 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       this.tripTemplate = _.template($('#trip-template').html());
       this.trips = $('#trips');
     }
+
+    RideSearcher.prototype.searchResults = function(data) {
+      var error, json;
+      console.log(data);
+      error = 'Unknown Error!';
+      json = JSON.parse(data);
+      if (json) {
+        if (json['status'] === 'OK') {
+          this.clearTrips();
+          if (json['trips']) {
+            this.processResults(json['trips']);
+            this.setButton('btn btn-primary', 'Search');
+          } else {
+            this.setButton('btn btn-warning', 'No trips found');
+          }
+          return;
+        } else {
+          error = json['msg'];
+        }
+      }
+      return this.setButton('btn btn-danger', error);
+    };
 
     RideSearcher.prototype.clearTrips = function() {
       return this.trips.html('');

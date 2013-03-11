@@ -6,7 +6,8 @@ function search_get() {
     $data = json_decode($_GET['data'], true);
 
     // Get all trips for now
-    $trips = database\get_all_trips();
+    // $trips = database\get_all_trips();
+    $trips = database\get_trips_near($data['route']);
     $trips_found = array(
         "trips" => $trips);
 

@@ -36,30 +36,35 @@ require [
                 return null if data == null
                 console.log(data)
 
-                @setButton('btn btn-primary disabled', 'Searching...')
+                @setButton('btn btn-primary', 'Searching...')
 
                 $.ajax
                     url: '/index_search.php'
                     type: 'GET'
                     data: 'data': JSON.stringify(data)
-                    success: (data) =>
-                        console.log(data)
-                        error = 'Unknown Error!'
-                        json = JSON.parse(data)
-                        if json
-                            if json['status'] == 'OK'
-                                @clearTrips()
-                                @processResults(json['trips'])
-                                @setButton('btn btn-primary', 'Search')
-                                return
-                            else
-                                error = json['msg']
-                        @setButton('btn btn-danger', error)
+                    success: @searchResults
                     error: (data) ->
                         @setButton('btn btn-danger', 'Error!')
 
             @tripTemplate = _.template($('#trip-template').html())
             @trips = $('#trips')
+
+        searchResults: (data) =>
+            console.log(data)
+            error = 'Unknown Error!'
+            json = JSON.parse(data)
+            if json
+                if json['status'] == 'OK'
+                    @clearTrips()
+                    if json['trips']
+                        @processResults(json['trips'])
+                        @setButton('btn btn-primary', 'Search')
+                    else
+                        @setButton('btn btn-warning', 'No trips found')
+                    return
+                else
+                    error = json['msg']
+            @setButton('btn btn-danger', error)
 
         clearTrips: =>
             @trips.html('')

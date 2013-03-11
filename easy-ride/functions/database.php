@@ -171,27 +171,28 @@ function get_trips_near($route) {
     $place_table = PLACE_TABLE;
 
     $search_query =
-        "SELECT  $trip_table.*
+        "SELECT  *
             FROM    $trip_table, $place_table
-            INNER JOIN $trip_table on $trip_table.origin_id = $place_table.id
-            WHERE  
-                    $place_table.lat - $threshold <= $query_origin_lat
-                AND $query_origin_lat <=  $place_table.lat + $threshold 
-                AND $place_table.lon - $threshold <= $query_origin_lon 
-                AND $query_origin_lon <=  $place_table.lon + $threshold
+            INNER JOIN $trip_table on $trip_table.origin_id = $place_table.id";
+            // WHERE  
+            //         $place_table.lat - $threshold <= $query_origin_lat
+            //     AND $query_origin_lat <=  $place_table.lat + $threshold
+            //     AND $place_table.lon - $threshold <= $query_origin_lon 
+            //     AND $query_origin_lon <=  $place_table.lon + $threshold";
                        
-        INTERSECT
+        // INTERSECT
 
-        SELECT  $trip_table.*
-            FROM    $trip_table, $place_table
-            INNER JOIN $trip_table on $trip_table.destination_id = $place_table.id
-            WHERE
-                    $place_table.lat - $threshold <= $destination_origin_lat  
-                AND $destination_origin_lat <=  $place_table.lat + $threshold
-                AND $place_table.lon - $threshold <= $destination_origin_lon
-                AND $destination_origin_lon <=  $place_table.lon + $threshold";
+        // SELECT  $trip_table.*
+        //     FROM    $trip_table, $place_table
+        //     INNER JOIN $trip_table on $trip_table.destination_id = $place_table.id
+        //     WHERE
+        //             $place_table.lat - $threshold <= $destination_origin_lat  
+        //         AND $destination_origin_lat <=  $place_table.lat + $threshold
+        //         AND $place_table.lon - $threshold <= $destination_origin_lon
+        //         AND $destination_origin_lon <=  $place_table.lon + $threshold";
 
     $result = mysql_query($search_query);
+    error_log("Query Result: $result");
     $rows = array();
 
     if (!$result) return NULL;
