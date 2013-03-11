@@ -163,33 +163,29 @@ function get_place($id)
 function get_trips_near($route) {
 
     $threshold = 0.25; // The Threshold
-    $query_origin_lat = $route['origin']['lat'];
-    $query_origin_lon = $route['origin']['lon'];
-    $destination_origin_lat = $route['destination']['lat'];
-    $destination_origin_lon = $route['destination']['lon'];
+    $q_origin_lat = $route['origin']['lat'];
+    $q_origin_lon = $route['origin']['lon'];
+    $q_dest_lat = $route['destination']['lat'];
+    $q_dest_lon = $route['destination']['lon'];
     $trip_table = TRIP_TABLE;
     $place_table = PLACE_TABLE;
 
-    $search_query =
-        "SELECT  *
-            FROM    $trip_table, $place_table
-            INNER JOIN $trip_table on $trip_table.origin_id = $place_table.id";
-            // WHERE  
-            //         $place_table.lat - $threshold <= $query_origin_lat
-            //     AND $query_origin_lat <=  $place_table.lat + $threshold
-            //     AND $place_table.lon - $threshold <= $query_origin_lon 
-            //     AND $query_origin_lon <=  $place_table.lon + $threshold";
-                       
-        // INTERSECT
+    $search_query = 
+        "SELECT tr.* FROM $trip_table as tr, $place_table as pl
+         WHERE tr.origin_id = pl.id
+             AND pl.lat - 0.25 <= $q_origin_lat
+             AND pl.lat + 0.25 >= $q_origin_lat
+             AND pl.lon - 0.25 <= $q_origin_lon
+             AND pl.lon + 0.25 >= $q_origin_lon
 
-        // SELECT  $trip_table.*
-        //     FROM    $trip_table, $place_table
-        //     INNER JOIN $trip_table on $trip_table.destination_id = $place_table.id
-        //     WHERE
-        //             $place_table.lat - $threshold <= $destination_origin_lat  
-        //         AND $destination_origin_lat <=  $place_table.lat + $threshold
-        //         AND $place_table.lon - $threshold <= $destination_origin_lon
-        //         AND $destination_origin_lon <=  $place_table.lon + $threshold";
+        AND (tr.id) IN
+
+        (SELECT tr.id FROM $trip_table as tr, $place_table as pl
+         WHERE tr.destination_id = pl.id
+             AND pl.lat - 0.25 <= $q_dest_lat
+             AND pl.lat + 0.25 >= $q_dest_lat
+             AND pl.lon - 0.25 <= $q_dest_lon
+             AND pl.lon + 0.25 >= $q_dest_lon)";
 
     $result = mysql_query($search_query);
     error_log("Query Result: $result");
