@@ -87,19 +87,19 @@ define ['components/user-interface',
             leg = route['legs'][0]
             console.log(leg['start_location'])
 
-            from =
+            origin =
                 address: leg['start_address']
                 lat: leg['start_location']['jb']
                 lon: leg['start_location']['ib']
 
-            to =
+            destination =
                 address: leg['end_address']
                 lat: leg['end_location']['jb']
                 lon: leg['end_location']['ib']
 
             json =
-                from: from
-                to: to
+                origin: origin
+                destination: destination
 
             if @tripLength
                 length = @tripLength.getValue()

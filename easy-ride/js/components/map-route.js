@@ -109,7 +109,7 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
 
 
     MapRoute.prototype.toJson = function() {
-      var from, json, leg, length, route, to;
+      var destination, json, leg, length, origin, route;
       if (!this.result) {
         this.setError('No route specified.');
         return null;
@@ -117,19 +117,19 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       route = this.result['routes'][0];
       leg = route['legs'][0];
       console.log(leg['start_location']);
-      from = {
+      origin = {
         address: leg['start_address'],
         lat: leg['start_location']['jb'],
         lon: leg['start_location']['ib']
       };
-      to = {
+      destination = {
         address: leg['end_address'],
         lat: leg['end_location']['jb'],
         lon: leg['end_location']['ib']
       };
       json = {
-        from: from,
-        to: to
+        origin: origin,
+        destination: destination
       };
       if (this.tripLength) {
         length = this.tripLength.getValue();

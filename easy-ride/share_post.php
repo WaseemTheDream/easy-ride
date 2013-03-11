@@ -11,8 +11,8 @@ function share_post() {
         return functions\json_respond('ERROR', "User not logged in!");
 
     // Store places
-    $origin_id = database\add_place($data['route']['from']);
-    $destination_id = database\add_place($data['route']['to']);
+    $origin_id = database\add_place($data['route']['origin']);
+    $destination_id = database\add_place($data['route']['destination']);
     if (!($origin_id or $destination_id))
         return functions\json_respond('ERROR', "Couldn't store places!");
     
