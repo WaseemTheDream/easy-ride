@@ -48,6 +48,7 @@ require [
                         json = JSON.parse(data)
                         if json
                             if json['status'] == 'OK'
+                                @clearTrips()
                                 @processResults(json['trips'])
                                 @setButton('btn btn-primary', 'Search')
                                 return
@@ -59,10 +60,13 @@ require [
 
             @tripTemplate = _.template($('#trip-template').html())
             @trips = $('#trips')
+
+        clearTrips: =>
+            @trips.html('')
             
         setButton: (btnClass, msg) =>
             @searchButton.attr('class', btnClass)
-            @searchButton.text(msg)
+            @searchButton.html("<i class='icon icon-white icon-search'></i> #{msg}")
 
         toJson: =>
             json =
@@ -77,6 +81,7 @@ require [
         processResults: (trips) =>
             @tripsList = trips
             i = 0
+            @trips.hide()
             for trip in trips
                 i += 1
                 trip.id = i
@@ -85,6 +90,7 @@ require [
                 new RouteRenderer(@map, trip)
                 tripHTML = @tripTemplate(trip)
                 @trips.append(tripHTML)
+            @trips.slideDown(1000)
 
 
     class RouteRenderer

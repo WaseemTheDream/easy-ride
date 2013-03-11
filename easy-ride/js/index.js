@@ -15,6 +15,8 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
 
       this.setButton = __bind(this.setButton, this);
 
+      this.clearTrips = __bind(this.clearTrips, this);
+
       var _this = this;
       this.mapOptions = {
         center: new google.maps.LatLng(51.517099, -0.146084),
@@ -50,6 +52,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
             json = JSON.parse(data);
             if (json) {
               if (json['status'] === 'OK') {
+                _this.clearTrips();
                 _this.processResults(json['trips']);
                 _this.setButton('btn btn-primary', 'Search');
                 return;
@@ -68,9 +71,13 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       this.trips = $('#trips');
     }
 
+    RideSearcher.prototype.clearTrips = function() {
+      return this.trips.html('');
+    };
+
     RideSearcher.prototype.setButton = function(btnClass, msg) {
       this.searchButton.attr('class', btnClass);
-      return this.searchButton.text(msg);
+      return this.searchButton.html("<i class='icon icon-white icon-search'></i> " + msg);
     };
 
     RideSearcher.prototype.toJson = function() {
@@ -88,10 +95,10 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
     };
 
     RideSearcher.prototype.processResults = function(trips) {
-      var i, trip, tripHTML, _i, _len, _results;
+      var i, trip, tripHTML, _i, _len;
       this.tripsList = trips;
       i = 0;
-      _results = [];
+      this.trips.hide();
       for (_i = 0, _len = trips.length; _i < _len; _i++) {
         trip = trips[_i];
         i += 1;
@@ -100,9 +107,9 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         console.log(trip);
         new RouteRenderer(this.map, trip);
         tripHTML = this.tripTemplate(trip);
-        _results.push(this.trips.append(tripHTML));
+        this.trips.append(tripHTML);
       }
-      return _results;
+      return this.trips.slideDown(1000);
     };
 
     return RideSearcher;

@@ -49,7 +49,7 @@
 
          <!-- Search Button -->
          <div class="form-actions" >
-           <button type="button" id="search-button" class="btn btn-primary">Search</button>
+           <button type="button" id="search-button" class="btn btn-primary"><i class="icon icon-white icon-search"></i> Search</button>
          </div>
          </fieldset>
          </form>
