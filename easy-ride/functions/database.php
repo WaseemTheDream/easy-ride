@@ -1,7 +1,9 @@
 <?php
 namespace database;
 require_once 'functions.php';
+require_once 'user.php';
 use functions;
+use user;
 
 define("TRIP_TABLE", 'trip');
 define("PLACE_TABLE", 'place');
@@ -106,6 +108,7 @@ function process_trip_row($row)
 {
     $row['origin'] = get_place($row['origin_id']);
     $row['destination'] = get_place($row['destination_id']);
+    $row['driver'] = user\get_user($row['driver_id']);
     return $row;
 }
 
@@ -147,10 +150,8 @@ function get_place($id)
     $query = "SELECT * FROM ".PLACE_TABLE." WHERE id='$s_id'";
     $result = mysql_query($query);
     if (!$result) return NULL;
-    elseif (mysql_num_rows($result)) {
-        $row = mysql_fetch_assoc($result);
-        return $row;
-    }
+    elseif (mysql_num_rows($result))
+        return mysql_fetch_assoc($result);
     return NULL;
 }
 

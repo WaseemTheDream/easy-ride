@@ -92,7 +92,6 @@ require [
                 trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString()
                 routeRenderer = new RouteRenderer(@map, trip)
                 tripHTML = @tripTemplate(trip)
-                console.log(tripHTML)
                 @trips.append(tripHTML)
                 $("#trip-#{i}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
             @trips.slideDown(1000)

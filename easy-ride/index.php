@@ -68,17 +68,18 @@
 <div class="accordion-group trip-info" id="trip-<%= id %>">
   <div class="accordion-heading">
     <a class="accordion-toggle" data-toggle="collapse" data-parent="#trip-<%= id %>" href="#collapse-<%= id %>">
-      <strong>From: </strong><%= origin.address %><br>
-      <strong>To: </strong><%= destination.address %><br>
-      <strong>Departure: </strong><%= departure_string %>
+      <strong><i class="icon icon-map-marker"></i> From: </strong><%= origin.address %><br>
+      <strong><i class="icon icon-map-marker"></i> To: </strong><%= destination.address %><br>
+      <strong><i class="icon icon-time"></i> Departure: </strong><%= departure_string %>
     </a>
   </div>
   <div id="collapse-<%= id %>" class="accordion-body collapse">
     <div class="accordion-inner">
-      <strong>Trip Length: </strong><%= length %><br>
-      <strong>Spots Remaining: </strong><%= spots %><br>
-      <strong>Message: </strong><%= message %><br>
-      <button type="button" class="btn btn-small btn-info"><i class='icon icon-road icon-white'></i> Request Ride</button>
+      <strong><i class="icon icon-user"></i> Driver: </strong><%= driver.first_name %> <%= driver.last_name %><br>
+      <strong><i class="icon icon-road"></i> Trip Length: </strong><%= length %><br>
+      <strong><i class="icon icon-tasks"></i> Spots Remaining: </strong><%= spots %><br>
+      <strong><i class="icon icon-comment"></i> Message: </strong><%= message %><br>
+      <button type="button" class="btn btn-small btn-info"><i class='icon icon-envelope icon-white'></i> Request Ride</button>
     </div>
   </div>
 </div>

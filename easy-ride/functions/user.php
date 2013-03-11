@@ -106,6 +106,26 @@ function add_user($data) {
 }
 
 /**
+ * Gets the user specified by id.
+ * @param id the row id of the user.
+ * @return row the user row in the database without password, NULL otherwise.
+ */
+function get_user($id) {
+    $s_id = functions\sanitize_string($id);
+    $query = "SELECT first_name, 
+                     last_name, 
+                     email_address,
+                     drivers_license_id,
+                     gender 
+              FROM ".USER_TABLE." WHERE id=$s_id";
+    $result = mysql_query($query);
+    if (!$result) return NULL;
+    elseif (mysql_num_rows($result))
+        return mysql_fetch_assoc($result);
+    return NULL;
+}
+
+/**
  * Checks whether the user exists.
  * @param email the email address of the user.
  * @return boolean whether the user exists.

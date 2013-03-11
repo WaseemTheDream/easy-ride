@@ -27,7 +27,7 @@ define ['components/user-interface',
             mapRendererOptions =
                 polylineOptions: polylineOptions
 
-            @directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions)
+            @directionsDisplay = new google.maps.DirectionsRenderer()
             @directionsService = new google.maps.DirectionsService()
             @mapMarkers = []
 

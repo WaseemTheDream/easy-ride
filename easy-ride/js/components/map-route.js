@@ -46,7 +46,7 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       mapRendererOptions = {
         polylineOptions: polylineOptions
       };
-      this.directionsDisplay = new google.maps.DirectionsRenderer(mapRendererOptions);
+      this.directionsDisplay = new google.maps.DirectionsRenderer();
       this.directionsService = new google.maps.DirectionsService();
       this.mapMarkers = [];
       this.directionsDisplay.setMap(this.map);
