@@ -139,5 +139,25 @@ function user_exists($email) {
         return false;
 }
 
+function delete_user($user_id){
+    $user_table = USER_TABLE;
+    $user_id= functions\sanitize_string($user_id);
+    $query = "DELETE FROM $user_table WHERE $user_table.id = $user_id";
+    if (mysql_query($query))return true;
+    else{
+        return false;
+    }
+}
 
+function update_entry($column_name,$entry,$user_id){
+    $user_table = USER_TABLE;
+    var_dump($id_column);
+    $entry = functions\sanitize_string($entry);
+    $query = "UPDATE `$user_table` SET `$column_name`=`$entry`
+              WHERE  `$user_table`.`id`=`$user_id`";
+    if (mysql_query($query))return true;
+    else{ 
+        return false;
+    }
+}
 ?>
