@@ -143,10 +143,9 @@ function delete_user($user_id){
     $user_table = USER_TABLE;
     $user_id= functions\sanitize_string($user_id);
     $query = "DELETE FROM $user_table WHERE $user_table.id = $user_id";
-    if (mysql_query($query))return true;
-    else{
-        return false;
-    }
+    if (mysql_query($query))
+        return true;
+    return false;
 }
 
 function update_entry($column_name,$entry,$user_id){
