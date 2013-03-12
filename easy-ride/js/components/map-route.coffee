@@ -85,7 +85,6 @@ define ['components/user-interface',
 
             route = @result['routes'][0]
             leg = route['legs'][0]
-            console.log(leg['start_location'])
 
             origin =
                 address: leg['start_address']

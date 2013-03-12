@@ -116,7 +116,6 @@ define(['components/user-interface', 'components/input/text-input'], function(Us
       }
       route = this.result['routes'][0];
       leg = route['legs'][0];
-      console.log(leg['start_location']);
       origin = {
         address: leg['start_address'],
         lat: leg['start_location']['jb'],

@@ -94,7 +94,18 @@ require [
                 tripHTML = @tripTemplate(trip)
                 @trips.append(tripHTML)
                 $("#trip-#{i}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
+                $("#request-trip-#{i}").click(@requestRide)
             @trips.slideDown(1000)
+
+        requestRide: (e) =>
+            tripId = e.target.id.split('-')[2]
+            button = $("##{e.target.id}")
+            if $('#logged-in').length == 0     # If not logged in
+                button.attr('class', 'btn btn-danger btn-small')
+                button.text('Login Required!')
+                return
+            console.log(e.target.id)
+            console.log(@tripsList)
 
 
     class RouteRenderer

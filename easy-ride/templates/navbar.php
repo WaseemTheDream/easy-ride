@@ -47,7 +47,7 @@ XYZ;
 function user_status() {
     if (isset($_SESSION['user_id'])) {
         echo '<ul class="nav pull-right"><li><a href="/functions/logout.php">Logout</a></li></ul>';
-        echo '<p class="navbar-text pull-right">';
+        echo '<p class="navbar-text pull-right" id="logged-in">';
         $first_name = $_SESSION['first_name'];
         echo "Logged in as $first_name.</p>";
     } else {

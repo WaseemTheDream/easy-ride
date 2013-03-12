@@ -9,6 +9,8 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
   RideSearcher = (function() {
 
     function RideSearcher() {
+      this.requestRide = __bind(this.requestRide, this);
+
       this.processResults = __bind(this.processResults, this);
 
       this.toJson = __bind(this.toJson, this);
@@ -113,11 +115,24 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString();
         routeRenderer = new RouteRenderer(this.map, trip);
         tripHTML = this.tripTemplate(trip);
-        console.log(tripHTML);
         this.trips.append(tripHTML);
         $("#trip-" + i).hover(routeRenderer.hoverIn, routeRenderer.hoverOut);
+        $("#request-trip-" + i).click(this.requestRide);
       }
       return this.trips.slideDown(1000);
+    };
+
+    RideSearcher.prototype.requestRide = function(e) {
+      var button, tripId;
+      tripId = e.target.id.split('-')[2];
+      button = $("#" + e.target.id);
+      if ($('#logged-in').length === 0) {
+        button.attr('class', 'btn btn-danger btn-small');
+        button.text('Login Required!');
+        return;
+      }
+      console.log(e.target.id);
+      return console.log(this.tripsList);
     };
 
     return RideSearcher;
