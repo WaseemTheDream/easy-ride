@@ -105,20 +105,19 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
     };
 
     RideSearcher.prototype.processResults = function(trips) {
-      var i, routeRenderer, trip, tripHTML, _i, _len;
-      this.tripsList = trips;
-      i = 0;
+      var id, routeRenderer, trip, tripHTML, _i, _len;
+      this.tripsTable = {};
       this.trips.hide();
       for (_i = 0, _len = trips.length; _i < _len; _i++) {
         trip = trips[_i];
-        trip.id = i;
+        id = trip['id'];
         trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString();
         routeRenderer = new RouteRenderer(this.map, trip);
         tripHTML = this.tripTemplate(trip);
         this.trips.append(tripHTML);
-        $("#trip-" + i).hover(routeRenderer.hoverIn, routeRenderer.hoverOut);
-        $("#request-trip-" + i).click(this.requestRide);
-        i += 1;
+        $("#trip-" + id).hover(routeRenderer.hoverIn, routeRenderer.hoverOut);
+        $("#request-trip-" + id).click(this.requestRide);
+        this.tripsTable[id] = trip;
       }
       return this.trips.slideDown(1000);
     };
@@ -134,8 +133,8 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
       }
       this.requestModal.reset();
       console.log("TripID: " + tripId);
-      console.log(this.tripsList[tripId]);
-      this.requestModal.load(this.tripsList[tripId]);
+      console.log(this.tripsTable[tripId]);
+      this.requestModal.load(this.tripsTable[tripId]);
       return this.requestModal.show();
     };
 
@@ -194,6 +193,10 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
   RequestRideModal = (function() {
 
     function RequestRideModal() {
+      this.submit = __bind(this.submit, this);
+
+      this.toJson = __bind(this.toJson, this);
+
       this.reset = __bind(this.reset, this);
 
       this.show = __bind(this.show, this);
@@ -203,10 +206,12 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
       this.info = $('#modal-trip-info');
       this.requestMessage = new TextInput($('#modal-trip-request-message').parent().parent(), $('#modal-trip-request-message'), true);
       this.submitButton = $('#modal-request-ride-submit');
+      this.submitButton.click(this.submit);
       this.tripTemplate = _.template($('#trip-modal-template').html());
     }
 
     RequestRideModal.prototype.load = function(trip) {
+      this.tripId = trip['id'];
       console.log(trip);
       return this.info.append(this.tripTemplate(trip));
     };
@@ -217,6 +222,23 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
 
     RequestRideModal.prototype.reset = function() {
       return this.info.html('');
+    };
+
+    RequestRideModal.prototype.toJson = function() {
+      var json, message;
+      message = this.requestMessage.getValue();
+      if (message) {
+        json = {
+          'message': message,
+          'trip_id': this.tripId
+        };
+        return json;
+      }
+      return null;
+    };
+
+    RequestRideModal.prototype.submit = function(e) {
+      return console.log(this.toJson());
     };
 
     return RequestRideModal;

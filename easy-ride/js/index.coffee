@@ -86,18 +86,17 @@ require [
             return json
 
         processResults: (trips) =>
-            @tripsList = trips
-            i = 0
+            @tripsTable = {}
             @trips.hide()
             for trip in trips
-                trip.id = i
+                id = trip['id']
                 trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString()
                 routeRenderer = new RouteRenderer(@map, trip)
                 tripHTML = @tripTemplate(trip)
                 @trips.append(tripHTML)
-                $("#trip-#{i}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
-                $("#request-trip-#{i}").click(@requestRide)
-                i += 1
+                $("#trip-#{id}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
+                $("#request-trip-#{id}").click(@requestRide)
+                @tripsTable[id] = trip
             @trips.slideDown(1000)
 
         requestRide: (e) =>
@@ -109,8 +108,8 @@ require [
                 return
             @requestModal.reset()
             console.log("TripID: #{tripId}")
-            console.log(@tripsList[tripId])
-            @requestModal.load(@tripsList[tripId])
+            console.log(@tripsTable[tripId])
+            @requestModal.load(@tripsTable[tripId])
             @requestModal.show()
 
 
@@ -153,9 +152,11 @@ require [
                 $('#modal-trip-request-message'),
                 true)
             @submitButton = $('#modal-request-ride-submit')
+            @submitButton.click(@submit)
             @tripTemplate = _.template($('#trip-modal-template').html())
         
         load: (trip) =>
+            @tripId = trip['id']
             console.log(trip)
             @info.append(@tripTemplate(trip))
 
@@ -164,6 +165,19 @@ require [
 
         reset: =>
             @info.html('')
+
+        toJson: =>
+            message = @requestMessage.getValue()
+            if message
+                json =
+                    'message': message
+                    'trip_id': @tripId
+                return json
+            return null
+
+        submit: (e) =>
+            console.log(@toJson())
+
 
 
     rideSearcher = new RideSearcher()
