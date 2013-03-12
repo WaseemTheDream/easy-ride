@@ -79,15 +79,17 @@ function user_logged_in() {
 /**
  * Adds the user to the database.
  * @param data associative array containing all of the user information.
+* @return boolean whether the operation was successful.
  */
 function add_user($data) {
+    $user_table = USER_TABLE;
     $first_name = functions\sanitize_string($data['first_name']);
     $last_name = functions\sanitize_string($data['last_name']);
     $email_address = functions\sanitize_string($data['email_address']);
     $drivers_license_id = functions\sanitize_string($data['drivers_license_id']);
     $gender = functions\sanitize_string($data['gender']);
     $password = encrypt_password($data['password']);
-    $query = "INSERT INTO ".USER_TABLE." (
+    $query = "INSERT INTO $user_table (
             first_name,
             last_name,
             email_address,
@@ -101,8 +103,52 @@ function add_user($data) {
             '$drivers_license_id',
             '$gender',
             '$password')";
-    $result = mysql_query($query);
-    if (!$result) die("Failed to create user: " . mysql_error());
+    if (mysql_query($query)) return true;
+    error_log("Failed to create user: " . mysql_error());
+    return false;
+}
+
+/**
+ * Updates the following user from the database.
+ * @param $data an associative array containing the new user data.
+ * @return boolean whether the user update was successful.
+ */
+function update_user($data) {
+    $user_table = USER_TABLE;
+    $id = functions\sanitize_string($data['id']);
+    $first_name = functions\sanitize_string($data['first_name']);
+    $last_name = functions\sanitize_string($data['last_name']);
+    $email_address = functions\sanitize_string($data['email_address']);
+    $drivers_license_id = functions\sanitize_string($data['drivers_license_id']);
+    $gender = functions\sanitize_string($data['gender']);
+    $password = encrypt_password($data['password']);
+    $query = 
+        "UPDATE $user_table SET 
+            first_name = '$first_name',
+            last_name = '$last_name',
+            email_address = '$email_address',
+            drivers_license_id = '$drivers_license_id',
+            gender = '$gender',
+            password = '$password'
+         WHERE id = $id";
+    error_log($query);
+    if (mysql_query($query)) return true;
+    error_log("Failed to update user: " . mysql_error());
+    return false;
+}
+
+/**
+ * Deletes the following user from the database.
+ * @param $user_id the database id of the user.
+ * @return boolean whether the user was successfully deleted.
+ */
+function delete_user($user_id){
+    $user_table = USER_TABLE;
+    $s_user_id= functions\sanitize_string($user_id);
+    $query = "DELETE FROM $user_table WHERE id = $s_user_id";
+    if (mysql_query($query)) return true;
+    error_log("Failed to delete user: " . mysql_error());
+    return false;
 }
 
 /**
@@ -137,26 +183,5 @@ function user_exists($email) {
         return true;
     else
         return false;
-}
-
-function delete_user($user_id){
-    $user_table = USER_TABLE;
-    $user_id= functions\sanitize_string($user_id);
-    $query = "DELETE FROM $user_table WHERE $user_table.id = $user_id";
-    if (mysql_query($query))
-        return true;
-    return false;
-}
-
-function update_entry($column_name,$entry,$user_id){
-    $user_table = USER_TABLE;
-    var_dump($id_column);
-    $entry = functions\sanitize_string($entry);
-    $query = "UPDATE `$user_table` SET `$column_name`=`$entry`
-              WHERE  `$user_table`.`id`=`$user_id`";
-    if (mysql_query($query))return true;
-    else{ 
-        return false;
-    }
 }
 ?>
