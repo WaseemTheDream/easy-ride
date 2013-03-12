@@ -85,16 +85,16 @@ define ['components/user-interface',
 
             route = @result['routes'][0]
             leg = route['legs'][0]
-
+            console.log(leg)
             origin =
                 address: leg['start_address']
-                lat: leg['start_location']['jb']
-                lon: leg['start_location']['ib']
+                lat: leg['start_location'].lat()
+                lon: leg['start_location'].lng()
 
             destination =
                 address: leg['end_address']
-                lat: leg['end_location']['jb']
-                lon: leg['end_location']['ib']
+                lat: leg['end_location'].lat()
+                lon: leg['end_location'].lng()
 
             json =
                 origin: origin
