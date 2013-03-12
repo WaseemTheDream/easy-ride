@@ -63,6 +63,33 @@
     </div>
   </div>
 <hr>
+
+<!-- Request Ride Modal -->
+<div id="modal-request-ride" class="modal hide fade">
+    <div class="modal-header">
+      <a data-dismiss="modal" href="#" class="close">&times;</a>
+      <h3>Request Ride</h3>
+    </div>
+    <div class="modal-body">
+      <div id="modal-trip-info">
+      </div>
+      <form class="form-horizontal" method="post" action="register_post.php">
+        <fieldset>
+          <!-- Message -->
+          <div class="control-group">
+            <div class="controls">
+              <textarea id="modal-trip-request-message" class="span8" rows="5" placeholder="Request Message..."></textarea>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <a href="#" id='modal-request-ride-submit' class="btn btn-primary">Request</a>
+      <a data-dismiss="modal" class="btn secondary">Cancel</a>
+    </div>
+</div>
+
 <!-- Load JS in the end for faster page loading -->
 <script type="text/template" id="trip-template">
 <div class="accordion-group trip-info" id="trip-<%= id %>">
@@ -83,6 +110,15 @@
     </div>
   </div>
 </div>
+</script>
+<script type="text/template" id="trip-modal-template">
+  <strong><i class="icon icon-map-marker"></i> From: </strong><%= origin.address %><br>
+  <strong><i class="icon icon-map-marker"></i> To: </strong><%= destination.address %><br>
+  <strong><i class="icon icon-time"></i> Departure: </strong><%= departure_string %><br>
+  <strong><i class="icon icon-user"></i> Driver: </strong><%= driver.first_name %> <%= driver.last_name %><br>
+  <strong><i class="icon icon-road"></i> Trip Length: </strong><%= length %><br>
+  <strong><i class="icon icon-tasks"></i> Spots Remaining: </strong><%= spots %><br>
+  <strong><i class="icon icon-comment"></i> Message: </strong><%= message %><br>
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
 <script src="js/lib/underscore.min.js"></script>

@@ -1,8 +1,9 @@
 rideSearcher = rideSearcher or {}
 require [
     'components/map-route',
-    'components/input/date-picker'
-    ], (MapRoute, DatePicker) ->
+    'components/input/date-picker',
+    'components/input/text-input'
+    ], (MapRoute, DatePicker, TextInput) ->
 
     class RideSearcher
         constructor: ->
@@ -49,6 +50,8 @@ require [
             @tripTemplate = _.template($('#trip-template').html())
             @trips = $('#trips')
 
+            @requestModal = new RequestRideModal()
+
         searchResults: (data) =>
             console.log(data)
             error = 'Unknown Error!'
@@ -87,7 +90,6 @@ require [
             i = 0
             @trips.hide()
             for trip in trips
-                i += 1
                 trip.id = i
                 trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString()
                 routeRenderer = new RouteRenderer(@map, trip)
@@ -95,17 +97,21 @@ require [
                 @trips.append(tripHTML)
                 $("#trip-#{i}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
                 $("#request-trip-#{i}").click(@requestRide)
+                i += 1
             @trips.slideDown(1000)
 
         requestRide: (e) =>
-            tripId = e.target.id.split('-')[2]
+            tripId = parseInt(e.target.id.split('-')[2])
             button = $("##{e.target.id}")
             if $('#logged-in').length == 0     # If not logged in
                 button.attr('class', 'btn btn-danger btn-small')
                 button.text('Login Required!')
                 return
-            console.log(e.target.id)
-            console.log(@tripsList)
+            @requestModal.reset()
+            console.log("TripID: #{tripId}")
+            console.log(@tripsList[tripId])
+            @requestModal.load(@tripsList[tripId])
+            @requestModal.show()
 
 
     class RouteRenderer
@@ -137,5 +143,27 @@ require [
         hoverOut: (e) =>
             @mapRendererOptions.polylineOptions.strokeOpacity = 0.0
             @directionsDisplay.setMap(@map)
+
+    class RequestRideModal
+        constructor: ->
+            @el = $('#modal-request-ride')
+            @info = $('#modal-trip-info')
+            @requestMessage = new TextInput(
+                $('#modal-trip-request-message').parent().parent(),
+                $('#modal-trip-request-message'),
+                true)
+            @submitButton = $('#modal-request-ride-submit')
+            @tripTemplate = _.template($('#trip-modal-template').html())
+        
+        load: (trip) =>
+            console.log(trip)
+            @info.append(@tripTemplate(trip))
+
+        show: =>
+            @el.modal('show')
+
+        reset: =>
+            @info.html('')
+
 
     rideSearcher = new RideSearcher()

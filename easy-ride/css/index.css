@@ -43,3 +43,13 @@ body > .container-fluid > .row-fluid {
     float: right;
     margin-bottom: 8px;
 }
+
+#modal-trip-info {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+#modal-request-ride form .controls {
+    margin-left: 20px;
+}

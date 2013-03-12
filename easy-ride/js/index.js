@@ -4,8 +4,8 @@ var rideSearcher,
 
 rideSearcher = rideSearcher || {};
 
-require(['components/map-route', 'components/input/date-picker'], function(MapRoute, DatePicker) {
-  var RideSearcher, RouteRenderer;
+require(['components/map-route', 'components/input/date-picker', 'components/input/text-input'], function(MapRoute, DatePicker, TextInput) {
+  var RequestRideModal, RideSearcher, RouteRenderer;
   RideSearcher = (function() {
 
     function RideSearcher() {
@@ -57,6 +57,7 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       });
       this.tripTemplate = _.template($('#trip-template').html());
       this.trips = $('#trips');
+      this.requestModal = new RequestRideModal();
     }
 
     RideSearcher.prototype.searchResults = function(data) {
@@ -110,7 +111,6 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
       this.trips.hide();
       for (_i = 0, _len = trips.length; _i < _len; _i++) {
         trip = trips[_i];
-        i += 1;
         trip.id = i;
         trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString();
         routeRenderer = new RouteRenderer(this.map, trip);
@@ -118,21 +118,25 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
         this.trips.append(tripHTML);
         $("#trip-" + i).hover(routeRenderer.hoverIn, routeRenderer.hoverOut);
         $("#request-trip-" + i).click(this.requestRide);
+        i += 1;
       }
       return this.trips.slideDown(1000);
     };
 
     RideSearcher.prototype.requestRide = function(e) {
       var button, tripId;
-      tripId = e.target.id.split('-')[2];
+      tripId = parseInt(e.target.id.split('-')[2]);
       button = $("#" + e.target.id);
       if ($('#logged-in').length === 0) {
         button.attr('class', 'btn btn-danger btn-small');
         button.text('Login Required!');
         return;
       }
-      console.log(e.target.id);
-      return console.log(this.tripsList);
+      this.requestModal.reset();
+      console.log("TripID: " + tripId);
+      console.log(this.tripsList[tripId]);
+      this.requestModal.load(this.tripsList[tripId]);
+      return this.requestModal.show();
     };
 
     return RideSearcher;
@@ -185,6 +189,37 @@ require(['components/map-route', 'components/input/date-picker'], function(MapRo
     };
 
     return RouteRenderer;
+
+  })();
+  RequestRideModal = (function() {
+
+    function RequestRideModal() {
+      this.reset = __bind(this.reset, this);
+
+      this.show = __bind(this.show, this);
+
+      this.load = __bind(this.load, this);
+      this.el = $('#modal-request-ride');
+      this.info = $('#modal-trip-info');
+      this.requestMessage = new TextInput($('#modal-trip-request-message').parent().parent(), $('#modal-trip-request-message'), true);
+      this.submitButton = $('#modal-request-ride-submit');
+      this.tripTemplate = _.template($('#trip-modal-template').html());
+    }
+
+    RequestRideModal.prototype.load = function(trip) {
+      console.log(trip);
+      return this.info.append(this.tripTemplate(trip));
+    };
+
+    RequestRideModal.prototype.show = function() {
+      return this.el.modal('show');
+    };
+
+    RequestRideModal.prototype.reset = function() {
+      return this.info.html('');
+    };
+
+    return RequestRideModal;
 
   })();
   return rideSearcher = new RideSearcher();
