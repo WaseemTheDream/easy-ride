@@ -78,7 +78,7 @@
           <!-- Message -->
           <div class="control-group">
             <div class="controls">
-              <textarea id="modal-trip-request-message" class="span8" rows="5" placeholder="Request Message..."></textarea>
+              <textarea id="modal-trip-request-message" class="input-block-level" rows="5" placeholder="Request Message..."></textarea>
             </div>
           </div>
         </fieldset>
