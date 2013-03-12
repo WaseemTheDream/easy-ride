@@ -13,7 +13,7 @@ function search_get($data) {
 function request_post($data) {
     // TODO: Add request to the database
     $trip_id = $data['trip_id'];
-    $logged_in_user = database\get_logged_in_user();
+    $logged_in_user = user\get_logged_in_user();
     if (!$logged_in_user)
         return functions\json_respond('ERROR', 'Login Required!');
 
