@@ -131,7 +131,6 @@ function update_user($data) {
             gender = '$gender',
             password = '$password'
          WHERE id = $id";
-    error_log($query);
     if (mysql_query($query)) return true;
     error_log("Failed to update user: " . mysql_error());
     return false;
