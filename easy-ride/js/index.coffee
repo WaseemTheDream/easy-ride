@@ -40,7 +40,7 @@ require [
                 @setButton('btn btn-primary disabled', 'Searching...')
 
                 $.ajax
-                    url: '/index_search.php'
+                    url: '/index_ajax.php'
                     type: 'GET'
                     data: 'data': JSON.stringify(data)
                     success: @searchResults

@@ -44,7 +44,7 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
         console.log(data);
         _this.setButton('btn btn-primary disabled', 'Searching...');
         return $.ajax({
-          url: '/index_search.php',
+          url: '/index_ajax.php',
           type: 'GET',
           data: {
             'data': JSON.stringify(data)
