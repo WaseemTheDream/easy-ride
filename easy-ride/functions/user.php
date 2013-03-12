@@ -77,6 +77,21 @@ function user_logged_in() {
 }
 
 /**
+* Get User user's data if the user is logged in
+* @return if the user is logged in, returns current user's data
+* @return otherwise if the user is not logged in, returns NULL
+*/
+
+function get_logged_in_user(){
+    $data_array=array();
+    if(isset($_SESSION['user_id']){
+        $data_array['id'] = $_SESSION['user_id'];
+        return $data_array;
+    }else{
+        return NULL;
+    }
+}
+/**
  * Adds the user to the database.
  * @param data associative array containing all of the user information.
 * @return boolean whether the operation was successful.
