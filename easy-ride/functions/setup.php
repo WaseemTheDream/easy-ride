@@ -14,7 +14,8 @@ mysql_select_db(functions\$dbname, functions\$connection);
 $tables = array(
 	USER_TABLE => user\$user_table_definition,
 	TRIP_TABLE => database\$trip_table_definition,
-	PLACE_TABLE => database\$place_table_definition);
+	PLACE_TABLE => database\$place_table_definition,
+	TRIP_Request_TABLE =>  database\$trip_request_table_definition);
 
 foreach ($tables as $name => $definition) {
 	if (!mysql_query("CREATE TABLE IF NOT EXISTS $definition"))

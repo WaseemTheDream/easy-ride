@@ -7,6 +7,7 @@ use user;
 
 define("TRIP_TABLE", 'trip');
 define("PLACE_TABLE", 'place');
+define("TRIP_Request_TABLE",'trip_request');
 
 // Trip Table Definition
 $trip_table_definition = TRIP_TABLE."
@@ -22,12 +23,25 @@ $trip_table_definition = TRIP_TABLE."
     destination_id INT NOT NULL
 )";
 
+// Place Table Definition
 $place_table_definition = PLACE_TABLE."
 (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     address VARCHAR(128),
     lat FLOAT NOT NULL,
     lon FLOAT NOT NULL
+)";
+
+// Trip Request Table Definition
+
+$trip_request_table_definition = TRIP_Request_TABLE."
+(
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    message VARCHAR(4096),
+    trip_id INT UNSIGNED,
+    user_id INT UNSIGNED,
+    FOREIGN KEY(trip_id) REFERENCES TRIP_TABLE(id),
+    FOREIGN KEY(user_id) REFERENCES user\USER_TABLE(id)
 )";
 
 /**
@@ -213,4 +227,37 @@ function get_trips_near_on($route, $departure=NULL) {
             $rows[] = process_trip_row($row);
     }
     return $rows;
+}
+
+/**
+* Function to request a ride 
+* @param an array contaning info about requested ride
+* @return returns true if the request was successfull
+* @return Otherwise returns NULL if request wasn't successful
+*/
+
+function request_ride($request_data){
+    $user_id = functions\sanitize_string($request_data['user_id']);
+    $trip_id = functions\sanitize_string($request_data['trip_id']);
+    $message = functions\sanitize_string($request_data['message']);
+
+    $query = "INSERT INTO ".TRIP_Request_TABLE."
+              message,
+              trip_id,
+              user_id
+              
+              ) VALUES (
+
+              '$message',
+              '$trip_id',
+              '$user_id'
+              )";
+
+    if (!mysql_query($query)) {
+        var_dump(mysql_error());
+        return false;
+    }
+    else {
+        return true;
+    }
 }

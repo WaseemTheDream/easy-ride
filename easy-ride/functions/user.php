@@ -84,7 +84,7 @@ function user_logged_in() {
 
 function get_logged_in_user(){
     $data_array=array();
-    if(isset($_SESSION['user_id']){
+    if(isset($_SESSION['user_id'])){
         $data_array['id'] = $_SESSION['user_id'];
         return $data_array;
     }else{
