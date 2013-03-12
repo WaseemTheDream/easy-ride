@@ -12,13 +12,16 @@ function search_get($data) {
 
 function request_post($data) {
     // TODO: Add request to the database
-    $trip_id = $data['trip_id'];
     $logged_in_user = user\get_logged_in_user();
     if (!$logged_in_user)
         return functions\json_respond('ERROR', 'Login Required!');
 
-    $user_id = $logged_in_user['id'];
-    if (database\request_ride($trip_id, $user_id))
+    $request_data = array(
+        "user_id" => $logged_in_user['id'],
+        "trip_id" => $data['trip_id'],
+        "message" => $data['message']);
+
+    if (database\request_ride($request_data))
         return functions\json_respond('OK', 'Request Sent!');
     else
         return functions\json_respond('ERROR', 'Unable to request ride.');
