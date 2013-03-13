@@ -1,5 +1,4 @@
 # Easy Ride
-=========
 
 A user friendly web application that connects people for carpooling!
 
@@ -7,7 +6,8 @@ A user friendly web application that connects people for carpooling!
 This application was created as part of a required coursework for Databases COMP3013/GC06/GD06 - University College London Computer Science.
 
 The following are minimum features your systems must provide:
-* users will upload text annotations, related to specific geographical locations,through their user account.
+* **users will upload text annotations, related to specific geographical locations,through their user account.**
+  Users can share a trip they are planning to make in the future and specify the departure time details, the number of spots they have in their car, and a message for interested riders.
 * users will be able to visually browse the other user’s annotations through the map browser interface.
 * users will be able to search and sort through annotations by date and/or location(by submitting a postcode, location name, etc.).
 * users with administrator access will be able to view and delete other user’s annotations and manipulate existing registered user accounts. 
