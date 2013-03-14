@@ -7,7 +7,7 @@ use user;
 
 define("TRIP_TABLE", 'trip');
 define("PLACE_TABLE", 'place');
-define("TRIP_Request_TABLE",'trip_request');
+define("TRIP_REQUEST_TABLE",'trip_request');
 
 // Trip Table Definition
 $trip_table_definition = TRIP_TABLE."
@@ -33,15 +33,14 @@ $place_table_definition = PLACE_TABLE."
 )";
 
 // Trip Request Table Definition
-
-$trip_request_table_definition = TRIP_Request_TABLE."
+$trip_request_table_definition = TRIP_REQUEST_TABLE."
 (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    trip_id INT UNSIGNED NOT NULL,
+    user_id INT UNSIGNED NOT NULL,
+    PRIMARY KEY (trip_id, user_id),
     message VARCHAR(4096),
-    trip_id INT UNSIGNED,
-    user_id INT UNSIGNED,
-    FOREIGN KEY(trip_id) REFERENCES TRIP_TABLE(id),
-    FOREIGN KEY(user_id) REFERENCES user\USER_TABLE(id)
+    status TINYINT DEFAULT 0,
+    CONSTRAINT chk_status CHECK (-1 <= status AND status <= 1)
 )";
 
 /**
@@ -195,8 +194,6 @@ function get_trips_near_on($route, $departure=NULL) {
                                 AND tr.departure_time <= $departure + 86400";
     }
 
-    error_log("Query: $departure_condition");
-
     $search_query = 
         "SELECT tr.* FROM $trip_table as tr, $place_table as pl
          WHERE tr.origin_id = pl.id
@@ -216,7 +213,6 @@ function get_trips_near_on($route, $departure=NULL) {
              AND pl.lon + 0.25 >= $q_dest_lon)";
 
     $result = mysql_query($search_query);
-    error_log("Query Result: $result");
     $rows = array();
 
     if (!$result) return NULL;
@@ -237,27 +233,23 @@ function get_trips_near_on($route, $departure=NULL) {
 */
 
 function request_ride($request_data){
+    $trip_table = TRIP_REQUEST_TABLE;
     $user_id = functions\sanitize_string($request_data['user_id']);
     $trip_id = functions\sanitize_string($request_data['trip_id']);
     $message = functions\sanitize_string($request_data['message']);
 
-    $query = "INSERT INTO ".TRIP_Request_TABLE."
-              message,
-              trip_id,
-              user_id
-              
-              ) VALUES (
+    $query = 
+        "INSERT INTO $trip_table (
+            message,
+            trip_id,
+            user_id
+        ) VALUES (
+            '$message',
+            '$trip_id',
+            '$user_id')";
 
-              '$message',
-              '$trip_id',
-              '$user_id'
-              )";
-
-    if (!mysql_query($query)) {
-        var_dump(mysql_error());
+    if (!mysql_query($query))
         return false;
-    }
-    else {
+    else
         return true;
-    }
 }

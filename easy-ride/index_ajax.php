@@ -11,7 +11,6 @@ function search_get($data) {
 }
 
 function request_post($data) {
-    // TODO: Add request to the database
     $logged_in_user = user\get_logged_in_user();
     if (!$logged_in_user)
         return functions\json_respond('ERROR', 'Login Required!');
@@ -21,10 +20,11 @@ function request_post($data) {
         "trip_id" => $data['trip_id'],
         "message" => $data['message']);
 
+    return functions\json_respond('OK', 'Request Sent!');
     if (database\request_ride($request_data))
         return functions\json_respond('OK', 'Request Sent!');
     else
-        return functions\json_respond('ERROR', 'Unable to request ride.');
+        return functions\json_respond('ERROR', 'Unable to request ride');
 }
 
 if ($_GET) {

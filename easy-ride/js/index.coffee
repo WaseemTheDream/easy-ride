@@ -102,6 +102,7 @@ require [
         requestRide: (e) =>
             tripId = parseInt(e.target.id.split('-')[2])
             button = $("##{e.target.id}")
+            return if button.hasClass('disabled')
             if $('#logged-in').length == 0     # If not logged in
                 button.attr('class', 'btn btn-danger btn-small')
                 button.text('Login Required!')
@@ -144,13 +145,12 @@ require [
             @directionsDisplay.setMap(@map)
 
     class RequestRideModal
-        constructor: ->
+        constructor: () ->
             @el = $('#modal-request-ride')
             @info = $('#modal-trip-info')
             @requestMessage = new TextInput(
                 $('#modal-trip-request-message').parent().parent(),
-                $('#modal-trip-request-message'),
-                true)
+                $('#modal-trip-request-message'))
             @submitButton = $('#modal-request-ride-submit')
             @submitButton.click(@submit)
             @tripTemplate = _.template($('#trip-modal-template').html())
@@ -163,21 +163,47 @@ require [
         show: =>
             @el.modal('show')
 
+        hide: =>
+            @el.modal('hide')
+
         reset: =>
             @info.html('')
+            @setButton('btn btn-primary', 'Request')
 
         toJson: =>
-            message = @requestMessage.getValue()
-            if message
-                json =
-                    'message': message
-                    'trip_id': @tripId
-                return json
-            return null
+            'message': @requestMessage.getValue()
+            'trip_id': @tripId
 
         submit: (e) =>
             console.log(@toJson())
+            data = @toJson()
+            $.ajax
+                url: '/index_ajax.php'
+                type: 'POST'
+                data: 'data': JSON.stringify(data)
+                success: (data) =>
+                    console.log(data)
+                    json = JSON.parse(data)
 
+                    if not json
+                        @setButton('btn btn-danger', 'Unknown error!')
+                        return
+
+                    if json['status'] == 'OK'
+                        @hide()
+                        @reset()
+                        $("#request-trip-#{@tripId}").attr('class', 'btn btn-info btn-small disabled')
+                        $("#request-trip-#{@tripId}").html('<i class="icon icon-envelope icon-white"></i> Ride Requested')
+                        console.log($("#request-trip-#{@tripId}"))
+                    else 
+                        @setButton('btn btn-danger', json['msg'])
+
+                error: (data) ->
+                    @setButton('btn btn-danger', 'Unknown error!')
+
+        setButton: (btnClass, msg) =>
+            @submitButton.attr('class', btnClass)
+            @submitButton.html("<i class='icon icon-white icon-search'></i> #{msg}")
 
 
     rideSearcher = new RideSearcher()

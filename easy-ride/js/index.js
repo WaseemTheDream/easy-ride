@@ -126,6 +126,9 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
       var button, tripId;
       tripId = parseInt(e.target.id.split('-')[2]);
       button = $("#" + e.target.id);
+      if (button.hasClass('disabled')) {
+        return;
+      }
       if ($('#logged-in').length === 0) {
         button.attr('class', 'btn btn-danger btn-small');
         button.text('Login Required!');
@@ -193,18 +196,22 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
   RequestRideModal = (function() {
 
     function RequestRideModal() {
+      this.setButton = __bind(this.setButton, this);
+
       this.submit = __bind(this.submit, this);
 
       this.toJson = __bind(this.toJson, this);
 
       this.reset = __bind(this.reset, this);
 
+      this.hide = __bind(this.hide, this);
+
       this.show = __bind(this.show, this);
 
       this.load = __bind(this.load, this);
       this.el = $('#modal-request-ride');
       this.info = $('#modal-trip-info');
-      this.requestMessage = new TextInput($('#modal-trip-request-message').parent().parent(), $('#modal-trip-request-message'), true);
+      this.requestMessage = new TextInput($('#modal-trip-request-message').parent().parent(), $('#modal-trip-request-message'));
       this.submitButton = $('#modal-request-ride-submit');
       this.submitButton.click(this.submit);
       this.tripTemplate = _.template($('#trip-modal-template').html());
@@ -220,25 +227,60 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
       return this.el.modal('show');
     };
 
+    RequestRideModal.prototype.hide = function() {
+      return this.el.modal('hide');
+    };
+
     RequestRideModal.prototype.reset = function() {
-      return this.info.html('');
+      this.info.html('');
+      return this.setButton('btn btn-primary', 'Request');
     };
 
     RequestRideModal.prototype.toJson = function() {
-      var json, message;
-      message = this.requestMessage.getValue();
-      if (message) {
-        json = {
-          'message': message,
-          'trip_id': this.tripId
-        };
-        return json;
-      }
-      return null;
+      return {
+        'message': this.requestMessage.getValue(),
+        'trip_id': this.tripId
+      };
     };
 
     RequestRideModal.prototype.submit = function(e) {
-      return console.log(this.toJson());
+      var data,
+        _this = this;
+      console.log(this.toJson());
+      data = this.toJson();
+      return $.ajax({
+        url: '/index_ajax.php',
+        type: 'POST',
+        data: {
+          'data': JSON.stringify(data)
+        },
+        success: function(data) {
+          var json;
+          console.log(data);
+          json = JSON.parse(data);
+          if (!json) {
+            _this.setButton('btn btn-danger', 'Unknown error!');
+            return;
+          }
+          if (json['status'] === 'OK') {
+            _this.hide();
+            _this.reset();
+            $("#request-trip-" + _this.tripId).attr('class', 'btn btn-info btn-small disabled');
+            $("#request-trip-" + _this.tripId).html('<i class="icon icon-envelope icon-white"></i> Ride Requested');
+            return console.log($("#request-trip-" + _this.tripId));
+          } else {
+            return _this.setButton('btn btn-danger', json['msg']);
+          }
+        },
+        error: function(data) {
+          return this.setButton('btn btn-danger', 'Unknown error!');
+        }
+      });
+    };
+
+    RequestRideModal.prototype.setButton = function(btnClass, msg) {
+      this.submitButton.attr('class', btnClass);
+      return this.submitButton.html("<i class='icon icon-white icon-search'></i> " + msg);
     };
 
     return RequestRideModal;
