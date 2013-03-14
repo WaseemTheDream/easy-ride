@@ -117,11 +117,15 @@ function get_all_trips()
     return $rows;
 }
 
-function process_trip_row($row)
+function process_trip_row($row, $user_id=NULL)
 {
     $row['origin'] = get_place($row['origin_id']);
     $row['destination'] = get_place($row['destination_id']);
     $row['driver'] = user\get_user($row['driver_id']);
+    if ($user_id)
+        $row['status'] = get_ride_request_status($user_id, $row['id']);
+    else
+        $row['status'] = NULL;
     return $row;
 }
 
@@ -172,10 +176,11 @@ function get_place($id)
   * Returns all the trips near the given route
   * TODO: Sanitize input
   * @param route the route for which to find nearby trips
-  * @param Departure time for the ride, null if not specified
+  * @param departure (optional) the departure time for the ride
+  * @param user_id (optional) the user id of the user requesting the trips
   * @return an array of all the trips nearby the route
   */
-function get_trips_near_on($route, $departure=NULL) {
+function get_trips_near_on($route, $departure=NULL, $user_id=NULL) {
 
     $threshold = 0.25; // The Threshold
     $q_origin_lat = $route['origin']['lat'];
@@ -220,7 +225,7 @@ function get_trips_near_on($route, $departure=NULL) {
 
     for ($i = 0; $i < $num_rows; ++$i) {
             $row = mysql_fetch_assoc($result);
-            $rows[] = process_trip_row($row);
+            $rows[] = process_trip_row($row, $user_id);
     }
     return $rows;
 }
@@ -228,18 +233,16 @@ function get_trips_near_on($route, $departure=NULL) {
 /**
 * Function to request a ride 
 * @param an array contaning info about requested ride
-* @return returns true if the request was successfull
-* @return Otherwise returns NULL if request wasn't successful
+* @return boolean whether or not the request was successfully made
 */
-
-function request_ride($request_data){
-    $trip_table = TRIP_REQUEST_TABLE;
+function request_ride($request_data) {
+    $trip_request_table = TRIP_REQUEST_TABLE;
     $user_id = functions\sanitize_string($request_data['user_id']);
     $trip_id = functions\sanitize_string($request_data['trip_id']);
     $message = functions\sanitize_string($request_data['message']);
 
     $query = 
-        "INSERT INTO $trip_table (
+        "INSERT INTO $trip_request_table (
             message,
             trip_id,
             user_id
@@ -252,4 +255,32 @@ function request_ride($request_data){
         return false;
     else
         return true;
+}
+
+/**
+ * Returns the status of a ride request.
+ * @param user_id requestor id
+ * @param trip_id the id of the trip
+ * @return one of {'DECLINED', 'APPROVED', 'PENDING', 'UNKNOWN'}
+ */
+function get_ride_request_status($user_id, $trip_id) {
+    $trip_request_table = TRIP_REQUEST_TABLE;
+    $s_trip_id = functions\sanitize_string($trip_id);
+    $s_user_id = functions\sanitize_string($user_id);
+    $query = "SELECT * FROM $trip_request_table 
+              WHERE user_id = $s_user_id AND trip_id = $s_trip_id";
+    $result = mysql_query($query);
+    if (!$result) return NULL;
+    elseif (mysql_num_rows($result)) {
+        $row = mysql_fetch_assoc($result);
+        if ($row['status'] == -1)
+            return 'DECLINED';
+        elseif ($row['status'] == 0)
+            return 'PENDING';
+        elseif ($row['status'] == 1)
+            return 'APPROVED';
+        else
+            return 'UNKNOWN';
+    }
+    return NULL;
 }

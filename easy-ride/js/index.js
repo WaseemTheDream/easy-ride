@@ -5,12 +5,10 @@ var rideSearcher,
 rideSearcher = rideSearcher || {};
 
 require(['components/map-route', 'components/input/date-picker', 'components/input/text-input'], function(MapRoute, DatePicker, TextInput) {
-  var RequestRideModal, RideSearcher, RouteRenderer;
+  var RequestRideModal, RideSearcher, RouteRenderer, Trip;
   RideSearcher = (function() {
 
     function RideSearcher() {
-      this.requestRide = __bind(this.requestRide, this);
-
       this.processResults = __bind(this.processResults, this);
 
       this.toJson = __bind(this.toJson, this);
@@ -50,12 +48,13 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
             'data': JSON.stringify(data)
           },
           success: _this.searchResults,
-          error: function(data) {
-            return this.setButton('btn btn-danger', 'Error!');
+          complete: function(xhr, status) {
+            if (status !== 'success') {
+              return _this.setButton('btn btn-danger', "" + xhr.statusText);
+            }
           }
         });
       });
-      this.tripTemplate = _.template($('#trip-template').html());
       this.trips = $('#trips');
       this.requestModal = new RequestRideModal();
     }
@@ -104,44 +103,74 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
       return json;
     };
 
-    RideSearcher.prototype.processResults = function(trips) {
-      var id, routeRenderer, trip, tripHTML, _i, _len;
-      this.tripsTable = {};
+    RideSearcher.prototype.processResults = function(tripsData) {
+      var id, tripData, _i, _len;
       this.trips.hide();
-      for (_i = 0, _len = trips.length; _i < _len; _i++) {
-        trip = trips[_i];
-        id = trip['id'];
-        trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString();
-        routeRenderer = new RouteRenderer(this.map, trip);
-        tripHTML = this.tripTemplate(trip);
-        this.trips.append(tripHTML);
-        $("#trip-" + id).hover(routeRenderer.hoverIn, routeRenderer.hoverOut);
-        $("#request-trip-" + id).click(this.requestRide);
-        this.tripsTable[id] = trip;
+      this.tripsTable = {};
+      for (_i = 0, _len = tripsData.length; _i < _len; _i++) {
+        tripData = tripsData[_i];
+        id = tripData.id;
+        this.tripsTable.id = new Trip(this.trips, this.map, this.requestModal, tripData);
       }
       return this.trips.slideDown(1000);
     };
 
-    RideSearcher.prototype.requestRide = function(e) {
-      var button, tripId;
-      tripId = parseInt(e.target.id.split('-')[2]);
-      button = $("#" + e.target.id);
-      if (button.hasClass('disabled')) {
+    return RideSearcher;
+
+  })();
+  Trip = (function() {
+
+    function Trip(container, map, modal, data) {
+      this.container = container;
+      this.map = map;
+      this.modal = modal;
+      this.data = data;
+      this.updateStatus = __bind(this.updateStatus, this);
+
+      this.requestRide = __bind(this.requestRide, this);
+
+      this.setButton = __bind(this.setButton, this);
+
+      this.tripTemplate = _.template($('#trip-template').html());
+      this.data.departure_string = (new Date(parseInt(this.data.departure_time) * 1000)).toLocaleString();
+      this.container.append(this.tripTemplate(this.data));
+      this.routeRenderer = new RouteRenderer(this.map, this.data);
+      $("#trip-" + this.data.id).hover(this.routeRenderer.hoverIn, this.routeRenderer.hoverOut);
+      this.requestButton = $("#request-trip-" + this.data.id);
+      this.requestButton.click(this.requestRide);
+      this.updateStatus();
+    }
+
+    Trip.prototype.setButton = function(btnClass, text) {
+      this.requestButton.attr('class', "btn btn-small " + btnClass);
+      return this.requestButton.html("<i class='icon icon-envelope icon-white'></i> " + text);
+    };
+
+    Trip.prototype.requestRide = function(e) {
+      if (this.requestButton.hasClass('disabled')) {
         return;
       }
       if ($('#logged-in').length === 0) {
-        button.attr('class', 'btn btn-danger btn-small');
-        button.text('Login Required!');
-        return;
+        return this.setButton('btn-danger', 'Login Required!');
       }
-      this.requestModal.reset();
-      console.log("TripID: " + tripId);
-      console.log(this.tripsTable[tripId]);
-      this.requestModal.load(this.tripsTable[tripId]);
-      return this.requestModal.show();
+      this.modal.reset();
+      this.modal.load(this);
+      return this.modal.show();
     };
 
-    return RideSearcher;
+    Trip.prototype.updateStatus = function() {
+      if (this.data.status === null) {
+        return this.setButton('btn-primary', 'Request Ride');
+      } else if (this.data.status === 'PENDING') {
+        return this.setButton('btn-info disabled', 'Request Pending');
+      } else if (this.data.status === 'DECLINED') {
+        return this.setButton('btn-danger disabled', 'Request Declined');
+      } else if (this.data.status === 'APPROVED') {
+        return this.setButton('btn-success disabled', 'Request Approved');
+      }
+    };
+
+    return Trip;
 
   })();
   RouteRenderer = (function() {
@@ -167,8 +196,8 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
       this.directionsDisplay = new google.maps.DirectionsRenderer(this.mapRendererOptions);
       this.directionsDisplay.setMap(this.map);
       request = {
-        origin: route['origin']['address'],
-        destination: route['destination']['address'],
+        origin: this.route['origin']['address'],
+        destination: this.route['destination']['address'],
         travelMode: google.maps.TravelMode.DRIVING,
         region: 'uk'
       };
@@ -218,9 +247,8 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
     }
 
     RequestRideModal.prototype.load = function(trip) {
-      this.tripId = trip['id'];
-      console.log(trip);
-      return this.info.append(this.tripTemplate(trip));
+      this.trip = trip;
+      return this.info.append(this.tripTemplate(this.trip.data));
     };
 
     RequestRideModal.prototype.show = function() {
@@ -239,14 +267,13 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
     RequestRideModal.prototype.toJson = function() {
       return {
         'message': this.requestMessage.getValue(),
-        'trip_id': this.tripId
+        'trip_id': this.trip.data.id
       };
     };
 
     RequestRideModal.prototype.submit = function(e) {
       var data,
         _this = this;
-      console.log(this.toJson());
       data = this.toJson();
       return $.ajax({
         url: '/index_ajax.php',
@@ -265,9 +292,8 @@ require(['components/map-route', 'components/input/date-picker', 'components/inp
           if (json['status'] === 'OK') {
             _this.hide();
             _this.reset();
-            $("#request-trip-" + _this.tripId).attr('class', 'btn btn-info btn-small disabled');
-            $("#request-trip-" + _this.tripId).html('<i class="icon icon-envelope icon-white"></i> Ride Requested');
-            return console.log($("#request-trip-" + _this.tripId));
+            _this.trip.data.status = 'PENDING';
+            return _this.trip.updateStatus();
           } else {
             return _this.setButton('btn btn-danger', json['msg']);
           }

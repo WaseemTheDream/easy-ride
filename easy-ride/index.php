@@ -106,7 +106,7 @@
       <strong><i class="icon icon-road"></i> Trip Length: </strong><%= length %><br>
       <strong><i class="icon icon-tasks"></i> Spots Remaining: </strong><%= spots %><br>
       <strong><i class="icon icon-comment"></i> Message: </strong><%= message %><br>
-      <button type="button" class="btn btn-small btn-info" id="request-trip-<%= id %>"><i class='icon icon-envelope icon-white'></i> Request Ride</button>
+      <button type="button" class="btn btn-small btn-primary" id="request-trip-<%= id %>"><i class='icon icon-envelope icon-white'></i> Request Ride</button>
     </div>
   </div>
 </div>

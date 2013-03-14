@@ -44,10 +44,10 @@ require [
                     type: 'GET'
                     data: 'data': JSON.stringify(data)
                     success: @searchResults
-                    error: (data) ->
-                        @setButton('btn btn-danger', 'Error!')
+                    complete: (xhr, status) =>
+                        if status != 'success'
+                            @setButton('btn btn-danger', "#{xhr.statusText}")
 
-            @tripTemplate = _.template($('#trip-template').html())
             @trips = $('#trips')
 
             @requestModal = new RequestRideModal()
@@ -85,33 +85,49 @@ require [
                 return null
             return json
 
-        processResults: (trips) =>
-            @tripsTable = {}
+        processResults: (tripsData) =>
             @trips.hide()
-            for trip in trips
-                id = trip['id']
-                trip.departure_string = (new Date(parseInt(trip.departure_time) * 1000)).toLocaleString()
-                routeRenderer = new RouteRenderer(@map, trip)
-                tripHTML = @tripTemplate(trip)
-                @trips.append(tripHTML)
-                $("#trip-#{id}").hover(routeRenderer.hoverIn, routeRenderer.hoverOut)
-                $("#request-trip-#{id}").click(@requestRide)
-                @tripsTable[id] = trip
+            @tripsTable = {}
+            for tripData in tripsData
+                id = tripData.id
+                @tripsTable.id = new Trip(@trips, @map, @requestModal, tripData)
             @trips.slideDown(1000)
 
+
+    class Trip
+        constructor: (@container, @map, @modal, @data) ->
+            @tripTemplate = _.template($('#trip-template').html())
+            @data.departure_string = (new Date(parseInt(@data.departure_time) * 1000)).toLocaleString()
+            @container.append(@tripTemplate(@data))
+            @routeRenderer = new RouteRenderer(@map, @data)
+            $("#trip-#{@data.id}").hover(@routeRenderer.hoverIn, @routeRenderer.hoverOut)
+
+            @requestButton = $("#request-trip-#{@data.id}")
+            @requestButton.click(@requestRide)
+            @updateStatus()
+
+        setButton: (btnClass, text) =>
+            @requestButton.attr('class', "btn btn-small #{btnClass}")
+            @requestButton.html("<i class='icon icon-envelope icon-white'></i> #{text}")
+
         requestRide: (e) =>
-            tripId = parseInt(e.target.id.split('-')[2])
-            button = $("##{e.target.id}")
-            return if button.hasClass('disabled')
-            if $('#logged-in').length == 0     # If not logged in
-                button.attr('class', 'btn btn-danger btn-small')
-                button.text('Login Required!')
-                return
-            @requestModal.reset()
-            console.log("TripID: #{tripId}")
-            console.log(@tripsTable[tripId])
-            @requestModal.load(@tripsTable[tripId])
-            @requestModal.show()
+            return if @requestButton.hasClass('disabled')
+            if $('#logged-in').length == 0      # If not logged in
+                return @setButton('btn-danger', 'Login Required!')
+
+            @modal.reset()
+            @modal.load(@)
+            @modal.show()
+
+        updateStatus: =>
+            if @data.status == null
+                @setButton('btn-primary', 'Request Ride')
+            else if @data.status == 'PENDING'
+                @setButton('btn-info disabled', 'Request Pending')
+            else if @data.status == 'DECLINED'
+                @setButton('btn-danger disabled', 'Request Declined')
+            else if @data.status == 'APPROVED'
+                @setButton('btn-success disabled', 'Request Approved')
 
 
     class RouteRenderer
@@ -126,8 +142,8 @@ require [
             @directionsDisplay.setMap(@map)
 
             request =
-                origin: route['origin']['address']
-                destination: route['destination']['address']
+                origin: @route['origin']['address']
+                destination: @route['destination']['address']
                 travelMode: google.maps.TravelMode.DRIVING
                 region: 'uk'
 
@@ -145,7 +161,7 @@ require [
             @directionsDisplay.setMap(@map)
 
     class RequestRideModal
-        constructor: () ->
+        constructor: ->
             @el = $('#modal-request-ride')
             @info = $('#modal-trip-info')
             @requestMessage = new TextInput(
@@ -155,10 +171,8 @@ require [
             @submitButton.click(@submit)
             @tripTemplate = _.template($('#trip-modal-template').html())
         
-        load: (trip) =>
-            @tripId = trip['id']
-            console.log(trip)
-            @info.append(@tripTemplate(trip))
+        load: (@trip) =>
+            @info.append(@tripTemplate(@trip.data))
 
         show: =>
             @el.modal('show')
@@ -172,10 +186,9 @@ require [
 
         toJson: =>
             'message': @requestMessage.getValue()
-            'trip_id': @tripId
+            'trip_id': @trip.data.id
 
         submit: (e) =>
-            console.log(@toJson())
             data = @toJson()
             $.ajax
                 url: '/index_ajax.php'
@@ -192,9 +205,8 @@ require [
                     if json['status'] == 'OK'
                         @hide()
                         @reset()
-                        $("#request-trip-#{@tripId}").attr('class', 'btn btn-info btn-small disabled')
-                        $("#request-trip-#{@tripId}").html('<i class="icon icon-envelope icon-white"></i> Ride Requested')
-                        console.log($("#request-trip-#{@tripId}"))
+                        @trip.data.status = 'PENDING'
+                        @trip.updateStatus()
                     else 
                         @setButton('btn btn-danger', json['msg'])
 
