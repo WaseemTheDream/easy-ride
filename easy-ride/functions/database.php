@@ -284,3 +284,85 @@ function get_ride_request_status($user_id, $trip_id) {
     }
     return NULL;
 }
+
+/**
+* @param user_id the id of the user who has shared the ride
+* @param trip_id the id of the trip to update
+* @param status the Status of the request
+* @return returns true if the request was successfully updated, false otherwise
+* Function updates the ride request status
+*/
+
+function update_ride_request_status($user_id, $trip_id, $status){
+
+        $trip_request_table = TRIP_REQUEST_TABLE;
+        $trip_id = functions\sanitize_string($trip_id);
+        $user_id = functions\sanitize_string($user_id);
+        $status = functions\sanitize_string($status);
+
+        $query = "UPDATE $trip_request_table
+                    SET status = '$status'
+                  WHERE user_id = '$user_id'";
+        if (mysql_query($query)) return true;
+        return false;
+}
+
+/**
+* @param user_id the id of the user who shared the ride
+* @param trip_id the id of the trip to approve
+* @return returns Not enough spots if there aren't enough spots in the ride
+* @return returns approved if there enough spots in the car
+* @return returns PENDING if there was an error connecting with the database
+* 
+*/
+
+function approve_ride_request($user_id, $trip_id){
+
+        $trip_request_table = TRIP_REQUEST_TABLE;
+        $trip_table = TRIP_TABLE;
+        $trip_id = functions\sanitize_string($trip_id);
+        $user_id = functions\sanitize_string($user_id);
+
+        $spots_num_query = "SELECT spots FROM $trip_table
+                                         WHERE id = '$trip_id'
+                                         AND driver_id = '$user_id'";
+        $result = mysql_query( $spots_num_query );
+        if (!$result) return 'PENDING';
+        $result_array = mysql_fetch_assoc($result);
+        $spots = $result_array['spots'];
+       
+        if ($spots > 0){
+         $spots--;
+         $spots_update = update_spots($user_id,$trip_id,$spots);
+         if ($spots_update){
+            $status = 'APPROVED';
+            $update_request = update_ride_request_status($user_id,$trip_id,$status);
+            if ($update_request)return $status;
+            return 'PENDING';
+         }
+         return 'PENDING';
+        }
+        return 'Not enough spots';
+}
+
+/**
+* @param user_id The id of the driver who shared the trip
+* @param trip_id The id of the trip shared
+* @param spots the number of spots in the ride
+* @return returns true if the number of spots in the ride were successfully updated
+* @return returns false if the number of spots in the ride weren't updated
+*/
+function update_spots($user_id,$trip_id,$spots){
+
+    $trip_table = TRIP_TABLE;
+    $trip_id = functions\sanitize_string($trip_id);
+    $user_id = functions\sanitize_string($user_id);
+    $spots = functions\sanitize_string($spots);
+
+    $update_query = "UPDATE $trip_table
+                     SET spots='$spots'
+                      WHERE id = '$trip_id'
+                     AND driver_id = '$user_id'";
+    if (mysql_query($update_spots))return true;
+    return false;
+}
