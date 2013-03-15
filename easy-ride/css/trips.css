@@ -32,3 +32,7 @@ table.trips .action { width: 150px; }
 #modal-ride-requests-status {
     text-align: center;
 }
+
+#modal-ride-requests-spots-remaining {
+    margin-bottom: 5px;
+}

@@ -111,6 +111,8 @@ jQuery(function() {
 
     function RideRequestModal(el) {
       this.el = el;
+      this.updateSpotsRemaining = __bind(this.updateSpotsRemaining, this);
+
       this.success = __bind(this.success, this);
 
       this.load = __bind(this.load, this);
@@ -124,8 +126,9 @@ jQuery(function() {
       this.status = $('#modal-ride-requests-status');
       this.loader = $('#modal-ride-requests-loader');
       this.msg = $('#modal-ride-requests-msg');
-      this.spotsRemaining = $('#modal-ride-requests-spots-remaining');
-      this.spotsRemainingVal = $('#modal-ride-requests-spots-remaining-value');
+      this.spotsRemaining = 0;
+      this.spotsRemainingContainer = $('#modal-ride-requests-spots-remaining');
+      this.spotsRemainingDisplay = $('#modal-ride-requests-spots-remaining-value');
       this.form = $('#modal-ride-requests-form');
     }
 
@@ -142,12 +145,13 @@ jQuery(function() {
       this.status.show();
       this.msg.hide();
       this.form.html('').hide();
-      return this.spotsRemaining.hide();
+      return this.spotsRemainingContainer.hide();
     };
 
     RideRequestModal.prototype.load = function(tripId) {
       var _this = this;
       this.tripId = tripId;
+      this.updateSpotsRemaining();
       return $.ajax({
         url: '/trips_ajax.php',
         type: 'GET',
@@ -184,11 +188,40 @@ jQuery(function() {
       _ref = data.requests;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         requestData = _ref[_i];
-        rideRequest = new RideRequest(requestData);
+        rideRequest = new RideRequest(this, requestData);
         this.form.append(rideRequest.render());
+        rideRequest.initialize();
       }
       this.form.slideDown(500);
       return this.loader.fadeOut(500);
+    };
+
+    RideRequestModal.prototype.updateSpotsRemaining = function() {
+      var _this = this;
+      return $.ajax({
+        url: '/trips_ajax.php',
+        type: 'GET',
+        data: {
+          'method': 'get_spots_remaining_for_trip',
+          'data': JSON.stringify({
+            'trip_id': this.tripId
+          })
+        },
+        success: function(json) {
+          var data;
+          data = JSON.parse(json);
+          console.log(data);
+          _this.spotsRemainingDisplay.text(data.spots_remaining);
+          _this.spotsRemaining = data.spots_remaining;
+          _this.spotsRemainingContainer.fadeIn(500);
+          return $("tr#trip-" + _this.tripId + " td.riders span").text(data.spots_taken);
+        },
+        complete: function(xhr, status) {
+          if (status !== 'success') {
+            return console.log("<em>" + xhr.status + ": " + xhr.statusText + "</em>");
+          }
+        }
+      });
     };
 
     return RideRequestModal;
@@ -196,8 +229,15 @@ jQuery(function() {
   })();
   RideRequest = (function() {
 
-    function RideRequest(data) {
+    function RideRequest(modal, data) {
+      this.modal = modal;
       this.data = data;
+      this.performAction = __bind(this.performAction, this);
+
+      this.setActiveAction = __bind(this.setActiveAction, this);
+
+      this.initialize = __bind(this.initialize, this);
+
       this.render = __bind(this.render, this);
 
       this.template = _.template($('#rider-request-template').html());
@@ -206,6 +246,56 @@ jQuery(function() {
     RideRequest.prototype.render = function() {
       this.el = this.template(this.data);
       return this.el;
+    };
+
+    RideRequest.prototype.initialize = function() {
+      console.log(this.data);
+      console.log("#rider-" + this.data.rider.id + "-actions");
+      return $("#rider-" + this.data.rider.id + "-actions").children().click(this.performAction);
+    };
+
+    RideRequest.prototype.setActiveAction = function(actionName) {
+      var action, _i, _len, _ref;
+      _ref = ['DECLINED', 'PENDING', 'APPROVED'];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        action = _ref[_i];
+        $("#rider-" + this.data.rider.id + "-actions button[data-action='" + action + "']").removeClass('active');
+      }
+      return $("#rider-" + this.data.rider.id + "-actions button[data-action='" + actionName + "']").addClass('active');
+    };
+
+    RideRequest.prototype.performAction = function(e) {
+      var button, data,
+        _this = this;
+      button = $(e.target);
+      data = {
+        'status': button.data('action'),
+        'user_id': this.data.rider.id,
+        'trip_id': this.data.trip_id
+      };
+      return $.ajax({
+        url: '/trips_ajax.php',
+        type: 'POST',
+        data: {
+          'method': 'update_ride_request_status',
+          'data': JSON.stringify(data)
+        },
+        success: function(json) {
+          var response;
+          console.log(json);
+          response = JSON.parse(json);
+          if (response.status !== 'OK') {
+            return;
+          }
+          _this.setActiveAction(button.data('action'));
+          return _this.modal.updateSpotsRemaining();
+        },
+        complete: function(xhr, status) {
+          if (status !== 'success') {
+            return console.log("<em>" + xhr.status + ": " + xhr.statusText + "</em>");
+          }
+        }
+      });
     };
 
     return RideRequest;

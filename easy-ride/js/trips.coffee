@@ -67,9 +67,9 @@ jQuery ->
             @status = $('#modal-ride-requests-status')
             @loader = $('#modal-ride-requests-loader')
             @msg = $('#modal-ride-requests-msg')
-            
-            @spotsRemaining = $('#modal-ride-requests-spots-remaining')
-            @spotsRemainingVal = $('#modal-ride-requests-spots-remaining-value')
+            @spotsRemaining = 0
+            @spotsRemainingContainer = $('#modal-ride-requests-spots-remaining')
+            @spotsRemainingDisplay = $('#modal-ride-requests-spots-remaining-value')
             @form = $('#modal-ride-requests-form')
 
         show: => @el.modal('show')
@@ -79,9 +79,10 @@ jQuery ->
             @status.show()
             @msg.hide()
             @form.html('').hide()
-            @spotsRemaining.hide()
+            @spotsRemainingContainer.hide()
 
         load: (@tripId) =>
+            @updateSpotsRemaining()
             $.ajax
                 url: '/trips_ajax.php'
                 type: 'GET'
@@ -103,20 +104,70 @@ jQuery ->
                 return
             console.log(data)
             for requestData in data.requests
-                rideRequest = new RideRequest(requestData)
+                rideRequest = new RideRequest(@, requestData)
                 @form.append(rideRequest.render())
+                rideRequest.initialize()
             @form.slideDown(500)
             @loader.fadeOut(500)
 
+        updateSpotsRemaining: =>
+            $.ajax
+                url: '/trips_ajax.php'
+                type: 'GET'
+                data:
+                    'method': 'get_spots_remaining_for_trip'
+                    'data': JSON.stringify({'trip_id': @tripId})
+                success: (json) =>
+                    data = JSON.parse(json)
+                    console.log(data)
+                    @spotsRemainingDisplay.text(data.spots_remaining)
+                    @spotsRemaining = data.spots_remaining
+                    @spotsRemainingContainer.fadeIn(500)
+                    $("tr#trip-#{@tripId} td.riders span").text(data.spots_taken)
+                    # TODO: Update riders
+                complete: (xhr, status) =>
+                    if status != 'success'
+                        console.log("<em>#{xhr.status}: #{xhr.statusText}</em>")
+
     class RideRequest
-        constructor: (@data) ->
+        constructor: (@modal, @data) ->
             @template = _.template($('#rider-request-template').html())
 
         render: =>
             @el = @template(@data)
             return @el
 
+        initialize: () =>
+            console.log(@data)
+            console.log("#rider-#{@data.rider.id}-actions")
+            $("#rider-#{@data.rider.id}-actions").children().click(@performAction)
 
+        setActiveAction: (actionName) =>
+            for action in ['DECLINED', 'PENDING', 'APPROVED']
+                $("#rider-#{@data.rider.id}-actions button[data-action='#{action}']").removeClass('active')
+            $("#rider-#{@data.rider.id}-actions button[data-action='#{actionName}']").addClass('active')
 
+        performAction: (e) =>
+            button = $(e.target)
+            data =
+                'status': button.data('action')
+                'user_id': @data.rider.id
+                'trip_id': @data.trip_id
+            $.ajax
+                url: '/trips_ajax.php'
+                type: 'POST'
+                data:
+                    'method': 'update_ride_request_status'
+                    'data': JSON.stringify(data)
+                success: (json) =>
+                    console.log(json)
+                    response = JSON.parse(json)
+                    if response.status != 'OK'
+                        return
+                    @setActiveAction(button.data('action'))
+                    @modal.updateSpotsRemaining()
+                complete: (xhr, status) =>
+                    if status != 'success'
+                        console.log("<em>#{xhr.status}: #{xhr.statusText}</em>")
 
     drivesController = new DrivesController()

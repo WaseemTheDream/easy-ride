@@ -53,7 +53,7 @@
     </div>
 </div>
 <script type="text/template" id="trip-row-template">
-  <tr>
+  <tr id="trip-<%= id %>">
     <td class="departure"><%= departure_string %></td>
     <td class="origin"><%= origin.address %></td>
     <td class="destination"><%= destination.address %></td>
@@ -76,10 +76,10 @@
       <a class="accordion-toggle" data-toggle="collapse" href="#accordion-rider-<%= rider.id %>">
         <label for="rider-<%= rider.id %>"><i class="icon icon-user"></i> <%= rider.first_name %> <%= rider.last_name %></label>
       </a>
-      <div class="btn-group" data-toggle="buttons-radio" id="rider-<%= rider.id %>-actions">
-        <button data-action="DECLINE" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='DECLINED') { %>active<% } %>">Decline</button>
-        <button data-action="IGNORE" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='PENDING') { %>active<% } %>">Ignore</button>
-        <button data-action="APPROVE" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='APPROVED') { %>active<% } %>">Approve</button>
+      <div class="btn-group" id="rider-<%= rider.id %>-actions">
+        <button data-action="DECLINED" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='DECLINED') { %>active<% } %>">Decline</button>
+        <button data-action="PENDING" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='PENDING') { %>active<% } %>">Ignore</button>
+        <button data-action="APPROVED" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='APPROVED') { %>active<% } %>">Approve</button>
       </div>
     </div>
     <div id="accordion-rider-<%= rider.id %>" class="accordion-body collapse">
