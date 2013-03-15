@@ -9,7 +9,7 @@ template = null;
 e = null;
 
 jQuery(function() {
-  var Drive, DrivesController, RideRequestModal;
+  var Drive, DrivesController, RideRequest, RideRequestModal;
   DrivesController = (function() {
 
     function DrivesController() {
@@ -124,7 +124,6 @@ jQuery(function() {
       this.status = $('#modal-ride-requests-status');
       this.loader = $('#modal-ride-requests-loader');
       this.msg = $('#modal-ride-requests-msg');
-      this.template = _.template($('#rider-request-template').html());
       this.spotsRemaining = $('#modal-ride-requests-spots-remaining');
       this.spotsRemainingVal = $('#modal-ride-requests-spots-remaining-value');
       this.form = $('#modal-ride-requests-form');
@@ -171,7 +170,7 @@ jQuery(function() {
     };
 
     RideRequestModal.prototype.success = function(json) {
-      var data, request, _i, _len, _ref,
+      var data, requestData, rideRequest, _i, _len, _ref,
         _this = this;
       data = JSON.parse(json);
       if (data.requests.length === 0) {
@@ -184,15 +183,32 @@ jQuery(function() {
       console.log(data);
       _ref = data.requests;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        request = _ref[_i];
-        this.form.append(this.template(request));
+        requestData = _ref[_i];
+        rideRequest = new RideRequest(requestData);
+        this.form.append(rideRequest.render());
       }
-      return this.loader.fadeOut(500, function() {
-        return _this.form.slideDown(500);
-      });
+      this.form.slideDown(500);
+      return this.loader.fadeOut(500);
     };
 
     return RideRequestModal;
+
+  })();
+  RideRequest = (function() {
+
+    function RideRequest(data) {
+      this.data = data;
+      this.render = __bind(this.render, this);
+
+      this.template = _.template($('#rider-request-template').html());
+    }
+
+    RideRequest.prototype.render = function() {
+      this.el = this.template(this.data);
+      return this.el;
+    };
+
+    return RideRequest;
 
   })();
   return drivesController = new DrivesController();

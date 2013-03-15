@@ -173,7 +173,8 @@ function delete_user($user_id){
 function get_user($id) {
     $s_id = functions\sanitize_string($id);
     $user_table = USER_TABLE;
-    $query = "SELECT first_name, 
+    $query = "SELECT id,
+                     first_name, 
                      last_name, 
                      email_address,
                      drivers_license_id,

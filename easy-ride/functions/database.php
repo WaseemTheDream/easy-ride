@@ -301,6 +301,7 @@ function request_ride($request_data) {
  * @return an array containing all the requests made for the trip
  */
 function get_requests_for_trip($trip_id) {
+    global $request_code_to_status;
     $trip_request_table = TRIP_REQUEST_TABLE;
     $s_trip_id = functions\sanitize_string($trip_id);
     $query = "SELECT * FROM $trip_request_table WHERE trip_id = $s_trip_id";
@@ -309,6 +310,7 @@ function get_requests_for_trip($trip_id) {
     if ($result) {
         for ($i = 0; $i < mysql_num_rows($result); ++$i) {
             $row = mysql_fetch_assoc($result);
+            $row['status'] = $request_code_to_status[$row['status']];
             $row['rider'] = user\get_user($row['user_id']);
             $rows[] = $row;
         }

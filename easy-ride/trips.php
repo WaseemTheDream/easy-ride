@@ -40,12 +40,12 @@
     </div>
     <div class="modal-body">
         <div id="modal-ride-requests-spots-remaining"><strong>Spots Remaining: </strong><span id="modal-ride-requests-spots-remaining-value">0</span></div>
+        <form class="form-horizontal" id="modal-ride-requests-form"  method="post">
+        </form>
         <div id="modal-ride-requests-status">
           <img id="modal-ride-requests-loader" class="loader" src="/img/ajaxloader.gif">
           <em id="modal-ride-requests-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>
         </div>
-        <form class="form-horizontal" id="modal-ride-requests-form"  method="post">
-        </form>
     </div>
     <!--  Form Actions -->
     <div class="modal-footer">
@@ -76,10 +76,10 @@
       <a class="accordion-toggle" data-toggle="collapse" href="#accordion-rider-<%= rider.id %>">
         <label for="rider-<%= rider.id %>"><i class="icon icon-user"></i> <%= rider.first_name %> <%= rider.last_name %></label>
       </a>
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button type="button" class="btn btn-primary <% if (status=='DECLINED') { %>active<% } %>">Decline</button>
-        <button type="button" class="btn btn-primary <% if (status=='PENDING') { %>active<% } %>">Ignore</button>
-        <button type="button" class="btn btn-primary <% if (status=='APPROVED') { %>active<% } %>">Approve</button>
+      <div class="btn-group" data-toggle="buttons-radio" id="rider-<%= rider.id %>-actions">
+        <button data-action="DECLINE" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='DECLINED') { %>active<% } %>">Decline</button>
+        <button data-action="IGNORE" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='PENDING') { %>active<% } %>">Ignore</button>
+        <button data-action="APPROVE" data-id="<%= rider.id %>" type="button" class="btn btn-primary <% if (status=='APPROVED') { %>active<% } %>">Approve</button>
       </div>
     </div>
     <div id="accordion-rider-<%= rider.id %>" class="accordion-body collapse">

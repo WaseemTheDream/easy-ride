@@ -67,7 +67,7 @@ jQuery ->
             @status = $('#modal-ride-requests-status')
             @loader = $('#modal-ride-requests-loader')
             @msg = $('#modal-ride-requests-msg')
-            @template = _.template($('#rider-request-template').html())
+            
             @spotsRemaining = $('#modal-ride-requests-spots-remaining')
             @spotsRemainingVal = $('#modal-ride-requests-spots-remaining-value')
             @form = $('#modal-ride-requests-form')
@@ -102,9 +102,21 @@ jQuery ->
                 @loader.fadeOut(500, => @msg.fadeIn(500))
                 return
             console.log(data)
-            for request in data.requests
-                @form.append(@template(request))
-            @loader.fadeOut(500, => @form.slideDown(500))
+            for requestData in data.requests
+                rideRequest = new RideRequest(requestData)
+                @form.append(rideRequest.render())
+            @form.slideDown(500)
+            @loader.fadeOut(500)
+
+    class RideRequest
+        constructor: (@data) ->
+            @template = _.template($('#rider-request-template').html())
+
+        render: =>
+            @el = @template(@data)
+            return @el
+
+
 
 
     drivesController = new DrivesController()

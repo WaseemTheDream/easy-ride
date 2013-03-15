@@ -27,13 +27,13 @@ function update_ride_request_status($driver_id, $data) {
         return functions\json_respond('ERROR', 'Unauthorized access!');
 
     $spots_remaining = 
-        database\update_ride_request_status($data['user_id'], $data['status'])
+        database\update_ride_request_status($data['user_id'], $data['status']);
 
     if ($spots_remaining < 0)
         return functions\json_respond('ERROR', 'Insufficient spots!');
 
     functions\json_respond(
-        'OK', 'Query performed!', array("spots_remaining" => $spots_remaining))
+        'OK', 'Query performed!', array("spots_remaining" => $spots_remaining));
 }
 
 function request_post($data) {}
