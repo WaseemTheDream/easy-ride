@@ -80,6 +80,7 @@ jQuery(function() {
         var tripId;
         console.log('Clicked!');
         tripId = $(e.target).data('trip-id');
+        _this.rideRequestModal.reset();
         _this.rideRequestModal.show();
         return setTimeout((function() {
           return _this.rideRequestModal.load(tripId);
@@ -114,6 +115,8 @@ jQuery(function() {
 
       this.load = __bind(this.load, this);
 
+      this.reset = __bind(this.reset, this);
+
       this.hide = __bind(this.hide, this);
 
       this.show = __bind(this.show, this);
@@ -123,6 +126,7 @@ jQuery(function() {
       this.msg = $('#modal-ride-requests-msg');
       this.template = _.template($('#rider-request-template').html());
       this.spotsRemaining = $('#modal-ride-requests-spots-remaining');
+      this.spotsRemainingVal = $('#modal-ride-requests-spots-remaining-value');
       this.form = $('#modal-ride-requests-form');
     }
 
@@ -132,6 +136,14 @@ jQuery(function() {
 
     RideRequestModal.prototype.hide = function() {
       return this.el.modal('hide');
+    };
+
+    RideRequestModal.prototype.reset = function() {
+      this.loader.show();
+      this.status.show();
+      this.msg.hide();
+      this.form.html('').hide();
+      return this.spotsRemaining.hide();
     };
 
     RideRequestModal.prototype.load = function(tripId) {
@@ -158,9 +170,26 @@ jQuery(function() {
       });
     };
 
-    RideRequestModal.prototype.success = function(data) {
+    RideRequestModal.prototype.success = function(json) {
+      var data, request, _i, _len, _ref,
+        _this = this;
+      data = JSON.parse(json);
+      if (data.requests.length === 0) {
+        this.msg.text('You have no ride requests for this trip.');
+        this.loader.fadeOut(500, function() {
+          return _this.msg.fadeIn(500);
+        });
+        return;
+      }
       console.log(data);
-      return this.status.fadeOut(500);
+      _ref = data.requests;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        request = _ref[_i];
+        this.form.append(this.template(request));
+      }
+      return this.loader.fadeOut(500, function() {
+        return _this.form.slideDown(500);
+      });
     };
 
     return RideRequestModal;

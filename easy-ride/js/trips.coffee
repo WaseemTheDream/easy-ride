@@ -47,6 +47,7 @@ jQuery ->
             $('.button-ride-requests').click (e) =>
                 console.log('Clicked!')
                 tripId = $(e.target).data('trip-id')
+                @rideRequestModal.reset()
                 @rideRequestModal.show()
                 setTimeout(( => @rideRequestModal.load(tripId)), 1000)
                 
@@ -68,10 +69,17 @@ jQuery ->
             @msg = $('#modal-ride-requests-msg')
             @template = _.template($('#rider-request-template').html())
             @spotsRemaining = $('#modal-ride-requests-spots-remaining')
+            @spotsRemainingVal = $('#modal-ride-requests-spots-remaining-value')
             @form = $('#modal-ride-requests-form')
 
         show: => @el.modal('show')
         hide: => @el.modal('hide')
+        reset: =>
+            @loader.show()
+            @status.show()
+            @msg.hide()
+            @form.html('').hide()
+            @spotsRemaining.hide()
 
         load: (@tripId) =>
             $.ajax
@@ -87,9 +95,16 @@ jQuery ->
                             "<em>#{xhr.status}: #{xhr.statusText}</em>")
                         @loader.fadeOut(500, => @msg.fadeIn(500))
 
-        success: (data) =>
+        success: (json) =>
+            data = JSON.parse(json)
+            if data.requests.length == 0
+                @msg.text('You have no ride requests for this trip.')
+                @loader.fadeOut(500, => @msg.fadeIn(500))
+                return
             console.log(data)
-            @status.fadeOut(500)
+            for request in data.requests
+                @form.append(@template(request))
+            @loader.fadeOut(500, => @form.slideDown(500))
 
 
     drivesController = new DrivesController()

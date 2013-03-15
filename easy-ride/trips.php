@@ -39,7 +39,7 @@
         <p>Use this dialog to approve or deny ride requests made by other users.</p>
     </div>
     <div class="modal-body">
-        <div><strong>Spots Remaining: </strong><span id="modal-ride-requests-spots-remaining">0</span></div>
+        <div id="modal-ride-requests-spots-remaining"><strong>Spots Remaining: </strong><span id="modal-ride-requests-spots-remaining-value">0</span></div>
         <div id="modal-ride-requests-status">
           <img id="modal-ride-requests-loader" class="loader" src="/img/ajaxloader.gif">
           <em id="modal-ride-requests-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>

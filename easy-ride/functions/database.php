@@ -294,10 +294,11 @@ function get_requests_for_trip($trip_id) {
     $s_trip_id = functions\sanitize_string($trip_id);
     $query = "SELECT * FROM $trip_request_table WHERE trip_id = $s_trip_id";
     $rows = array();
-    $result = mysql_query($search_query);
+    $result = mysql_query($query);
     if ($result) {
         for ($i = 0; $i < mysql_num_rows($result); ++$i) {
-            $row['user'] = user\get_user($row['user_id']);
+            $row = mysql_fetch_assoc($result);
+            $row['rider'] = user\get_user($row['user_id']);
             $rows[] = $row;
         }
     }

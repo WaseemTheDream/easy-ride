@@ -18,13 +18,17 @@ table.trips .action { width: 150px; }
     display: none;
 }
 
-#modal-manage-requests .accordion-toggle {
+#modal-ride-requests .accordion-toggle {
     display: inline-block;
 }
 
-#modal-manage-requests .btn-group {
+#modal-ride-requests .btn-group {
     display: inline-block;
     float: right;
     margin-right: 12px;
     margin-top: 5px;
+}
+
+#modal-ride-requests-status {
+    text-align: center;
 }

@@ -12,7 +12,7 @@ function get_upcoming_drives($user_id, $data) {
 function get_requests_for_trip($user_id, $data) {
     $trip = database\get_trip($data['trip_id']);
 
-    if ($trip['user_id'] != $user_id)
+    if ($trip['driver_id'] != $user_id)
         return functions\json_respond('ERROR', 'Unauthorized access!');
 
     $requests = database\get_requests_for_trip($data['trip_id']);
