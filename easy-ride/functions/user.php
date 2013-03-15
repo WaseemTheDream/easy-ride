@@ -172,13 +172,13 @@ function delete_user($user_id){
  */
 function get_user($id) {
     $s_id = functions\sanitize_string($id);
-    $query = "SELECT id,
-                     first_name, 
+    $user_table = USER_TABLE;
+    $query = "SELECT first_name, 
                      last_name, 
                      email_address,
                      drivers_license_id,
                      gender 
-              FROM ".USER_TABLE." WHERE id=$s_id";
+              FROM  $user_table WHERE id=$s_id";
     $result = mysql_query($query);
     if (!$result) return NULL;
     elseif (mysql_num_rows($result))
@@ -187,24 +187,47 @@ function get_user($id) {
 }
 
 /**
- * Gets all of the users in the Database as well as their info
- * @return returns an array of all of the users in the database
- */
-function get_all_users() {
+* Gets all the users in the Database as well as their info
+* @return returns an array of all of the users in the database
+*/
+
+function get_all_users(){
     $users_table = USER_TABLE;
-    $users_query = "SELECT  id
-                            first_name, 
-                            last_name, 
-                            email_address,
-                            drivers_license_id,
-                            gender 
+    $users_query = "SELECT *
                     FROM $users_table";
     $query_result = mysql_query( $users_query);
-    if(!$query_result) return NULL;
-    elseif (mysql_num_rows($query_result))
-        return mysql_fetch_assoc($query_result);
-    return NULL;
+    $rows = array();
+    $num_rows = mysql_num_rows($query_result);
+    if ($query_result) {
+        for ($i = 0; $i < $num_rows ; ++$i) {
+            $row = mysql_fetch_assoc($query_result);
+            $rows[] = process_user_row($row['id']);
+        }
+    }
+    return $rows;
 }
+
+
+/**
+* Process a User's row
+* @param user_id the id of the user
+* @return returns an array of all of the user's details
+*/
+function process_user_row($user_id)
+{   
+    $row = get_user($user_id);
+    if ($row){
+
+    $row['id'] = $user_id;
+    $row['first_name'] = $row['first_name'];
+    $row['last_name'] = $row['last_name'];
+    $row['email_address'] = $row['email_address'];
+    $row['drivers_license_id'] = $row['drivers_license_id'];
+    $row['gender'] = $row['gender'];
+     }
+    return $row;
+}
+
 
 /**
  * Checks whether the user exists.
