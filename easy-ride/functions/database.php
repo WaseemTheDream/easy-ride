@@ -311,7 +311,7 @@ function get_ride_request_status($user_id, $trip_id) {
 }
 
 /**
-* @param user_id the id of the user who has shared the ride
+* @param user_id the id of the user who has requested the ride
 * @param trip_id the id of the trip to update
 * @param status the Status of the request
 * @return returns true if the request was successfully updated, false otherwise
@@ -323,7 +323,7 @@ function update_ride_request_status($user_id, $trip_id, $status){
         $trip_request_table = TRIP_REQUEST_TABLE;
         $trip_id = functions\sanitize_string($trip_id);
         $user_id = functions\sanitize_string($user_id);
-        $status = functions\sanitize_string($status);
+        $status = int(functions\sanitize_string($status));
 
         $query = "UPDATE $trip_request_table
                     SET status = '$status'
@@ -335,59 +335,66 @@ function update_ride_request_status($user_id, $trip_id, $status){
 /**
 * @param user_id the id of the user who shared the ride
 * @param trip_id the id of the trip to approve
-* @return returns Not enough spots if there aren't enough spots in the ride
-* @return returns approved if there enough spots in the car
-* @return returns PENDING if there was an error connecting with the database
+* @return returns -1 if there aren't enough spots in the ride
+* @return returns 1 if there are enough spots in the car
+* @return returns 0 if there was an error connecting with the database or status is "PENDING"
 * 
 */
 
-function approve_ride_request($user_id, $trip_id){
+function approve_ride_request($user_id, $trip_id,$status){
 
         $trip_request_table = TRIP_REQUEST_TABLE;
         $trip_table = TRIP_TABLE;
         $trip_id = functions\sanitize_string($trip_id);
         $user_id = functions\sanitize_string($user_id);
+        $status = int(functions\sanitize_string($status));
 
-        $spots_num_query = "SELECT spots FROM $trip_table
-                                         WHERE id = '$trip_id'
-                                         AND driver_id = '$user_id'";
-        $result = mysql_query( $spots_num_query );
-        if (!$result) return 'PENDING';
+        $spots_num_query = "SELECT spots,spots_taken FROM $trip_table
+                                    WHERE id = '$trip_id'
+                                    AND driver_id = '$user_id'";
+        $result = mysql_query($spots_num_query );
+        if (!$result) return 0; // Error retrieving the number of spots
         $result_array = mysql_fetch_assoc($result);
         $spots = $result_array['spots'];
+        $spots_taken = $result_array['spots_taken'];
+        $diff = $spots - $spots_taken;
        
-        if ($spots > 0){
-         $spots--;
-         $spots_update = update_spots($user_id,$trip_id,$spots);
-         if ($spots_update){
-            $status = 'APPROVED';
-            $update_request = update_ride_request_status($user_id,$trip_id,$status);
-            if ($update_request)return $status;
-            return 'PENDING';
-         }
-         return 'PENDING';
+        if ($diff >= 0){      
+                
+                $spots_update = update_spots_taken($trip_id,$spots_taken,$status);
+                if ($spots_update){
+                    $update_request = update_ride_request_status($user_id,$trip_id,$status);
+                    if ($update_request)return $status; // Request Approved
+                    return 0; // The request wasn't properly updated
+                }
+                return 0; // Spots_taken were not properly updated
         }
-        return 'Not enough spots';
+        return -1; // Not enough Spots in the ride
+        
 }
 
 /**
-* @param user_id The id of the driver who shared the trip
-* @param trip_id The id of the trip shared
-* @param spots the number of spots in the ride
-* @return returns true if the number of spots in the ride were successfully updated
-* @return returns false if the number of spots in the ride weren't updated
+* @param trip_id the id of the trip to be updated
+* @param spots_taken the number of spots already taken
+* @param status the status of the request
+* @return returns true if the number of spots were successfully updated
+* @return returns flase if the number of spots were not updated
 */
-function update_spots($user_id,$trip_id,$spots){
+
+function  update_spots_taken($trip_id,$spots_taken, $status){
 
     $trip_table = TRIP_TABLE;
-    $trip_id = functions\sanitize_string($trip_id);
-    $user_id = functions\sanitize_string($user_id);
-    $spots = functions\sanitize_string($spots);
 
+    if ($status ==-1){  
+        $spots_taken ++; // Request Declined
+    }
+    elseif ($status ==1) {
+        if ($spots_taken>0)$spots_taken --;      // Request Approved 
+    }
     $update_query = "UPDATE $trip_table
-                     SET spots='$spots'
-                      WHERE id = '$trip_id'
-                     AND driver_id = '$user_id'";
-    if (mysql_query($update_spots))return true;
-    return false;
+                     SET spots_taken='$spots_taken'
+                     WHERE id = '$trip_id' ";
+
+    if (mysql_query($update_spots))return true; // Successfully updated the number of spots taken
+    return false; // Error occured when updating the number of spots taken
 }
