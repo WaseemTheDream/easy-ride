@@ -170,4 +170,31 @@ jQuery ->
                     if status != 'success'
                         console.log("<em>#{xhr.status}: #{xhr.statusText}</em>")
 
+
+    class RidesController
+        constructor: ->
+            @status = $('#trips-riding-status')
+            @msg = $('#trips-riding-msg')
+            @loader = $('#trips-riding-loader')
+            @rides = $('#trips-riding')
+            setTimeout(@ajax, 1000)
+
+        ajax: =>
+            $.ajax
+                url: '/trips_ajax.php'
+                type: 'GET'
+                data:
+                    'method': 'get_upcoming_rides'
+                    'data': JSON.stringify({})
+                success: @load
+                complete: (xhr, status) =>
+                    if status != 'success'
+                        @status.html(
+                            "<em>#{xhr.status}: #{xhr.statusText}</em>")
+                        @loader.fadeOut(500, => @msg.fadeIn(500))
+
+        load: (json) =>
+            console.log(json)
+
     drivesController = new DrivesController()
+    ridesController = new RidesController()

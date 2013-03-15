@@ -9,7 +9,7 @@ template = null;
 e = null;
 
 jQuery(function() {
-  var Drive, DrivesController, RideRequest, RideRequestModal;
+  var Drive, DrivesController, RideRequest, RideRequestModal, RidesController, ridesController;
   DrivesController = (function() {
 
     function DrivesController() {
@@ -301,5 +301,47 @@ jQuery(function() {
     return RideRequest;
 
   })();
-  return drivesController = new DrivesController();
+  RidesController = (function() {
+
+    function RidesController() {
+      this.load = __bind(this.load, this);
+
+      this.ajax = __bind(this.ajax, this);
+      this.status = $('#trips-riding-status');
+      this.msg = $('#trips-riding-msg');
+      this.loader = $('#trips-riding-loader');
+      this.rides = $('#trips-riding');
+      setTimeout(this.ajax, 1000);
+    }
+
+    RidesController.prototype.ajax = function() {
+      var _this = this;
+      return $.ajax({
+        url: '/trips_ajax.php',
+        type: 'GET',
+        data: {
+          'method': 'get_upcoming_rides',
+          'data': JSON.stringify({})
+        },
+        success: this.load,
+        complete: function(xhr, status) {
+          if (status !== 'success') {
+            _this.status.html("<em>" + xhr.status + ": " + xhr.statusText + "</em>");
+            return _this.loader.fadeOut(500, function() {
+              return _this.msg.fadeIn(500);
+            });
+          }
+        }
+      });
+    };
+
+    RidesController.prototype.load = function(json) {
+      return console.log(json);
+    };
+
+    return RidesController;
+
+  })();
+  drivesController = new DrivesController();
+  return ridesController = new RidesController();
 });

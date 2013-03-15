@@ -14,10 +14,6 @@ table.trips .action { width: 150px; }
     text-align: center;
 }
 
-#trips-driving-msg {
-    display: none;
-}
-
 #modal-ride-requests .accordion-toggle {
     display: inline-block;
 }
@@ -35,4 +31,8 @@ table.trips .action { width: 150px; }
 
 #modal-ride-requests-spots-remaining {
     margin-bottom: 5px;
+}
+
+#trips-riding-status {
+    text-align: center;
 }

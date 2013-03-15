@@ -6,7 +6,7 @@
 <link href="/css/trips.css" rel="stylesheet">
 <secton id="admin">
 <div class="container container-fluid">
-  <header id="admin-header">
+  <header id="admin-header-driving">
     <h2>Driving</h2>
     <p>Upcoming trips for which you are driving. Use this section to approve or deny ride requests, manage, and plan your trip details.</p>
     <a href="/share.php"><i class='icon-plus'></i> New Trip</a>
@@ -25,11 +25,37 @@
       <tr>
         <td id="trips-driving-status" colspan="5">
           <img id="trips-driving-loader" class="loader" src="/img/ajaxloader.gif">
-          <em id="trips-driving-msg">There are no upcoming trips for which you are driving.</em>
+          <em id="trips-driving-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>
         </td>
       </tr>
     </tbody>
   </table>
+
+
+  <header id="admin-header-riding">
+    <h2>Riding</h2>
+    <p>Upcoming trips for which you are riding with some else.</p>
+  </header>
+  <table class="table table-bordered table-hover trips" id="trips-riding-table">
+    <thead>
+      <tr>
+        <th class="departure">Departure</th>
+        <th class="origin">Origin</th>
+        <th class="destination">Destination</th>
+        <th class="riders">Riders</th>
+        <th class="action">Status</th>
+      </tr>
+    </thead>
+    <tbody id="trips-riding">
+      <tr>
+        <td id="trips-riding-status" colspan="5">
+          <img id="trips-riding-loader" class="loader" src="/img/ajaxloader.gif">
+          <em id="trips-riding-msg" style="display: none;">There are no upcoming trips for which you are riding with someone.</em>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
 </secton>
 <div id="modal-ride-requests" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="manage-label" aria-hidden="true">
