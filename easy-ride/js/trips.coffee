@@ -1,4 +1,6 @@
 drivesController = drivesController or {}
+template = null
+e = null
 jQuery ->
 
     class DrivesController
@@ -7,6 +9,7 @@ jQuery ->
             @statusMsg = $('#trips-driving-msg')
             @statusLoader = $('#trips-driving-loader')
             @drives = $('#trips-driving')
+            @rideRequestModal = new RideRequestModal($('#modal-ride-requests'))
             setTimeout(@ajax, 1000)
 
         ajax: =>
@@ -29,11 +32,10 @@ jQuery ->
             drives = data.drives
             if drives.length == 0
                 @statusLoader.fadeOut(500, => @statusMsg.fadeIn(500))
-            else
-                @drives.fadeOut 500, => 
-                    @status.hide()
-                    @loadDrives(drives)
-
+                return
+            @drives.fadeOut 500, => 
+                @status.hide()
+                @loadDrives(drives)
 
         loadDrives: (drivesData) =>
             for driveData in drivesData
@@ -42,6 +44,12 @@ jQuery ->
                 @drives.append(drive.render())
             @drives.fadeIn(500)
             $('.dropdown-toggle').dropdown()
+            $('.button-ride-requests').click (e) =>
+                console.log('Clicked!')
+                tripId = $(e.target).data('trip-id')
+                @rideRequestModal.show()
+                setTimeout(( => @rideRequestModal.load(tripId)), 1000)
+                
 
 
     class Drive
@@ -50,6 +58,38 @@ jQuery ->
             @template = _.template($('#trip-row-template').html())
 
         render: ->
+            template = @template(@data)
             return @template(@data)
+
+    class RideRequestModal
+        constructor: (@el) ->
+            @status = $('#modal-ride-requests-status')
+            @loader = $('#modal-ride-requests-loader')
+            @msg = $('#modal-ride-requests-msg')
+            @template = _.template($('#rider-request-template').html())
+            @spotsRemaining = $('#modal-ride-requests-spots-remaining')
+            @form = $('#modal-ride-requests-form')
+
+        show: => @el.modal('show')
+        hide: => @el.modal('hide')
+
+        load: (@tripId) =>
+            $.ajax
+                url: '/trips_ajax.php'
+                type: 'GET'
+                data:
+                    'method': 'get_requests_for_trip'
+                    'data': JSON.stringify({'trip_id': @tripId})
+                success: @success
+                complete: (xhr, status) =>
+                    if status != 'success'
+                        @msg.html(
+                            "<em>#{xhr.status}: #{xhr.statusText}</em>")
+                        @loader.fadeOut(500, => @msg.fadeIn(500))
+
+        success: (data) =>
+            console.log(data)
+            @status.fadeOut(500)
+
 
     drivesController = new DrivesController()

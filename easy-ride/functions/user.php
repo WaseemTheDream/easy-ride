@@ -186,11 +186,10 @@ function get_user($id) {
 }
 
 /**
-* Gets all of the users in the Database as well as their info
-* @return returns an array of all of the users in the database
-*/
-
-function get_all_users(){
+ * Gets all of the users in the Database as well as their info
+ * @return returns an array of all of the users in the database
+ */
+function get_all_users() {
     $users_table = USER_TABLE;
     $users_query = "SELECT  id
                             first_name, 

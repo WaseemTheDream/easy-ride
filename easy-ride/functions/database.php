@@ -15,6 +15,7 @@ $trip_table_definition = TRIP_TABLE."
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     driver_id INT UNSIGNED NOT NULL,
     spots TINYINT NOT NULL,
+    spots_taken TINYINT NOT NULL,
     length VARCHAR(128) NOT NULL,
     message VARCHAR(4096),
     women_only BINARY(1) NOT NULL,
@@ -257,10 +258,10 @@ function get_trips_near_on($route, $departure=NULL, $user_id=NULL) {
 }
 
 /**
-* Function to request a ride 
-* @param an array contaning info about requested ride
-* @return boolean whether or not the request was successfully made
-*/
+ * Function to request a ride 
+ * @param an array contaning info about requested ride
+ * @return boolean whether or not the request was successfully made
+ */
 function request_ride($request_data) {
     $trip_request_table = TRIP_REQUEST_TABLE;
     $user_id = functions\sanitize_string($request_data['user_id']);
@@ -283,7 +284,12 @@ function request_ride($request_data) {
         return true;
 }
 
-function get_requests_for_ride($trip_id) {
+/**
+ * Returns all the requests made for a trip.
+ * @param trip_id the id of the trip
+ * @return an array containing all the requests made for the trip
+ */
+function get_requests_for_trip($trip_id) {
     $trip_request_table = TRIP_REQUEST_TABLE;
     $s_trip_id = functions\sanitize_string($trip_id);
     $query = "SELECT * FROM $trip_request_table WHERE trip_id = $s_trip_id";

@@ -32,17 +32,19 @@
   </table>
 </div>
 </secton>
-<div id="modal-manage-requests" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="manage-label" aria-hidden="true">
+<div id="modal-ride-requests" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="manage-label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
         <h3 id="manage-label">Ride Requests</h3>
         <p>Use this dialog to approve or deny ride requests made by other users.</p>
     </div>
     <div class="modal-body">
-        <div><strong>Spots Remaining: </strong><span id="modal-manage-requests-spots-remaining">0</span></div>
-        <form class="form-horizontal" id="modal-manage-requests-form"  method="post">
-          <fieldset>
-          </fieldset>
+        <div><strong>Spots Remaining: </strong><span id="modal-ride-requests-spots-remaining">0</span></div>
+        <div id="modal-ride-requests-status">
+          <img id="modal-ride-requests-loader" class="loader" src="/img/ajaxloader.gif">
+          <em id="modal-ride-requests-msg" style="display: none;">There are no upcoming trips for which you are driving.</em>
+        </div>
+        <form class="form-horizontal" id="modal-ride-requests-form"  method="post">
         </form>
     </div>
     <!--  Form Actions -->
@@ -60,7 +62,7 @@
       <div class="btn-group">
         <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown-menu"><i class="icon icon-white icon-road"></i> Manage Trip <span class="caret"></span></button>
         <ul class="dropdown-menu">
-          <li><a><i class="icon icon-user"></i> Ride Requests</a></li>
+          <li><a class="button-ride-requests" data-trip-id="<%= id %>"><i class="icon icon-user"></i> Ride Requests</a></li>
           <li class="divider"></li>
           <li><a><i class="icon-trash"></i> Delete</a></li>
         </ul>
