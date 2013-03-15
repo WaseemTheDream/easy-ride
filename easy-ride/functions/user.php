@@ -188,7 +188,6 @@ function get_user($id) {
 /**
 * Gets all of the users in the Database as well as their info
 * @return returns an array of all of the users in the database
-* Curretnyly not working, I'm working on it.
 */
 
 function get_all_users(){
@@ -200,8 +199,11 @@ function get_all_users(){
                             drivers_license_id,
                             gender 
                     FROM $users_table";
-    if(mysql_query( $users_query)) return true;
-    return false
+    $query_result = mysql_query( $users_query);
+    if(!$query_result) return NULL;
+    elseif (mysql_num_rows($query_result))
+        return mysql_fetch_assoc($query_result);
+    return NULL;
 }
 
 /**

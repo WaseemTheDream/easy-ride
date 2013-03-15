@@ -107,7 +107,7 @@
   <td class="last_name"><%= last_name_string %></td>
   <td class="e_mail"><%= e_mail_string %></td>
   <td class="drivers_license_id"><%= drivers_license_id_string %></td>
-  <td class="gender"><span class="badge badge-info"><%= gender %></span></td>   
+  <td class="gender"><%= gender_string %></td>   
 </tr>
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
