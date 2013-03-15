@@ -162,15 +162,13 @@ function delete_user($user_id){
     $trip_table = 'trip';
     $s_user_id= functions\sanitize_string($user_id);
     $users_table_delete = mysql_query("DELETE FROM $user_table WHERE id = $s_user_id");
-    $users_trips = mysql_query("SELECT * FROM $trip_table WHERE id=$s_user_id");
+    $users_trips = mysql_query("SELECT * FROM $trip_table WHERE driver_id=$s_user_id");
     $num_rows = mysql_num_rows($users_trips);
     if ($users_table_delete){
         if ($users_trips ){
             for ($i = 0; $i < $num_rows ; ++$i) {
                 $row = mysql_fetch_assoc($users_trips);
-                var_dump($row);
-                $rows[] = database\process_trip_row($row['id']);
-                $trip_delete = database\delete_trip($rows['id']);
+                $trip_delete = database\delete_trip($row['id']);
                if($trip_delete )var_dump("deleted Trip!<br>");
             }
             return "No Trips for the User...";
