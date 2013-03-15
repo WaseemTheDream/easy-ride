@@ -1,6 +1,6 @@
 <?php
-require_once 'admin_post.php';
-require_once 'functions/user.php';
+require_once '../admin_post.php';
+require_once '../functions/user.php';
 
 function user_1() {
     return array(

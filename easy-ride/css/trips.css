@@ -7,6 +7,10 @@ table td.action {
     width: 60px;
 }
 
-#no-trips-driving-msg {
+#trips-driving-status {
+    text-align: center;
+}
+
+#trips-driving-msg {
     display: none;
 }

@@ -25,7 +25,7 @@
       <tr>
         <td id="trips-driving-status" colspan="5">
           <img id="trips-driving-loader" class="loader" src="/img/ajaxloader.gif">
-          <em id="no-trips-driving-msg">There are no upcoming trips for which you are driving.</em>
+          <em id="trips-driving-msg">There are no upcoming trips for which you are driving.</em>
         </td>
       </tr>
     </tbody>
@@ -117,6 +117,9 @@
   </td>
 </tr>
 </script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
+<script src="js/lib/underscore.min.js"></script>
+<script src="js/trips.js"></script>
 <?php else: ?>
   <div class="well ds-component ds-hover container-narrow" data-componentid="well1">
   <div class="ds-component ds-hover" data-componentid="content2">
