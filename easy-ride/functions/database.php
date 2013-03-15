@@ -21,7 +21,8 @@ $trip_table_definition = TRIP_TABLE."
     women_only BINARY(1) NOT NULL,
     departure_time INT NOT NULL,
     origin_id INT NOT NULL,
-    destination_id INT NOT NULL
+    destination_id INT NOT NULL,
+    CONSTRAINT chk_spots CHECK (spots_taken <= spots)
 )";
 
 // Place Table Definition
@@ -43,6 +44,16 @@ $trip_request_table_definition = TRIP_REQUEST_TABLE."
     status TINYINT DEFAULT 0,
     CONSTRAINT chk_status CHECK (-1 <= status AND status <= 1)
 )";
+
+$request_status_to_code = array(
+    "DECLINED" => -1,
+    "PENDING" => 0,
+    "APPROVED" => 1);
+
+$request_code_to_status = array(
+    -1 => "DECLINED",
+    0 => "PENDING",
+    1 => "APPROVED");
 
 /**
  * Adds the specified trip to the database.
@@ -312,6 +323,7 @@ function get_requests_for_trip($trip_id) {
  * @return one of {'DECLINED', 'APPROVED', 'PENDING', 'UNKNOWN'}
  */
 function get_ride_request_status($user_id, $trip_id) {
+    global $request_code_to_status;
     $trip_request_table = TRIP_REQUEST_TABLE;
     $s_trip_id = functions\sanitize_string($trip_id);
     $s_user_id = functions\sanitize_string($user_id);
@@ -321,103 +333,78 @@ function get_ride_request_status($user_id, $trip_id) {
     if (!$result) return NULL;
     elseif (mysql_num_rows($result)) {
         $row = mysql_fetch_assoc($result);
-        if ($row['status'] == -1)
-            return 'DECLINED';
-        elseif ($row['status'] == 0)
-            return 'PENDING';
-        elseif ($row['status'] == 1)
-            return 'APPROVED';
-        else
-            return 'UNKNOWN';
+        return $request_code_to_status[$row['status']];
     }
     return NULL;
 }
 
 /**
-* @param user_id the id of the user who has requested the ride
-* @param trip_id the id of the trip to update
-* @param status the Status of the request
-* @return returns true if the request was successfully updated, false otherwise
-* Function updates the ride request status
-*/
+ * Sets the ride request status in the database.
+ * @param user_id the id of the user who has requested the ride
+ * @param trip_id the id of the trip to update
+ * @param status one of {'DECLINED', 'PENDING', 'APPROVED'}
+ * @return returns true if the request was successfully updated, false otherwise
+ */
+function set_ride_request_status($user_id, $trip_id, $status) {
+    global $request_status_to_code;
+    $trip_request_table = TRIP_REQUEST_TABLE;
 
-function update_ride_request_status($user_id, $trip_id, $status){
+    $trip_id = functions\sanitize_string($trip_id);
+    $user_id = functions\sanitize_string($user_id);
+    $status_code = $request_status_to_code[$status];
 
-        $trip_request_table = TRIP_REQUEST_TABLE;
-        $trip_id = functions\sanitize_string($trip_id);
-        $user_id = functions\sanitize_string($user_id);
-        $status = int(functions\sanitize_string($status));
-
-        $query = "UPDATE $trip_request_table
-                    SET status = '$status'
-                  WHERE user_id = '$user_id'";
-        if (mysql_query($query)) return true;
-        return false;
+    $query = "UPDATE $trip_request_table
+                SET status = '$status_code'
+              WHERE user_id = '$user_id'";
+    if (mysql_query($query)) return true;
+    return false;
 }
 
 /**
-* @param user_id the id of the user who shared the ride
-* @param trip_id the id of the trip to approve
-* @return returns -1 if there aren't enough spots in the ride
-* @return returns 1 if there are enough spots in the car
-* @return returns 0 if there was an error connecting with the database or status is "PENDING"
-* 
-*/
+ * Updates the ride request status with constraint checking.
+ * @param user_id the id of the user who has requested the ride
+ * @param trip_id the id of the trip to update
+ * @param status one of {'DECLINED', 'PENDING', 'APPROVED'}
+ * @return returns the number of spots remaining in the ride, -1 if unsuccessful
+ */
+function update_ride_request_status($user_id, $trip_id, $status) {
+    $trip = get_trip($trip_id);
+    $spots = $trip['spots'];
+    $spots_taken = $trip['spots_taken'];
+    if ($status == get_ride_request_status($user_id, $trip_id))
+        return $spots - update_spots_taken($trip_id);
+    else if ($status == 'APPROVED' && $spots - $spots_taken < 1)
+        return -1;
 
-function approve_ride_request($user_id, $trip_id,$status){
+    set_ride_request_status($user_id, $trip_id, $status);
 
-        $trip_request_table = TRIP_REQUEST_TABLE;
-        $trip_table = TRIP_TABLE;
-        $trip_id = functions\sanitize_string($trip_id);
-        $user_id = functions\sanitize_string($user_id);
-        $status = int(functions\sanitize_string($status));
-
-        $spots_num_query = "SELECT spots,spots_taken FROM $trip_table
-                                    WHERE id = '$trip_id'
-                                    AND driver_id = '$user_id'";
-        $result = mysql_query($spots_num_query );
-        if (!$result) return 0; // Error retrieving the number of spots
-        $result_array = mysql_fetch_assoc($result);
-        $spots = $result_array['spots'];
-        $spots_taken = $result_array['spots_taken'];
-        $diff = $spots - $spots_taken;
-       
-        if ($diff >= 0){      
-                
-                $spots_update = update_spots_taken($trip_id,$spots_taken,$status);
-                if ($spots_update){
-                    $update_request = update_ride_request_status($user_id,$trip_id,$status);
-                    if ($update_request)return $status; // Request Approved
-                    return 0; // The request wasn't properly updated
-                }
-                return 0; // Spots_taken were not properly updated
-        }
-        return -1; // Not enough Spots in the ride
-        
+    return $spots - update_spots_taken($trip_id);
 }
 
 /**
-* @param trip_id the id of the trip to be updated
-* @param spots_taken the number of spots already taken
-* @param status the status of the request
-* @return returns true if the number of spots were successfully updated
-* @return returns false if the number of spots were not updated
-*/
-
-function  update_spots_taken($trip_id,$spots_taken, $status){
-
+ * Updates the spots taken in the trip.
+ * @param trip_id the id of the trip to be updated
+ * @return spots_taken the new number of spots taken in trip. -1 if failed.
+ */
+function update_spots_taken($trip_id) {
     $trip_table = TRIP_TABLE;
+    $trip_request_table = TRIP_REQUEST_TABLE;
 
-    if ($status ==-1){  
-        $spots_taken ++; // Request Declined
-    }
-    elseif ($status ==1) {
-        if ($spots_taken>0)$spots_taken --;      // Request Approved 
-    }
-    $update_query = "UPDATE $trip_table
+    $trip_id = functions\sanitize_string($trip_id);
+
+    $spots_query = "SELECT * FROM $trip_request_table
+                    WHERE trip_id = '$trip_id' 
+                    AND status = 1";
+
+    $spots_taken = mysql_num_rows(mysql_query($spots_query));
+
+    $update_query = "UPDATE $trip_table 
                      SET spots_taken='$spots_taken'
-                     WHERE id = '$trip_id' ";
+                     WHERE id = '$trip_id'";
 
-    if (mysql_query($update_spots))return true; // Successfully updated the number of spots taken
-    return false; // Error occured when updating the number of spots taken
+    error_log($spots_taken);
+    if (mysql_query($update_query))
+        return $spots_taken;
+    else
+        return -1;
 }

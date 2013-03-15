@@ -1,6 +1,7 @@
 <?php
 require_once '../admin_post.php';
 require_once '../functions/user.php';
+require_once '../functions/database.php';
 
 function user_1() {
     return array(
@@ -13,6 +14,7 @@ function user_1() {
 }
 
 function admin_test_main() {
+
     // Create user
     echo '<br><h3>Creating User.</h3><br>';
     $user_1 = user_1();
@@ -46,6 +48,19 @@ function admin_test_main() {
     echo "<br><h3>User deleted!</h3><br>";
 }
 
-admin_test_main();
+function trip_spots() {
+    echo '<br>';
+    $trip = database\get_trip(1);
+    echo json_encode($trip);
+    echo '<br>';
+    $ride_status = database\get_ride_request_status(1, 1);
+    echo json_encode($ride_status);
+    echo json_encode(database\update_ride_request_status(1, 1, 'APPROVED'));
+
+
+}
+
+// admin_test_main();
+trip_spots();
 
 ?>

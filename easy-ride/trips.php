@@ -57,7 +57,7 @@
     <td class="departure"><%= departure_string %></td>
     <td class="origin"><%= origin.address %></td>
     <td class="destination"><%= destination.address %></td>
-    <td class="riders"><span class="badge badge-info"><%= spots %></span></td>
+    <td class="riders"><span class="badge badge-info"><%= spots_taken %></span></td>
     <td class="action">
       <div class="btn-group">
         <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown-menu"><i class="icon icon-white icon-road"></i> Manage Trip <span class="caret"></span></button>

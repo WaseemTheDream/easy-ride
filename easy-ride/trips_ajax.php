@@ -20,6 +20,22 @@ function get_requests_for_trip($user_id, $data) {
         'OK', 'Query performed!', array("requests" => $requests));
 }
 
+function update_ride_request_status($driver_id, $data) {
+    $trip = database\get_trip($data['trip_id']);
+
+    if ($trip['driver_id'] != $user_id)
+        return functions\json_respond('ERROR', 'Unauthorized access!');
+
+    $spots_remaining = 
+        database\update_ride_request_status($data['user_id'], $data['status'])
+
+    if ($spots_remaining < 0)
+        return functions\json_respond('ERROR', 'Insufficient spots!');
+
+    functions\json_respond(
+        'OK', 'Query performed!', array("spots_remaining" => $spots_remaining))
+}
+
 function request_post($data) {}
 
 if ($_GET) {
@@ -41,5 +57,18 @@ if ($_GET) {
     else
         return json_respond('ERROR', 'Unknown method!');
 } elseif ($_POST) {
-    request_post(json_decode($_POST['data'], true));
+    // Get logged in user
+    $logged_in_user = user\get_logged_in_user();
+    if (!$logged_in_user)
+        return functions\json_respond('ERROR', 'Login required!');
+    $user_id = $logged_in_user['id'];
+
+    // Decode json data
+    $data = json_decode($_GET['data'], true);
+    $method = $_GET['method'];
+
+    if ($method == 'update_ride_request_status')
+        return update_ride_request_status($user_id, $data);
+    else
+        return json_respond('ERROR', 'Unknown method!');
 }
