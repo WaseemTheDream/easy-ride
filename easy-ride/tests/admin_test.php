@@ -60,7 +60,30 @@ function trip_spots() {
 
 }
 
+function delete_trip($trip_id){
+
+    $trip_table = 'trip';
+    $place_table = 'place';
+    $trip = database\get_trip($trip_id);
+    if ($trip){
+        $origin = $trip['origin'];
+        $destination = $trip['destination'];
+        $delete_trip = mysql_query("DELETE FROM $trip_table WHERE id=$trip_id");
+        $delete_place = mysql_query("DELETE FROM $place_table WHERE id= $origin or id=$destination");
+        if ($delete_trip and $delete_place) {
+            var_dump("Deleted Trip!");
+        return true; // Trip successfully deleted
+    }
+        return false; // Failed to delete the trip
+    }
+    var_dump("Not Deleted!");
+    return false; // The trip is not in the trip table
+}
+
 // admin_test_main();
-trip_spots();
+//trip_spots();
+
+
+delete_trip(2);
 
 ?>
