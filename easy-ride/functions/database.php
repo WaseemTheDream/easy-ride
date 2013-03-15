@@ -408,3 +408,27 @@ function update_spots_taken($trip_id) {
     else
         return -1;
 }
+
+
+/**
+* Deletes the trip from the trip table and deletes its entries from the place table
+* @param trip_id the is of the trip to be deleted
+* @return true if the trip was deleted, false otherwise
+*/
+
+function delete_trip($trip_id){
+
+    $trip_table = TRIP_TABLE;
+    $trip_id = functions\sanitize_string;
+    $place_table = PLACE_TABLE;
+    $trip = get_trip($trip_id);
+    if ($trip){
+        $origin = $trip['origin'];
+        $destination = $trip['destination'];
+        $delete_trip = "DELETE FROM $trip_table WHERE id=$trip_id";
+        $delete_place = "DELETE FROM $place_table WHERE id= $origin or id=$destination";
+        if (mysql_query($query)) return true; // Trip successfully deleted
+        return false; // Failed to delete the trip
+    }
+    return false; // The trip is not in the trip table
+}

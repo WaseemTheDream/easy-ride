@@ -9,7 +9,7 @@ table.admin_users_view td {
 table.admin_users_view .first_name .last_name .drivers_license_id{ width: 100px; }
 table.admin_users_view  {width: 100px;}
 table.admin_users_view .e_mail { width: 100px; text-align: center; }
-table.admin_users_view .gender { width: 50px; }
+table.admin_users_view .gender { width: 50px;  text-align: center;}
 
 #admin_users_view_status {
     text-align: center;
