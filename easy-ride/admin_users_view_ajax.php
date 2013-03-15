@@ -9,7 +9,7 @@ function search_get($data) {
         return functions\json_respond('ERROR', 'Login Required!');
     $user_id = $logged_in_user['id'];
 
-    $users = user\get_all_users($user_id);
+    $users = user\get_all_users();
 
     functions\json_respond('OK', 'Query Performed!', array("users" => $users));
 }

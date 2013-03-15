@@ -11,7 +11,7 @@
     <p>All of the easy-ride users are listed below. </p>
     <a href="/register.php"><i class='icon-plus'></i> Add New User</a>
   </header>
-  <table class="table table-bordered table-hover admin-users_view" id="users_view_table">
+  <table class="table table-bordered table-hover admin-users_view" id="users_view-table">
     <thead>
       <tr>
         <th class="user_id">User ID</th>
