@@ -1,0 +1,12 @@
+table.trips {
+    margin-top: 20px;
+}
+
+table td.action {
+    display: table-cell;
+    width: 60px;
+}
+
+#no-trips-driving-msg {
+    display: none;
+}
