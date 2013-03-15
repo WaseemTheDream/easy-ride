@@ -423,11 +423,12 @@ function delete_trip($trip_id){
     $place_table = PLACE_TABLE;
     $trip = get_trip($trip_id);
     if ($trip){
-        $origin = $trip['origin'];
-        $destination = $trip['destination'];
-        $delete_trip = "DELETE FROM $trip_table WHERE id=$trip_id";
-        $delete_place = "DELETE FROM $place_table WHERE id= $origin or id=$destination";
-        if (mysql_query($delete_place )&mysql_query($delete_trip)) return true; // Trip successfully deleted
+        $origin = $trip['origin']['id'];
+        $destination = $trip['destination']['id'];
+        $delete_trip = mysql_query("DELETE FROM $trip_table WHERE id=$trip_id");
+        $delete_place_1 = mysql_query("DELETE FROM $place_table WHERE id= $origin ");
+        $delete_place_2 = mysql_query("DELETE FROM $place_table WHERE id=$destination");
+        if ($delete_trip& $delete_place_1&$delete_place_2)  return true; // Trip successfully deleted
         return false; // Failed to delete the trip
     }
     return false; // The trip is not in the trip table
