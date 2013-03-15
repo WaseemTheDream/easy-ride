@@ -169,11 +169,11 @@ function delete_user($user_id){
             for ($i = 0; $i < $num_rows ; ++$i) {
                 $row = mysql_fetch_assoc($users_trips);
                 $trip_delete = database\delete_trip($row['id']);
-               if($trip_delete )var_dump("deleted Trip!<br>");
+               
             }
-            return "No Trips for the User...";
+            return true;
         }
-        return true;
+        return true; // No trips associated with the user
     }
     return false; // Failed to delete User
 }
