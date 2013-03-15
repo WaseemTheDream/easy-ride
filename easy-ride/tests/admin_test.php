@@ -82,10 +82,39 @@ function delete_trip($trip_id){
     return false; // The trip is not in the trip table
 }
 
+
+/**
+ * Deletes the following user from the database.
+ * @param $user_id the database id of the user.
+ * @return boolean whether the user was successfully deleted.
+ */
+function delete_user1($user_id){
+    $user_table = USER_TABLE;
+    $trip_table = 'trip';
+    $s_user_id= functions\sanitize_string($user_id);
+    $users_table_delete = mysql_query("DELETE FROM $user_table WHERE id = $s_user_id");
+    $users_trips = mysql_query("SELECT * FROM $trip_table WHERE id=$s_user_id");
+    $num_rows = mysql_num_rows($users_trips);
+    if ($users_table_delete){
+        if ($users_trips ){
+            for ($i = 0; $i < $num_rows ; ++$i) {
+                $row = mysql_fetch_assoc($users_trips);
+                var_dump($row);
+                $rows[] = database\process_trip_row($row['id']);
+                $trip_delete = database\delete_trip($rows['id']);
+               if($trip_delete )var_dump("deleted Trip!<br>");
+            }
+            return "No Trips for the User...";
+        }
+        return true;
+    }
+    return false; // Failed to delete User
+}
 // admin_test_main();
 //trip_spots();
 
 
-delete_trip(4);
+//delete_trip(4);
+delete_user1(4);
 
 ?>

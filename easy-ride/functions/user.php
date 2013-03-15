@@ -1,6 +1,7 @@
 <?php
 namespace user;
 require_once 'functions.php';
+require_once 'database.php';
 use functions;
 
 define("USER_TABLE", 'user');
@@ -158,11 +159,25 @@ function update_user($data) {
  */
 function delete_user($user_id){
     $user_table = USER_TABLE;
+    $trip_table = 'trip';
     $s_user_id= functions\sanitize_string($user_id);
-    $query = "DELETE FROM $user_table WHERE id = $s_user_id";
-    if (mysql_query($query)) return true;
-    error_log("Failed to delete user: " . mysql_error());
-    return false;
+    $users_table_delete = mysql_query("DELETE FROM $user_table WHERE id = $s_user_id");
+    $users_trips = mysql_query("SELECT * FROM $trip_table WHERE id=$s_user_id");
+    $num_rows = mysql_num_rows($users_trips);
+    if ($users_table_delete){
+        if ($users_trips ){
+            for ($i = 0; $i < $num_rows ; ++$i) {
+                $row = mysql_fetch_assoc($users_trips);
+                var_dump($row);
+                $rows[] = database\process_trip_row($row['id']);
+                $trip_delete = database\delete_trip($rows['id']);
+               if($trip_delete )var_dump("deleted Trip!<br>");
+            }
+            return "No Trips for the User...";
+        }
+        return true;
+    }
+    return false; // Failed to delete User
 }
 
 /**
@@ -202,7 +217,7 @@ function get_all_users(){
     if ($query_result) {
         for ($i = 0; $i < $num_rows ; ++$i) {
             $row = mysql_fetch_assoc($query_result);
-            $rows[] = process_user_row($row['id']);
+            $rows[] = process_trip_row($row);
         }
     }
     return $rows;
