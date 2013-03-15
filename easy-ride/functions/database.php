@@ -197,9 +197,10 @@ function get_drives_for($driver_id) {
     return $rows;
 }
 
+
+
 /**
   * Returns all the trips near the given route
-  * TODO: Sanitize input
   * @param route the route for which to find nearby trips
   * @param departure (optional) the departure time for the ride
   * @param user_id (optional) the user id of the user requesting the trips
@@ -378,7 +379,7 @@ function approve_ride_request($user_id, $trip_id,$status){
 * @param spots_taken the number of spots already taken
 * @param status the status of the request
 * @return returns true if the number of spots were successfully updated
-* @return returns flase if the number of spots were not updated
+* @return returns false if the number of spots were not updated
 */
 
 function  update_spots_taken($trip_id,$spots_taken, $status){

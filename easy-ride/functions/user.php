@@ -186,6 +186,25 @@ function get_user($id) {
 }
 
 /**
+* Gets all of the users in the Database as well as their info
+* @return returns an array of all of the users in the database
+* Curretnyly not working, I'm working on it.
+*/
+
+function get_all_users(){
+    $users_table = USER_TABLE;
+    $users_query = "SELECT  id
+                            first_name, 
+                            last_name, 
+                            email_address,
+                            drivers_license_id,
+                            gender 
+                    FROM $users_table";
+    if(mysql_query( $users_query)) return true;
+    return false
+}
+
+/**
  * Checks whether the user exists.
  * @param email the email address of the user.
  * @return boolean whether the user exists.

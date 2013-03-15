@@ -1,0 +1,20 @@
+table.admin_users_view {
+    margin-top: 20px;
+}
+
+table.admin_users_view td {
+    vertical_align: middle;
+}
+
+table.admin_users_view .first_name .last_name .drivers_license_id{ width: 100px; }
+table.admin_users_view  {width: 100px;}
+table.admin_users_view .e_mail { width: 100px; text-align: center; }
+table.admin_users_view .gender { width: 50px; }
+
+#admin_users_view_status {
+    text-align: center;
+}
+
+#admin_users_view_msg {
+    display: none;
+}
