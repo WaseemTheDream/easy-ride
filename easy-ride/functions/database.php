@@ -283,6 +283,21 @@ function request_ride($request_data) {
         return true;
 }
 
+function get_requests_for_ride($trip_id) {
+    $trip_request_table = TRIP_REQUEST_TABLE;
+    $s_trip_id = functions\sanitize_string($trip_id);
+    $query = "SELECT * FROM $trip_request_table WHERE trip_id = $s_trip_id";
+    $rows = array();
+    $result = mysql_query($search_query);
+    if ($result) {
+        for ($i = 0; $i < mysql_num_rows($result); ++$i) {
+            $row['user'] = user\get_user($row['user_id']);
+            $rows[] = $row;
+        }
+    }
+    return $rows;
+}
+
 /**
  * Returns the status of a ride request.
  * @param user_id requestor id

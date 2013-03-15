@@ -13,7 +13,9 @@ jQuery ->
             $.ajax
                 url: '/trips_ajax.php'
                 type: 'GET'
-                data: 'data': JSON.stringify({})
+                data:
+                    'method': 'get_upcoming_drives'
+                    'data': JSON.stringify({})
                 success: @load
                 complete: (xhr, status) =>
                     if status != 'success'

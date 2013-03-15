@@ -27,6 +27,7 @@ jQuery(function() {
         url: '/trips_ajax.php',
         type: 'GET',
         data: {
+          'method': 'get_upcoming_drives',
           'data': JSON.stringify({})
         },
         success: this.load,
