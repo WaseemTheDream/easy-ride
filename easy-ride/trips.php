@@ -14,11 +14,11 @@
   <table class="table table-bordered table-hover trips" id="trips-driving-table">
     <thead>
       <tr>
-        <th>Departure</th>
-        <th>Origin</th>
-        <th>Destination</th>
-        <th>Riders</th>
-        <th>Action</th>
+        <th class="departure">Departure</th>
+        <th class="origin">Origin</th>
+        <th class="destination">Destination</th>
+        <th class="riders">Riders</th>
+        <th class="action">Action</th>
       </tr>
     </thead>
     <tbody id="trips-driving">
@@ -101,17 +101,17 @@
 </div>
 <script type="text/template" id="trip-row-template">
 <tr>
-  <td><%= departure_string %></td>
-  <td><%= origin.address %></td>
-  <td><%= destination.address %></td>
-  <td><span class="badge badge-info"><%= riders %></span></td>
+  <td class="departure"><%= departure_string %></td>
+  <td class="origin"><%= origin.address %></td>
+  <td class="destination"><%= destination.address %></td>
+  <td class="riders"><span class="badge badge-info"><%= spots %></span></td>
   <td class="action">
     <div class="btn-group">
-      <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon icon-white icon-road"></i> Manage Trip <span class="caret"></span></button>
+      <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown-menu"><i class="icon icon-white icon-road"></i> Manage Trip <span class="caret"></span></button>
       <ul class="dropdown-menu">
-        <li><a href="#"><i class="icon icon-user"></i> Ride Requests</a></li>
+        <li><a><i class="icon icon-user"></i> Ride Requests</a></li>
         <li class="divider"></li>
-        <li><a href="#"><i class="icon-trash"></i> Delete</a></li>
+        <li><a><i class="icon-trash"></i> Delete</a></li>
       </ul>
     </div>
   </td>

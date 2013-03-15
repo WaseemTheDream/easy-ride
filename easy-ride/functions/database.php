@@ -173,6 +173,31 @@ function get_place($id)
 }
 
 /**
+ * Gets all of the upcoming drives for a user.
+ * @param driver_id the user id of the driver
+ * @return an array of all the upcoming trips
+ */
+function get_drives_for($driver_id) {
+    $current_time = time();
+    $s_driver_id = functions\sanitize_string($driver_id);
+    $trip_table = TRIP_TABLE;
+
+    $query = "SELECT * FROM $trip_table 
+              WHERE driver_id = $s_driver_id
+                AND departure_time >= $current_time";
+
+    $result = mysql_query($query);
+    $rows = array();
+    if ($result) {
+        for ($i = 0; $i < mysql_num_rows($result); ++$i) {
+            $row = mysql_fetch_assoc($result);
+            $rows[] = process_trip_row($row);
+        }
+    }
+    return $rows;
+}
+
+/**
   * Returns all the trips near the given route
   * TODO: Sanitize input
   * @param route the route for which to find nearby trips

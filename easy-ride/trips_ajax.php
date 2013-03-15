@@ -9,11 +9,9 @@ function search_get($data) {
         return functions\json_respond('ERROR', 'Login Required!');
     $user_id = $logged_in_user['id'];
 
-    $trips = database\get_trips_for($user_id);
-    if ($trips == NULL)
-        return functions\json_respond('ERROR', 'Query Error!');
+    $drives = database\get_drives_for($user_id);
 
-    functions\json_respond('OK', 'Query Performed!', array("trips" => $trips));
+    functions\json_respond('OK', 'Query Performed!', array("drives" => $drives));
 }
 
 function request_post($data) {}

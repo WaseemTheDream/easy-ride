@@ -2,10 +2,13 @@ table.trips {
     margin-top: 20px;
 }
 
-table td.action {
-    display: table-cell;
-    width: 60px;
+table.trips td {
+    vertical-align: middle;
 }
+
+table.trips .departure { width: 150px; }
+table.trips .riders { width: 50px; text-align: center; }
+table.trips .action { width: 150px; }
 
 #trips-driving-status {
     text-align: center;
