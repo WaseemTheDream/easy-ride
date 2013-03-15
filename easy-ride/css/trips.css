@@ -17,3 +17,14 @@ table.trips .action { width: 150px; }
 #trips-driving-msg {
     display: none;
 }
+
+#modal-manage-requests .accordion-toggle {
+    display: inline-block;
+}
+
+#modal-manage-requests .btn-group {
+    display: inline-block;
+    float: right;
+    margin-right: 12px;
+    margin-top: 5px;
+}
