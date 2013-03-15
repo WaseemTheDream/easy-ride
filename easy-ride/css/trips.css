@@ -8,7 +8,8 @@ table.trips td {
 
 table.trips .departure { width: 150px; }
 table.trips .riders { width: 50px; text-align: center; }
-table.trips .action { width: 150px; }
+table.trips .action { width: 150px; text-align: center; }
+table.trips .status { width: 120px; }
 
 #trips-driving-status {
     text-align: center;

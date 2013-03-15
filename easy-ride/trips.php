@@ -42,8 +42,7 @@
         <th class="departure">Departure</th>
         <th class="origin">Origin</th>
         <th class="destination">Destination</th>
-        <th class="riders">Riders</th>
-        <th class="action">Status</th>
+        <th class="status">Request Status</th>
       </tr>
     </thead>
     <tbody id="trips-riding">
@@ -114,6 +113,18 @@
       </div>
     </div>
   </div>
+</script>
+<script type="text/template" id="ride-row-template">
+  <tr id="ride-<%= id %>">
+    <td class="departure"><%= departure_string %></td>
+    <td class="origin"><%= origin.address %></td>
+    <td class="destination"><%= destination.address %></td>
+    <td class="riders">
+      <% if (status=='DECLINED')  { %> <span class="label label-important">Request Declined</span> <% } %>
+      <% if (status=='PENDING')  { %> <span class="label label-info">Request Pending</span> <% } %>
+      <% if (status=='APPROVED')  { %> <span class="label label-info">Request Approved</span> <% } %>
+    </td>
+  </tr>
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true&libraries=places"></script>
 <script src="js/lib/underscore.min.js"></script>

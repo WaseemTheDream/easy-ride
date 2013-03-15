@@ -3,9 +3,7 @@
 $nav_bar = array(
     "Search" => "/index.php",
     "Share" => "/share.php",
-    "Trips" => "/trips.php",
-    "Admin" => '/admin.php',
-    "Users-View" => '/admin_view_users.php');
+    "Trips" => "/trips.php");
 
 function render_nav_bar() {
     global $nav_bar;

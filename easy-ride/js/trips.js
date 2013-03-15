@@ -9,7 +9,7 @@ template = null;
 e = null;
 
 jQuery(function() {
-  var Drive, DrivesController, RideRequest, RideRequestModal, RidesController, ridesController;
+  var Drive, DrivesController, Ride, RideRequest, RideRequestModal, RidesController, ridesController;
   DrivesController = (function() {
 
     function DrivesController() {
@@ -304,6 +304,8 @@ jQuery(function() {
   RidesController = (function() {
 
     function RidesController() {
+      this.loadRides = __bind(this.loadRides, this);
+
       this.load = __bind(this.load, this);
 
       this.ajax = __bind(this.ajax, this);
@@ -320,7 +322,7 @@ jQuery(function() {
         url: '/trips_ajax.php',
         type: 'GET',
         data: {
-          'method': 'get_upcoming_rides',
+          'method': 'get_rides',
           'data': JSON.stringify({})
         },
         success: this.load,
@@ -336,10 +338,51 @@ jQuery(function() {
     };
 
     RidesController.prototype.load = function(json) {
-      return console.log(json);
+      var data, rides,
+        _this = this;
+      data = JSON.parse(json);
+      console.log(data);
+      rides = data.rides;
+      if (rides.length === 0) {
+        this.loader.fadeOut(500, function() {
+          return _this.msg.fadeIn(500);
+        });
+        return;
+      }
+      return this.rides.fadeOut(500, function() {
+        _this.status.hide();
+        return _this.loadRides(rides);
+      });
+    };
+
+    RidesController.prototype.loadRides = function(ridesData) {
+      var ride, rideData, _i, _len;
+      for (_i = 0, _len = ridesData.length; _i < _len; _i++) {
+        rideData = ridesData[_i];
+        console.log(ride);
+        ride = new Ride(rideData);
+        this.rides.append(ride.render());
+      }
+      return this.rides.fadeIn(500);
     };
 
     return RidesController;
+
+  })();
+  Ride = (function() {
+
+    function Ride(data) {
+      this.data = data;
+      this.data.departure_string = (new Date(parseInt(this.data.departure_time) * 1000)).toLocaleString();
+      this.template = _.template($('#ride-row-template').html());
+    }
+
+    Ride.prototype.render = function() {
+      template = this.template(this.data);
+      return this.template(this.data);
+    };
+
+    return Ride;
 
   })();
   drivesController = new DrivesController();

@@ -102,7 +102,7 @@ function add_trip($data)
  * @param id the id of the trip.
  * @param row the processed trip row in the database if found, NULL otherwise.
  */
-function get_trip($id)
+function get_trip($id, $user_id=NULL)
 {
     $s_id = functions\sanitize_string($id);
     $query = "SELECT * FROM ".TRIP_TABLE." WHERE id='$s_id'";
@@ -110,7 +110,7 @@ function get_trip($id)
     if (!$result) return NULL;
     elseif (mysql_num_rows($result)) {
         $row = mysql_fetch_assoc($result);
-        return process_trip_row($row);
+        return process_trip_row($row, $user_id);
     }
     return NULL;
 }
@@ -209,6 +209,25 @@ function get_drives_for($driver_id) {
     return $rows;
 }
 
+
+function get_rides_for($user_id) {
+    $current_time = time();
+    $s_user_id = functions\sanitize_string($user_id);
+    $trip_table = TRIP_TABLE;
+    $trip_request_table = TRIP_REQUEST_TABLE;
+
+    $trips_query = "SELECT trip_id FROM $trip_request_table
+                    WHERE user_id = $s_user_id";
+    $trips_result = mysql_query($trips_query);
+    $trips = array();
+    if ($trips_result) {
+        for ($i = 0; $i < mysql_num_rows($trips_result); ++$i) {
+            $row = mysql_fetch_assoc($trips_result);
+            $trips[] = get_trip($row['trip_id'], $user_id);
+        }
+    }
+    return $trips;
+}
 
 
 /**

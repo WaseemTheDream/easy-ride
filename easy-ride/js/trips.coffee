@@ -184,7 +184,7 @@ jQuery ->
                 url: '/trips_ajax.php'
                 type: 'GET'
                 data:
-                    'method': 'get_upcoming_rides'
+                    'method': 'get_rides'
                     'data': JSON.stringify({})
                 success: @load
                 complete: (xhr, status) =>
@@ -194,7 +194,31 @@ jQuery ->
                         @loader.fadeOut(500, => @msg.fadeIn(500))
 
         load: (json) =>
-            console.log(json)
+            data = JSON.parse(json)
+            console.log(data)
+            rides = data.rides
+            if rides.length == 0
+                @loader.fadeOut(500, => @msg.fadeIn(500))
+                return
+            @rides.fadeOut 500, =>
+                @status.hide()
+                @loadRides(rides)
+
+        loadRides: (ridesData) =>
+            for rideData in ridesData
+                console.log(ride)
+                ride = new Ride(rideData)
+                @rides.append(ride.render())
+            @rides.fadeIn(500)
+
+    class Ride
+        constructor: (@data) ->
+            @data.departure_string = (new Date(parseInt(@data.departure_time) * 1000)).toLocaleString()
+            @template = _.template($('#ride-row-template').html())
+
+        render: ->
+            template = @template(@data)
+            return @template(@data)
 
     drivesController = new DrivesController()
     ridesController = new RidesController()

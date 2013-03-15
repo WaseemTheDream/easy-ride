@@ -28,6 +28,11 @@ function get_spots_remaining_for_trip($user_id, $data) {
     functions\json_respond('OK', 'Query performed', $out);
 }
 
+function get_rides($user_id, $data) {
+    $rides = database\get_rides_for($user_id);
+    functions\json_respond('OK', 'Query performed', array("rides" => $rides));
+}
+
 function update_ride_request_status($driver_id, $data) {
     $trip = database\get_trip($data['trip_id']);
 
@@ -64,8 +69,10 @@ if ($_GET) {
         return get_requests_for_trip($user_id, $data);
     else if ($method == 'get_spots_remaining_for_trip')
         return get_spots_remaining_for_trip($user_id, $data);
+    else if ($method == 'get_rides')
+        return get_rides($user_id, $data);
     else
-        return json_respond('ERROR', 'Unknown method!');
+        return functions\json_respond('ERROR', 'Unknown method!');
 } elseif ($_POST) {
     // Get logged in user
     $logged_in_user = user\get_logged_in_user();
